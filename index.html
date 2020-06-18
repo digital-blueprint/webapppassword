@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>WebAppPassword iFrame / window.open() Test</title>
-  </head>
-  <body>
-    <header></header>
-    <main>
-<!--      <iframe width="600" height="500" src="http://localhost:8081/index.php/apps/webapppassword/#"></iframe>-->
-      <button onclick="login()">Login</button>
-    </main>
-    <footer></footer>
-  </body>
-  <script>
+</head>
+<body>
+<header></header>
+<main>
+    <!--      <iframe width="600" height="500" src="http://localhost:8081/index.php/apps/webapppassword/#"></iframe>-->
+    <button onclick="login()">Login</button>
+</main>
+<footer></footer>
+</body>
+<script>
     let wnd;
 
     function login() {
-      wnd = window.open("http://localhost:8081/index.php/apps/webapppassword/#", "Nextcloud Login",
-              "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
+        wnd = window.open("http://localhost:8081/index.php/apps/webapppassword/#", "Nextcloud Login",
+            "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
 
     window.addEventListener('message', (event) => {
-      const data = event.data;
-      console.log("data", data);
+        const data = event.data;
+        console.log("data", data);
 
-      if (data.type === "webapppassword") {
-          wnd.close();
-          alert("Login name: " + data.loginName + "\nApp password: " + data.token);
-      }
+        if (data.type === "webapppassword") {
+            wnd.close();
+            alert("Login name: " + data.loginName + "\nApp password: " + data.token);
+        }
     });
-  </script>
+</script>
 </html>

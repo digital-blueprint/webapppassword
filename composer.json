@@ -1,0 +1,15 @@
+{
+    "name": "Web App Password",
+    "description": "web-app-password",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Patrizio Bekerle"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

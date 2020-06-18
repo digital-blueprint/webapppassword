@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>webapppassword</id>
+    <name>Web App Password</name>
+    <summary>web-app-password</summary>
+    <description><![CDATA[web-app-password]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="patrizio@bekerle.com">Patrizio Bekerle</author>
+    <namespace>WebAppPassword</namespace>
+    <category>tools</category>
+    <bugs>https://gitlab.tugraz.at/VPU/Middleware/webapppassword/-/issues</bugs>
+    <repository type="git">https://gitlab.tugraz.at/VPU/Middleware/webapppassword.git</repository>
+    <dependencies>
+        <nextcloud min-version="18" max-version="20"/>
+    </dependencies>
+</info>

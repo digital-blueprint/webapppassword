@@ -24,8 +24,10 @@
       const data = event.data;
       console.log("data", data);
 
-      wnd.close();
-      alert("Login name: " + data.loginName + "\nApp password: " + data.token);
+      if (data.type === "webapppassword") {
+          wnd.close();
+          alert("Login name: " + data.loginName + "\nApp password: " + data.token);
+      }
     });
   </script>
 </html>

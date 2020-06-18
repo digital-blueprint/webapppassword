@@ -14,6 +14,6 @@ fetch(apiUrl, {
         console.log("data", data);
 
         const message = {"type": "webapppassword", "token": data.token};
-        window.parent.postMessage(message, '*');
+        window.opener.postMessage(message, '*');
         console.log("message", message);
     });

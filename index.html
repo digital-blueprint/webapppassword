@@ -2,19 +2,25 @@
 <html lang="">
   <head>
     <meta charset="utf-8">
-    <title>WebAppPassword iFrame Test</title>
+    <title>WebAppPassword iFrame / window.open() Test</title>
   </head>
   <body>
     <header></header>
     <main>
-      <iframe width="600" height="500" src="http://localhost:8081/index.php/apps/webapppassword/#"></iframe>
+<!--      <iframe width="600" height="500" src="http://localhost:8081/index.php/apps/webapppassword/#"></iframe>-->
+
     </main>
     <footer></footer>
   </body>
   <script>
+    const wnd = window.open("http://localhost:8081/index.php/apps/webapppassword/#", "Nextcloud Login",
+            "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
+
     window.addEventListener('message', (event) => {
       const data = event.data;
       console.log("data", data);
+
+      wnd.close();
     });
   </script>
 </html>

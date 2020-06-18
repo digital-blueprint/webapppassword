@@ -46,6 +46,8 @@ class PageController extends Controller
     }
 
     /**
+     * Shows the page where the script with the postMessage is included
+     *
      * @NoAdminRequired
      * @NoCSRFRequired
      */
@@ -81,6 +83,7 @@ class PageController extends Controller
             $password = null;
         }
 
+        $loginName = $credentials->getLoginName();
         $name = $this->appName.' '.$this->request->getHeader('USER_AGENT');
         $token = $this->random->generate(
             72,
@@ -90,13 +93,13 @@ class PageController extends Controller
         $this->tokenProvider->generateToken(
             $token,
             $credentials->getUID(),
-            $credentials->getLoginName(),
+            $loginName,
             $password,
             $name,
             IToken::TEMPORARY_TOKEN,
             IToken::DO_NOT_REMEMBER
         );
 
-        return new DataResponse(['token' => $token]);
+        return new DataResponse(['loginName' => $loginName, 'token' => $token]);
     }
 }

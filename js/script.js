@@ -11,9 +11,9 @@ fetch(apiUrl, {
 })
     .then(response => response.json())
     .then((data) => {
-        console.log("data", data);
+        // console.log("data", data);
 
-        const message = {"type": "webapppassword", "token": data.token};
+        const message = {"type": "webapppassword", "loginName": data.loginName, "token": data.token};
         window.opener.postMessage(message, '*');
-        console.log("message", message);
+        // console.log("message", message);
     });

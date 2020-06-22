@@ -2,6 +2,8 @@
 
 namespace OCA\WebAppPassword\Controller;
 
+use OCP\AppFramework\Http;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -29,13 +31,19 @@ class PageController extends Controller
     /** @var IStore */
     private $credentialStore;
 
+    /**
+     * @var string[]
+     */
+    private $origins;
+
     public function __construct(
         $AppName,
         IRequest $request,
         ISession $session,
         ISecureRandom $random,
         IProvider $tokenProvider,
-        IStore $credentialStore
+        IStore $credentialStore,
+        IConfig $config
     ) {
         parent::__construct($AppName, $request);
 
@@ -43,6 +51,24 @@ class PageController extends Controller
         $this->random = $random;
         $this->tokenProvider = $tokenProvider;
         $this->credentialStore = $credentialStore;
+        $this->origins = $config->getSystemValue('webapppassword.origins', []);
+    }
+
+    /**
+     * Checks if the origin is allowed
+     *
+     * @return bool
+     */
+    protected function hasAllowedOrigin() :bool {
+        $referer = $_SERVER['HTTP_REFERER'];
+
+        foreach ($this->origins as $origin) {
+            if (strpos($referer, $origin) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +79,16 @@ class PageController extends Controller
      */
     public function index()
     {
-        $response = new TemplateResponse('webapppassword', 'index');  // templates/index.php
+        $hasAllowedOrigin = $this->hasAllowedOrigin();
+        $parameters = [
+            'not-allowed' => !$hasAllowedOrigin
+        ];
+
+        $response = new TemplateResponse('webapppassword', 'index', $parameters);  // templates/index.php
+
+        if (!$hasAllowedOrigin) {
+            $response->setStatus(Http::STATUS_FORBIDDEN);
+        }
 
         // https://help.nextcloud.com/t/solved-nextcloud-16-how-to-allow-iframe-usage/52278/8?u=pbek
         // https://helpcenter.onlyoffice.com/server/integration-edition/third-party-domains.aspx
@@ -71,6 +106,10 @@ class PageController extends Controller
      */
     public function createToken()
     {
+        if (!$this->hasAllowedOrigin()) {
+            return new DataResponse("Forbidden", Http::STATUS_FORBIDDEN);
+        }
+
         try {
             $credentials = $this->credentialStore->getLoginCredentials();
         } catch (CredentialsUnavailableException $e) {

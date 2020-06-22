@@ -1,4 +1,7 @@
 <?php
+/**
+ * Kindly adapted from https://gitlab.com/kinolaev/nextcloud-dav-cors
+ */
 
 namespace OCA\WebAppPassword\Connector\Sabre;
 

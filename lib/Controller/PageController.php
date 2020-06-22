@@ -106,10 +106,6 @@ class PageController extends Controller
      */
     public function createToken()
     {
-        if (!$this->hasAllowedOrigin()) {
-            return new DataResponse("Forbidden", Http::STATUS_FORBIDDEN);
-        }
-
         try {
             $credentials = $this->credentialStore->getLoginCredentials();
         } catch (CredentialsUnavailableException $e) {

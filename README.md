@@ -1,9 +1,15 @@
 # Web App Password
 
-This is a Nextcloud app to generate an app password.
+This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
+WebDAV access from inside a webpage.
 
 Place this app in **nextcloud/apps/**
 
+## Configuration
+
+Add this setting to your `config/config.php` to whitelist certain origins.
+
+`'webapppassword.origins' => ['https://example.com'],` - array of allowed origins
 
 ## Running tests
 

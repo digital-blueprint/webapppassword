@@ -16,6 +16,6 @@
     <bugs>https://gitlab.tugraz.at/VPU/Middleware/webapppassword/-/issues</bugs>
     <repository type="git">https://gitlab.tugraz.at/VPU/Middleware/webapppassword.git</repository>
     <dependencies>
-        <nextcloud min-version="18" max-version="20"/>
+        <nextcloud min-version="18" max-version="19"/>
     </dependencies>
 </info>

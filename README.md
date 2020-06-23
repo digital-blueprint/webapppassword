@@ -14,6 +14,15 @@ Add this setting to your `config/config.php` to whitelist certain origins.
 The setting is both used for the origin of the CORS headers for the WebDAV requests and
 for the referrer check whether we want to generate a temporary app password.
 
+## Docker
+
+* `cd docker`
+* `docker-compose up`
+* <http://localhost:8081>
+* (first time only) Set username/password and install
+* (first time only) <http://localhost:8081/settings/apps/disabled> and enable app
+* (frist time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
+
 ## Running tests
 
 You can use the provided Makefile to run all tests by using:

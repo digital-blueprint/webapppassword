@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  app:
+    image: nextcloud:19-apache
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - WEBPASSWORD_ORIGINS=localhost:8081,127.0.0.1:8081,127.0.0.1:8001,localhost:8001
+    volumes:
+      - nextcloud:/var/www/html
+      - ..:/var/www/html/apps/webapppassword
+      - ./webapppassword.config.php:/var/www/html/config/webapppassword.config.php
+
+volumes:
+  nextcloud:

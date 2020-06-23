@@ -13,7 +13,7 @@ services:
       - SQLITE_DATABASE=mydb
     volumes:
       - nextcloud:/var/www/html
-      - ..:/var/www/html/apps/webapppassword
+      - ..:/var/www/html/custom_apps/webapppassword
       - ./webapppassword.config.php:/var/www/html/config/webapppassword.config.php
 
 volumes:

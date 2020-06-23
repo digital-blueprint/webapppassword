@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: nextcloud:19-apache
+    build: .
     restart: always
     ports:
       - 8081:80

@@ -19,7 +19,6 @@ for the referrer check whether we want to generate a temporary app password.
 * `cd docker`
 * `docker-compose up`
 * <http://localhost:8081> admin/admin
-* (first time only) <http://localhost:8081/settings/apps/disabled> and enable app
 * (frist time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
 
 ## Running tests

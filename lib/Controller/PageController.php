@@ -102,6 +102,7 @@ class PageController extends Controller
      * Creates a new temporary app password and returns the token
      *
      * @return DataResponse
+     * @NoAdminRequired
      * @throws OCSForbiddenException
      */
     public function createToken()

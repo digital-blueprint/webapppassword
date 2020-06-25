@@ -60,10 +60,10 @@ class PageController extends Controller
      * @return bool
      */
     protected function hasAllowedOrigin() :bool {
-        $referer = $_SERVER['HTTP_REFERER'];
+        $targetOrigin = $this->request->getParam("target-origin");
 
         foreach ($this->origins as $origin) {
-            if (strpos($referer, $origin) === 0) {
+            if (strpos($targetOrigin, $origin) === 0) {
                 return true;
             }
         }

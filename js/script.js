@@ -14,6 +14,9 @@ fetch(apiUrl, {
         // console.log("data", data);
 
         const message = {"type": "webapppassword", "loginName": data.loginName, "token": data.token};
-        window.opener.postMessage(message, document.referrer);
+        const url = new URL(window.location.href);
+        const targetOrigin = decodeURIComponent(url.searchParams.get('target-origin'));
+        window.opener.postMessage(message, targetOrigin);
+        // console.log("targetOrigin", targetOrigin);
         // console.log("message", message);
     });

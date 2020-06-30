@@ -6,7 +6,8 @@
 docker-compose up
 ```
 
-Afterwards you should be able to open <http://localhost:8081> (admin/admin).
+Afterwards you should be able to open <http://localhost:8081> (admin/admin) to
+login to your Nextcloud instance.
 
 ## Tip
 

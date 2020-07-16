@@ -9,7 +9,7 @@
     <licence>agpl</licence>
     <author mail="patrizio@bekerle.com">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>
-    <category>integration</category>
+    <category>security</category>
     <types>
         <dav />
     </types>

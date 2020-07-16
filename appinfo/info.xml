@@ -18,4 +18,8 @@
     <dependencies>
         <nextcloud min-version="18" max-version="19"/>
     </dependencies>
+    <settings>
+        <admin>OCA\WebAppPassword\Settings\Admin</admin>
+        <admin-section>OCA\WebAppPassword\Settings\Section</admin-section>
+    </settings>
 </info>

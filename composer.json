@@ -5,11 +5,18 @@
     "license": "AGPL",
     "authors": [
         {
-            "name": "Patrizio Bekerle"
+            "name": "Patrizio Bekerle",
+            "email": "patrizio@bekerle.com",
+            "role": "Maintainer"
         }
     ],
     "require": {},
     "require-dev": {
         "phpunit/phpunit": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\WebAppPassword\\": "lib/"
+        }
     }
 }

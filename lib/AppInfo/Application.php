@@ -27,7 +27,9 @@ use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IContainer;
 use OCP\SabrePluginEvent;
+use OCA\News\Utility\PsrLogger;
 
 class Application extends App {
     const APP_NAME = 'webapppassword';
@@ -49,6 +51,14 @@ class Application extends App {
         // Inject CORS headers to allow WebDAV access from inside a webpage
         $eventDispatcher->addListener('OCA\DAV\Connector\Sabre::addPlugin', function(SabrePluginEvent $event) {
             $event->getServer()->addPlugin(new CorsPlugin(\OC::$server->getConfig()));
+        });
+
+        //Logger base
+        $container->registerService(PsrLogger::class, function (IContainer $c): PsrLogger {
+            return new PsrLogger(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('AppName')
+            );
         });
     }
 }

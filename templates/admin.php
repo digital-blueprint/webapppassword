@@ -1,5 +1,5 @@
 <?php
-script('webapppassword', 'admin/Admin');
+script('webapppassword', 'admin');
 style('webapppassword', 'admin');
 ?>
 

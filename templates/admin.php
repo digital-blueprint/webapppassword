@@ -8,16 +8,19 @@ style('webapppassword', 'admin');
     <div class="form-line">
         <p>
             <label for="webapppassword-origins">
-            <?php p($l->t('Allowed origins')); ?></p>
-        </label>
+                <?php p($l->t('Allowed origins')); ?>
+            </label>
         <p>
-            <em>
-                <?php p($l->t(
-                    'Origins that are allowed to access the page'
-                )); ?></em>
+            <em><?php p($l->t('Origins that are allowed to access the page')); ?></em>
         </p>
-        <p><input type="text" name="webapppassword-origins"
-                  value="<?php p($_['origins']); ?>"></p>
+        <p>
+            <input type="text"
+                  id="webapppassword-origins"
+                  name="webapppassword-origins"
+                  placeholder="https://example.com,https://example2.com"
+                  value="<?php p($_['origins']); ?>">
+            <button class="button" id="webapppassword-store-origins"><?php p($l->t('Set origins')); ?></button>
+        </p>
     </div>
     <div id="webapppassword-saved-message">
         <span class="msg success"><?php p($l->t('Saved')); ?></span>

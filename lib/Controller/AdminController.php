@@ -46,8 +46,7 @@ class AdminController extends Controller
     public function index()
     {
         $data = [
-            'autoPurgeMinimumInterval' =>
-                $this->config->getOrigins(),
+            'origins' => $this->config->getOrigins(),
         ];
         return new TemplateResponse($this->appName, 'admin', $data, 'blank');
     }

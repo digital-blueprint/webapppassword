@@ -2,6 +2,7 @@
 namespace OCA\WebAppPassword\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Controller;
 use OCA\WebAppPassword\Config\Config;
@@ -13,26 +14,23 @@ use OCA\WebAppPassword\Config\Config;
  */
 class AdminController extends Controller
 {
+    /** @var IConfig */
     private $config;
-    private $configPath;
 
     /**
      * AdminController constructor.
      *
      * @param string      $appName     The name of the app
      * @param IRequest    $request     The request
-     * @param Config      $config      Config for nextcloud
-     * @param string      $configFile  Path to the config
+     * @param IConfig     $config      Config for nextcloud
      */
     public function __construct(
         $appName,
         IRequest $request,
-        Config $config,
-        $configFile
+        IConfig $config
     ) {
         parent::__construct($appName, $request);
         $this->config      = $config;
-        $this->configPath  = $configFile;
     }
 
     /**
@@ -46,7 +44,7 @@ class AdminController extends Controller
     public function index()
     {
         $data = [
-            'origins' => $this->config->getOrigins(),
+//            'origins' => $this->config->getOrigins(),
         ];
         return new TemplateResponse($this->appName, 'admin', $data, 'blank');
     }
@@ -61,10 +59,13 @@ class AdminController extends Controller
     public function update(
         $origins
     ) {
-        $this->config->setOrigins($origins);
+//        $this->config->setOrigins($origins);
+//        var_dump($origins);
+//        var_dump($this->request->getParams());
+        $this->config->setAppValue('webapppassword', 'origins', $origins);
 
         return [
-            'origins' => $this->config->getOrigins(),
+            'origins' => $this->config->getAppValue('webapppassword', 'origins')
         ];
     }
 }

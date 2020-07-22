@@ -11,9 +11,13 @@ login to your Nextcloud instance.
 
 ## Check nextcloud.log
 
+In case the whole site is broken you can do a:
+
 ```bash
 docker-compose run app tail -f /var/www/html/data/nextcloud.log
 ```
+
+For other errors you can watch <http://localhost:8081/index.php/settings/admin/logging>.
 
 ## Tip
 

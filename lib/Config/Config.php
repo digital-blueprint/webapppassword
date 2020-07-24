@@ -35,7 +35,7 @@ class Config
     {
         $origins = $this->config->getAppValue('webapppassword', 'origins');
 
-        if ($origins == '') {
+        if ($origins === '') {
             $origins = implode(',', $this->config->getSystemValue('webapppassword.origins', []));
         }
 

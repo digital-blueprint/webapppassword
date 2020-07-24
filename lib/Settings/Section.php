@@ -34,6 +34,6 @@ class Section implements IIconSection
 
     public function getIcon()
     {
-        return $this->url->imagePath('webapppassword', 'app.svg');
+        return $this->url->imagePath('webapppassword', 'app-dark.svg');
     }
 }

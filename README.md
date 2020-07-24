@@ -45,9 +45,20 @@ phpunit -c phpunit.integration.xml
 
 for integration tests
 
-## Usage
+## Generate translation
 
-Currently this Nextcloud application is used in the
+You will need the [translationtool](https://github.com/nextcloud/docker-ci/tree/master/translations/translationtool)
+to generate the translation files for all languages.
+
+```bash
+php /path/to/translationtool.phar convert-po-files
+```
+
+See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/app/view/l10n.html#manual-translation)
+
+## References
+
+This Nextcloud application is used in the
 [NextcloudFilePicker](https://gitlab.tugraz.at/dbp/web-components/toolkit/-/blob/master/packages/file-handling/src/dbp-nextcloud-file-picker.js)
-web component to generate temporary app passwords and to allow WebDAV access from
+web component to generate temporary app passwords and to allow WebDAV-access from
 inside the web browser.

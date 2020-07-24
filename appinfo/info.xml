@@ -5,7 +5,7 @@
     <name>Web App Password</name>
     <summary>Temporary app password generator</summary>
     <description><![CDATA[Temporary app password generator and WebDAV CORS header injection]]></description>
-    <version>0.0.1</version>
+    <version>20.7.0</version>
     <licence>agpl</licence>
     <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>

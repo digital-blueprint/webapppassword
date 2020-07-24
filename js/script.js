@@ -6,7 +6,7 @@ console.log("apiUrl", apiUrl);
 fetch(apiUrl, {
     method: 'POST',
     headers: {
-        'requesttoken': oc_requesttoken
+        'requesttoken': OC.requestToken
     }
 })
     .then(response => response.json())

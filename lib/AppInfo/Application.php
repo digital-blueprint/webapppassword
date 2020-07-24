@@ -27,9 +27,11 @@ use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IContainer;
 use OCP\SabrePluginEvent;
-use OCA\News\Utility\PsrLogger;
+use OCA\WebAppPassword\Utility\PsrLogger;
+use OCA\WebAppPassword\Config\Config;
 
 class Application extends App {
     const APP_NAME = 'webapppassword';
@@ -45,20 +47,38 @@ class Application extends App {
 
         $container = $this->getContainer();
         $server = $container->getServer();
-        /** @var IEventDispatcher $eventDispatcher */
-        $eventDispatcher = $server->query(IEventDispatcher::class);
 
-        // Inject CORS headers to allow WebDAV access from inside a webpage
-        $eventDispatcher->addListener('OCA\DAV\Connector\Sabre::addPlugin', function(SabrePluginEvent $event) {
-            $event->getServer()->addPlugin(new CorsPlugin(\OC::$server->getConfig()));
-        });
-
-        //Logger base
+        // Register logger service
         $container->registerService(PsrLogger::class, function (IContainer $c): PsrLogger {
             return new PsrLogger(
                 $c->query('ServerContainer')->getLogger(),
                 $c->query('AppName')
             );
         });
+
+        // Register logger parameters
+        $container->registerService('LoggerParameters', function (IContainer $c): array {
+            return ['app' => $c->query('AppName')];
+        });
+
+        // Register config service
+        $container->registerService(Config::class, function (IContainer $c): Config {
+            return new Config(
+                $c->query(IConfig::class),
+                $c->query(PsrLogger::class),
+                $c->query('LoggerParameters')
+            );
+        });
+
+        /** @var IEventDispatcher $eventDispatcher */
+        $eventDispatcher = $server->query(IEventDispatcher::class);
+
+        // Inject CORS headers to allow WebDAV access from inside a webpage
+        $eventDispatcher->addListener(
+            'OCA\DAV\Connector\Sabre::addPlugin',
+            function(SabrePluginEvent $event) use ($container) {
+                $event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
+            }
+        );
     }
 }

@@ -2,20 +2,19 @@
 namespace OCA\WebAppPassword\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\Settings\ISettings;
-//use OCA\WebAppPassword\Config\Config;
+use OCA\WebAppPassword\Config\Config;
 
 class Admin implements ISettings {
-    /** @var IConfig */
+    /** @var Config */
     private $config;
 
     /**
      * Admin constructor.
      *
-     * @param IConfig $config
+     * @param Config $config
      */
-    public function __construct(IConfig $config) {
+    public function __construct(Config $config) {
         $this->config = $config;
     }
 
@@ -24,7 +23,7 @@ class Admin implements ISettings {
      */
     public function getForm() {
         $parameters = [
-            'origins' => $this->config->getAppValue('webapppassword', 'origins'),
+            'origins' => $this->config->getOrigins(),
         ];
 
         return new TemplateResponse('webapppassword', 'admin', $parameters);

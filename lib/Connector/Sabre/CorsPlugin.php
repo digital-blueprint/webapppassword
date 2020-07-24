@@ -5,6 +5,7 @@
 
 namespace OCA\WebAppPassword\Connector\Sabre;
 
+use OCA\WebAppPassword\Config\Config;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -18,11 +19,10 @@ class CorsPlugin extends ServerPlugin {
     private $origins;
 
     /**
-     * @param \OCP\IConfig $config
+     * @param Config $config
      */
-    public function __construct(\OCP\IConfig $config) {
-//        $this->origins = $config->getSystemValue('webapppassword.origins', []);
-        $this->origins = explode(",", $config->getAppValue('webapppassword', 'origins'));
+    public function __construct(Config $config) {
+        $this->origins = $config->getOriginList();
     }
 
     /**

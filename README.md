@@ -7,7 +7,10 @@ Place this app in **nextcloud/apps/**
 
 ## Configuration
 
-Add this setting to your `config/config.php` to whitelist certain origins.
+Configure the allowed origins on the settings page of the application.
+
+Alternatively you can also add this setting to your `config/config.php`
+(it will be used if the origins setting on the settings page are empty).
 
 `'webapppassword.origins' => ['https://example.com'],` - array of allowed origins
 

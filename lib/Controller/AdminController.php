@@ -1,10 +1,9 @@
 <?php
 namespace OCA\WebAppPassword\Controller;
 
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Controller;
-use OCA\WebAppPassword\Utility\PsrLogger;
+use OCA\WebAppPassword\Config\Config;
 
 /**
  * Class AdminController
@@ -13,29 +12,23 @@ use OCA\WebAppPassword\Utility\PsrLogger;
  */
 class AdminController extends Controller
 {
-    /** @var IConfig */
+    /** @var Config */
     private $config;
-
-    /** @var PsrLogger */
-    private $logger;
 
     /**
      * AdminController constructor
      *
      * @param string $appName The name of the app
      * @param IRequest $request The request
-     * @param IConfig $config Config for nextcloud
-     * @param PsrLogger $logger Logger for updated origins
+     * @param Config $config Config for nextcloud
      */
     public function __construct(
         $appName,
         IRequest $request,
-        IConfig $config,
-        PsrLogger $logger
+        Config $config
     ) {
         parent::__construct($appName, $request);
         $this->config = $config;
-        $this->logger = $logger;
     }
 
     /**
@@ -48,11 +41,10 @@ class AdminController extends Controller
     public function update(
         $origins
     ) {
-        $this->config->setAppValue('webapppassword', 'origins', $origins);
-        $this->logger->info('Origins were updated!');
+        $this->config->setOrigins($origins);
 
         return [
-            'origins' => $this->config->getAppValue('webapppassword', 'origins')
+            'origins' => $this->config->getOrigins()
         ];
     }
 }

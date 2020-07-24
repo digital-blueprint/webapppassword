@@ -11,7 +11,7 @@ style('webapppassword', 'admin');
                 <?php p($l->t('Allowed origins')); ?>
             </label>
         <p>
-            <em><?php p($l->t('Origins that are allowed to access the page')); ?></em>
+            <em><?php p($l->t('Origins that are allowed to access the page (separated by comma)')); ?></em>
         </p>
         <p>
             <input type="text"

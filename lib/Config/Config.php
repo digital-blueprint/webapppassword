@@ -1,75 +1,55 @@
 <?php
 namespace OCA\WebAppPassword\Config;
+
 use OCA\WebAppPassword\Utility\PsrLogger;
-use OCP\Files\Folder;
+use OCP\IConfig;
 
 class Config
 {
-    private $fileSystem;
-    private $logger;
-    private $loggerParams;
-    private $origins;
+    /** @var IConfig */
+    private $config;
 
+    /** @var PsrLogger */
+    private $logger;
+
+    private $loggerParams;
+
+    /**
+     * Config constructor
+     *
+     * @param IConfig $config
+     * @param PsrLogger $logger
+     * @param $LoggerParameters
+     */
     public function __construct(
-        Folder $fileSystem,
+        IConfig $config,
         PsrLogger $logger,
         $LoggerParameters
     ) {
-        $this->fileSystem = $fileSystem;
+        $this->config = $config;
         $this->logger = $logger;
         $this->loggerParams = $LoggerParameters;
-        $this->origins = [];
     }
 
     public function getOrigins()
     {
-        return $this->origins;
+        $origins = $this->config->getAppValue('webapppassword', 'origins');
+
+        if ($origins == '') {
+            $origins = implode(',', $this->config->getSystemValue('webapppassword.origins', []));
+        }
+
+        return $origins;
+    }
+
+    public function getOriginList()
+    {
+        return explode(',', $this->getOrigins());
     }
 
     public function setOrigins($value)
     {
-        $this->origins = $value;
-    }
-
-    public function read($configPath, $createIfNotExists = false)
-    {
-        if ($createIfNotExists && !$this->fileSystem->nodeExists($configPath)) {
-            $this->fileSystem->newFile($configPath);
-            $this->write($configPath);
-        } else {
-            $content = $this->fileSystem->get($configPath)->getContent();
-            $configValues = parse_ini_string($content);
-
-            if ($configValues === false || count($configValues) === 0) {
-                $this->logger->warning(
-                    'Configuration invalid. Ignoring values.',
-                    $this->loggerParams
-                );
-            } else {
-                foreach ($configValues as $key => $value) {
-                    if (property_exists($this, $key)) {
-                        $type = gettype($this->$key);
-                        settype($value, $type);
-                        $this->$key = $value;
-                    } else {
-                        $this->logger->warning(
-                            'Configuration value "' . $key .
-                            '" does not exist. Ignored value.',
-                            $this->loggerParams
-                        );
-                    }
-                }
-            }
-        }
-    }
-
-    public function write($configPath)
-    {
-        $ini =
-            'origins = ' .
-            var_export($this->origins, true);
-        ;
-
-        $this->fileSystem->get($configPath)->putContent($ini);
+        $this->config->setAppValue('webapppassword', 'origins', $value);
+        $this->logger->info('Origins were updated!');
     }
 }

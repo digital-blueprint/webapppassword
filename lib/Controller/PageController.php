@@ -3,7 +3,6 @@
 namespace OCA\WebAppPassword\Controller;
 
 use OCP\AppFramework\Http;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -16,6 +15,7 @@ use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
+use OCA\WebAppPassword\Config\Config;
 
 class PageController extends Controller
 {
@@ -43,7 +43,7 @@ class PageController extends Controller
         ISecureRandom $random,
         IProvider $tokenProvider,
         IStore $credentialStore,
-        IConfig $config
+        Config $config
     ) {
         parent::__construct($AppName, $request);
 
@@ -51,8 +51,7 @@ class PageController extends Controller
         $this->random = $random;
         $this->tokenProvider = $tokenProvider;
         $this->credentialStore = $credentialStore;
-//        $this->origins = $config->getSystemValue('webapppassword.origins', []);
-        $this->origins = explode(",", $config->getAppValue('webapppassword', 'origins'));
+        $this->origins = $config->getOriginList();
     }
 
     /**

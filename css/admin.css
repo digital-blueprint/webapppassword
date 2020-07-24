@@ -2,6 +2,10 @@
     display: none;
 }
 
+#webapppassword-saved-message.show {
+    display: inline-block;
+}
+
 #webapppassword-origins {
     width: 100%;
 }

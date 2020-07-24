@@ -21,7 +21,8 @@ class CorsPlugin extends ServerPlugin {
      * @param \OCP\IConfig $config
      */
     public function __construct(\OCP\IConfig $config) {
-        $this->origins = $config->getSystemValue('webapppassword.origins', []);
+//        $this->origins = $config->getSystemValue('webapppassword.origins', []);
+        $this->origins = explode(",", $config->getAppValue('webapppassword', 'origins'));
     }
 
     /**

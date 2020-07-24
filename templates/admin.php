@@ -20,9 +20,7 @@ style('webapppassword', 'admin');
                   placeholder="https://example.com,https://example2.com"
                   value="<?php p($_['origins']); ?>">
             <button class="button" id="webapppassword-store-origins"><?php p($l->t('Set origins')); ?></button>
+            <span id="webapppassword-saved-message" class="msg success"><?php p($l->t('Saved')); ?></span>
         </p>
-    </div>
-    <div id="webapppassword-saved-message">
-        <span class="msg success"><?php p($l->t('Saved')); ?></span>
     </div>
 </div>

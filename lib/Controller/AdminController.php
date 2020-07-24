@@ -1,11 +1,10 @@
 <?php
 namespace OCA\WebAppPassword\Controller;
 
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Controller;
-use OCA\WebAppPassword\Config\Config;
+use OCA\WebAppPassword\Utility\PsrLogger;
 
 /**
  * Class AdminController
@@ -17,40 +16,30 @@ class AdminController extends Controller
     /** @var IConfig */
     private $config;
 
+    /** @var PsrLogger */
+    private $logger;
+
     /**
-     * AdminController constructor.
+     * AdminController constructor
      *
-     * @param string      $appName     The name of the app
-     * @param IRequest    $request     The request
-     * @param IConfig     $config      Config for nextcloud
+     * @param string $appName The name of the app
+     * @param IRequest $request The request
+     * @param IConfig $config Config for nextcloud
+     * @param PsrLogger $logger Logger for updated origins
      */
     public function __construct(
         $appName,
         IRequest $request,
-        IConfig $config
+        IConfig $config,
+        PsrLogger $logger
     ) {
         parent::__construct($appName, $request);
-        $this->config      = $config;
+        $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
-     * Controller main entry.
-     *
-     * There are no checks for the index method since the output is
-     * rendered in admin/admin.php
-     *
-     * @return TemplateResponse
-     */
-    public function index()
-    {
-        $data = [
-//            'origins' => $this->config->getOrigins(),
-        ];
-        return new TemplateResponse($this->appName, 'admin', $data, 'blank');
-    }
-
-    /**
-     * Update the app config.
+     * Update the app config
      *
      * @param string $origins
      *
@@ -59,10 +48,8 @@ class AdminController extends Controller
     public function update(
         $origins
     ) {
-//        $this->config->setOrigins($origins);
-//        var_dump($origins);
-//        var_dump($this->request->getParams());
         $this->config->setAppValue('webapppassword', 'origins', $origins);
+        $this->logger->info('Origins were updated!');
 
         return [
             'origins' => $this->config->getAppValue('webapppassword', 'origins')

@@ -51,7 +51,8 @@ class PageController extends Controller
         $this->random = $random;
         $this->tokenProvider = $tokenProvider;
         $this->credentialStore = $credentialStore;
-        $this->origins = $config->getSystemValue('webapppassword.origins', []);
+//        $this->origins = $config->getSystemValue('webapppassword.origins', []);
+        $this->origins = explode(",", $config->getAppValue('webapppassword', 'origins'));
     }
 
     /**

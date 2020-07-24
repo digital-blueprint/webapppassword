@@ -7,7 +7,7 @@
     <description><![CDATA[Temporary app password generator and WebDAV CORS header injection]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>
-    <author mail="patrizio@bekerle.com">Patrizio Bekerle</author>
+    <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>
     <category>security</category>
     <types>
@@ -15,6 +15,7 @@
     </types>
     <bugs>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues</bugs>
     <repository type="git">https://gitlab.tugraz.at/dbp/nextcloud/webapppassword.git</repository>
+    <screenshot>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/raw/master/screenshot.png</screenshot>
     <dependencies>
         <nextcloud min-version="18" max-version="19"/>
     </dependencies>

@@ -7,7 +7,9 @@ Place this app in **nextcloud/apps/**
 
 ## Configuration
 
-Configure the allowed origins on the settings page of the application.
+You can configure the allowed origins on the settings page of the application.
+
+![screenshot](screenshot.png)
 
 Alternatively you can also add this setting to your `config/config.php`
 (it will be used if the origins setting on the settings page are empty).

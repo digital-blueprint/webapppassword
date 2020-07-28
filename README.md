@@ -77,6 +77,7 @@ See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/
   - You need to upload the file to the *Release notes* of the release
 - Take the *Signature for your app archive*, which was printed by the sign-app command and
   release the app at [Upload app release](https://apps.nextcloud.com/developer/apps/releases/new)
+- The new version should then appear on the [WebAppPassword store page](https://apps.nextcloud.com/apps/webapppassword)
 
 ## References
 

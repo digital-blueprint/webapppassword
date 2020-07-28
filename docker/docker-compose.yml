@@ -14,6 +14,8 @@ services:
     volumes:
       - nextcloud:/var/www/html
       - ..:/var/www/html/custom_apps/webapppassword
+      - ./nextcloud/certificates:/var/www/.nextcloud/certificates
+      - ./nextcloud/sign-app.sh:/var/www/sign-app.sh
       - ./webapppassword.config.php:/var/www/html/config/webapppassword.config.php
 
 volumes:

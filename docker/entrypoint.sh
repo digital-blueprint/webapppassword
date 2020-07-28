@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+mkdir /var/www/deploy
+chown www-data:root /var/www/deploy
 chown www-data:root /var/www/html/custom_apps
 chown www-data:root /var/www/html/config
 

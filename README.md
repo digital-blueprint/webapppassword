@@ -61,6 +61,23 @@ php /path/to/translationtool.phar convert-po-files
 
 See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/app/view/l10n.html#manual-translation)
 
+## Deploying to the Nextcloud app store
+
+### Prerequisites
+
+- Make sure your Nextcloud docker container is running in `./docker`
+- Copy your app certificate files to `./docker/nextcloud/certificates`
+
+### Signing and releasing
+
+- Make sure the version in `appinfo/info.xml` and the `CHANGELOG.md` are updated
+- Sign the app with `cd docker && make sign-app`
+- You should now have a `webapppassword.tar.gz` in your git directory to release on
+  [WebAppPassword releases](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/releases/)
+  - You need to upload the file to the *Release notes* of the release
+- Take the *Signature for your app archive*, which was printed by the sign-app command and
+  release the app at [Upload app release](https://apps.nextcloud.com/developer/apps/releases/new)
+
 ## References
 
 This Nextcloud application is used in the

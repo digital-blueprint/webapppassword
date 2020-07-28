@@ -67,6 +67,8 @@ See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/
 
 - Make sure your Nextcloud docker container is running in `./docker`
 - Copy your app certificate files to `./docker/nextcloud/certificates`
+  - Take a look at [webapppassword.md](https://gitlab.tugraz.at/vpu-private/vpu-docs-private/-/blob/master/docs/projects/webapppassword.md)
+    on how to get the files
 
 ### Signing and releasing
 

@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 
-mkdir /var/www/deploy
 chown www-data:root /var/www/deploy
 chown www-data:root /var/www/html/custom_apps
 chown www-data:root /var/www/html/config
@@ -188,9 +187,9 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
 
         fi
     fi
-fi
 
-run_as 'ln -sfT /var/www/html/custom_apps/webapppassword /var/www/html/apps/webapppassword'
-run_as "php /var/www/html/occ app:enable webapppassword"
+    run_as 'ln -sfT /var/www/html/custom_apps/webapppassword /var/www/html/apps/webapppassword'
+    run_as "php /var/www/html/occ app:enable webapppassword"
+fi
 
 exec "$@"

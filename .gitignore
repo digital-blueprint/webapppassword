@@ -3,3 +3,4 @@ vendor
 *.phar
 docker/nextcloud/certificates/webapppassword.*
 *.gz
+*.db*

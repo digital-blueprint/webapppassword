@@ -4,8 +4,8 @@
     <id>webapppassword</id>
     <name>Web App Password</name>
     <summary>Temporary app password generator</summary>
-    <description><![CDATA[Temporary app password generator and WebDAV CORS header injection]]></description>
-    <version>20.7.0</version>
+    <description><![CDATA[Temporary app password generator and WebDAV CORS header injection to be able access the Nextcloud WebDAV service from inside web applications.]]></description>
+    <version>20.8.0</version>
     <licence>agpl</licence>
     <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>

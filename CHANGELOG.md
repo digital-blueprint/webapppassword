@@ -1,10 +1,5 @@
 # WebAppPassword Change Log
 
-## 20.8.1
-
-- Rename app from `Web App Password` to `WebAppPassword`
-- Fix `app:check-code` compliance
-
 ## 20.8.0
 
 - Did cleanup of files

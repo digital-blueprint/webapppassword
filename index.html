@@ -1,22 +1,39 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WebAppPassword iFrame / window.open() Test</title>
+    <title>WebAppPassword window.open() Test</title>
+    <style>
+        body { font-family: 'Calibri', 'Arial', 'sans-serif'; }
+        textarea { width: 100%; height: 50px; }
+    </style>
 </head>
 <body>
-<header></header>
+<header>
+    <h1>WebAppPassword window.open() Test</h1>
+</header>
 <main>
-    <!--      <iframe width="600" height="500" src="http://localhost:8081/index.php/apps/webapppassword/#"></iframe>-->
+    <label>
+        Server url:
+        <input type="text" size="32" id="server-url" name="server-url" value="http://localhost:8081/index.php" />
+    </label>
+
     <button onclick="login()">Login</button>
+
+    <h2>Output</h2>
+
+    <textarea id="output"></textarea>
 </main>
 <footer></footer>
 </body>
 <script>
     let wnd;
+    const textArea = document.querySelector("#output");
+    const serverUrl = document.querySelector("#server-url").value;
 
     function login() {
-        wnd = window.open("http://localhost:8081/index.php/apps/webapppassword/#", "Nextcloud Login",
+        textArea.value = "";
+        wnd = window.open(serverUrl + "/apps/webapppassword/?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
             "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
 
@@ -26,7 +43,9 @@
 
         if (data.type === "webapppassword") {
             wnd.close();
-            alert("Login name: " + data.loginName + "\nApp password: " + data.token);
+
+            // textArea.value = "Login name:\n" + data.loginName + "\n\nApp password:\n" + data.token;
+            textArea.value = JSON.stringify(data);
         }
     });
 </script>

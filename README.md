@@ -84,6 +84,15 @@ See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/
     - You need the download link to `webapppassword.tar.gz` from the GitLab release
 - The new version should then appear on the [WebAppPassword store page](https://apps.nextcloud.com/apps/webapppassword)
 
+## Example
+
+You can start a php server with `php -S localhost:8082` to see an example page on <http://localhost:8082/>.
+
+If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
+receive a temporary app password for your user.
+
+Take a look at <index.html> for the source code of the page.
+
 ## References
 
 This Nextcloud application is used in the

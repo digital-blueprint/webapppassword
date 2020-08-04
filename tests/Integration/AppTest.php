@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\WebAppPassword\Tests\Integration\Controller;
+namespace OCA\WebAppPassword\Tests\Integration;
 
 use OCP\AppFramework\App;
-use Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 
 /**
@@ -12,10 +12,9 @@ use Test\TestCase;
  * against the database
  */
 class AppTest extends TestCase {
-
     private $container;
 
-    public function setUp() {
+    public function setUp():void {
         parent::setUp();
         $app = new App('webapppassword');
         $this->container = $app->getContainer();

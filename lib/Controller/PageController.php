@@ -34,7 +34,7 @@ class PageController extends Controller
     /**
      * @var string[]
      */
-    private $origins;
+    private $origins = [];
 
     public function __construct(
         $AppName,
@@ -62,8 +62,12 @@ class PageController extends Controller
     protected function hasAllowedOrigin() :bool {
         $targetOrigin = $this->request->getParam("target-origin");
 
+        if ($targetOrigin === "") {
+            return false;
+        }
+
         foreach ($this->origins as $origin) {
-            if (strpos($targetOrigin, $origin) === 0) {
+            if ($origin !== "" && strpos($targetOrigin, $origin) === 0) {
                 return true;
             }
         }

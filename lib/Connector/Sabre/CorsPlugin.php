@@ -30,7 +30,7 @@ class CorsPlugin extends ServerPlugin {
      * @return void
      */
     public function initialize(\Sabre\DAV\Server $server) {
-        $server->on(\OC_Util::getVersion()[0] <= 18 ? 'beforeMethod' : 'beforeMethod:*', [$this, 'setCorsHeaders'], 5);
+        $server->on(\OCP\Util::getVersion()[0] <= 18 ? 'beforeMethod' : 'beforeMethod:*', [$this, 'setCorsHeaders'], 5);
     }
 
     /**

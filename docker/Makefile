@@ -1,6 +1,12 @@
-all: sign-app
+all: check-code test sign-app
 
 .PHONY: bash check-code sign-app show-log test
+
+fetch-db:
+	docker-compose run --rm app su -c "cp data/mydb.db apps/webapppassword" www-data
+
+push-db:
+	docker-compose run --rm app su -c "cp apps/webapppassword/mydb.db data" www-data
 
 bash:
 	docker-compose run --rm app su -c "bash" www-data

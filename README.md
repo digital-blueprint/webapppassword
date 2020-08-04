@@ -1,5 +1,8 @@
 # [WebAppPassword](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword)
 
+[Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword) |
+[Issues](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues)
+
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
 WebDAV access from inside a webpage.
 

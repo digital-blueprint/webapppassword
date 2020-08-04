@@ -1,4 +1,4 @@
-# Web App Password
+# WebAppPassword
 
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
 WebDAV access from inside a webpage.

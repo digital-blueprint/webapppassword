@@ -2,7 +2,7 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>webapppassword</id>
-    <name>Web App Password</name>
+    <name>WebAppPassword</name>
     <summary>Temporary app password generator</summary>
     <description><![CDATA[Temporary app password generator and WebDAV CORS header injection to be able access the Nextcloud WebDAV service from inside web applications.]]></description>
     <version>20.8.0</version>

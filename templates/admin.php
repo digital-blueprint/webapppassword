@@ -4,7 +4,7 @@ style('webapppassword', 'admin');
 ?>
 
 <div class="section" id="webapppassword">
-    <h2>Web App Password</h2>
+    <h2>WebAppPassword</h2>
     <div class="form-line">
         <p>
             <label for="webapppassword-origins">

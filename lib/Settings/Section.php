@@ -24,7 +24,7 @@ class Section implements IIconSection
 
     public function getName()
     {
-        return $this->l->t('Web App Password');
+        return $this->l->t('WebAppPassword');
     }
 
     public function getPriority()

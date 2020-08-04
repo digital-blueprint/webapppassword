@@ -26,29 +26,22 @@ for the referrer check whether we want to generate a temporary app password.
 * <http://localhost:8081> admin/admin
 * (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
 
+## Example
+
+You can start a php server with `php -S localhost:8082` to see an example page on <http://localhost:8082/>.
+
+If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
+receive a temporary app password for your user.
+
+Take a look at [index.html](index.html) for the source code of the page.
+
 ## Running tests
 
 You can use the provided Makefile to run all tests by using:
 
 ```bash
-make test
+cd docker && make test
 ```
-
-This will run the PHP unit and integration tests and if a package.json is present in the **js/** folder will execute **npm run test**
-
-Of course you can also install [PHPUnit](http://phpunit.de/getting-started.html) and use the configurations directly:
-
-```bash
-phpunit -c phpunit.xml
-```
-
-or:
-
-```bash
-phpunit -c phpunit.integration.xml
-```
-
-for integration tests
 
 ## Generate translation
 
@@ -83,15 +76,6 @@ See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/
   release the app at [Upload app release](https://apps.nextcloud.com/developer/apps/releases/new)
     - You need the download link to `webapppassword.tar.gz` from the GitLab release
 - The new version should then appear on the [WebAppPassword store page](https://apps.nextcloud.com/apps/webapppassword)
-
-## Example
-
-You can start a php server with `php -S localhost:8082` to see an example page on <http://localhost:8082/>.
-
-If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
-receive a temporary app password for your user.
-
-Take a look at <index.html> for the source code of the page.
 
 ## References
 

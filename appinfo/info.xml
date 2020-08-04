@@ -9,10 +9,10 @@
     <licence>agpl</licence>
     <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>
-    <category>security</category>
     <types>
         <dav />
     </types>
+    <category>security</category>
     <bugs>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues</bugs>
     <repository type="git">https://gitlab.tugraz.at/dbp/nextcloud/webapppassword.git</repository>
     <screenshot>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/raw/master/screenshot.png</screenshot>

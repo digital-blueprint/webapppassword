@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>WebAppPassword window.open() Test</title>
+    <style>
+        body { font-family: 'Calibri', 'Arial', 'sans-serif'; }
+        textarea { width: 100%; height: 50px; }
+        textarea#output2 { width: 100%; height: 200px; }
+        label { width: 130px; display: inline-block; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>WebAppPassword window.open() Test</h1>
+</header>
+<main>
+    <p>
+        <label for="app-url">App url:</label>
+        <input type="text" size="60" id="app-url" name="app-url" value="http://localhost:8081/index.php/apps/webapppassword" />
+    </p>
+    <p>
+        <label for="webdav-url">WebDav base url:</label>
+        <input type="text" size="60" id="webdav-url" name="app-url" value="http://localhost:8081/remote.php/dav/files" />
+    </p>
+
+    <button onclick="login()">Login demo</button>
+    <button onclick="openFilePicker()">Open WebDAV file picker</button>
+
+    <h2>Output from WebAppPassword</h2>
+
+    <textarea id="output"></textarea>
+
+    <h2>Example WebDav fetch</h2>
+
+    <textarea id="output2"></textarea>
+
+    <dbp-file-source
+            id="file-source"
+            lang="en"
+            enabled-sources="nextcloud"></dbp-file-source>
+</main>
+<footer></footer>
+</body>
+<script>
+    let wnd;
+    const output = document.querySelector("#output");
+    const output2 = document.querySelector("#output2");
+    const appUrl = document.querySelector("#app-url").value;
+    const webdavUrl = document.querySelector("#webdav-url").value;
+    const fileSource = document.querySelector("#file-source");
+
+    function login() {
+        output.value = "";
+        wnd = window.open(appUrl + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
+            "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
+    }
+
+    function openFilePicker() {
+        fileSource.setAttribute("nextcloud-auth-url", appUrl);
+        fileSource.setAttribute("nextcloud-web-dav-url", webdavUrl);
+        fileSource.setAttribute("dialog-open", "");
+    }
+
+    window.addEventListener('message', (event) => {
+        const data = event.data;
+
+        if (data.type === "webapppassword") {
+            wnd.close();
+
+            // output.value = "Login name:\n" + data.loginName + "\n\nApp password:\n" + data.token;
+            output.value = JSON.stringify(data);
+
+            let headers = new Headers();
+            headers.set('Authorization', 'Basic ' + btoa(data.loginName + ":" + data.token));
+
+
+            fetch(webdavUrl + "/" + data.loginName, {
+                method: 'PROPFIND', // *GET, POST, PUT, DELETE, etc.
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                headers: headers
+            })
+                .then(result => {
+                    if (!result.ok) throw result;
+
+                    return result.text();
+                })
+                .then((xml) => {
+                    output2.value = xml;
+                }).catch(error => {
+                    output2.value = error.message;
+                    console.error(error);
+                });
+        }
+    });
+</script>
+<script type="module" src="dist/dbp-file-source.js"></script>
+</html>

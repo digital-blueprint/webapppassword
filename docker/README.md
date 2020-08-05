@@ -11,17 +11,17 @@ login to your Nextcloud instance.
 
 ## Check nextcloud.log
 
-In case the whole site is broken you can do a:
+For debugging you can show the `nextcloud.log`:
 
 ```bash
 make show-log
 ```
 
-For other errors you can watch <http://localhost:8081/index.php/settings/admin/logging>.
+There also is a [loggin web interface](http://localhost:8081/index.php/settings/admin/logging).
 
 ## Tip
 
-In case something is broken try to reset things:
+In case something is broken try to reset the container:
 
 ```bash
 docker-compose build; docker-compose down; docker volume prune -f

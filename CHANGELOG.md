@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 20.8.2
+
+- Add more documentation and links
+
 ## 20.8.1
 
 - Rename app from `Web App Password` to `WebAppPassword`

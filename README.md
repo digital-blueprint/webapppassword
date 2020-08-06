@@ -1,6 +1,7 @@
 # [WebAppPassword](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword)
 
 [Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword) |
+[Releases](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/releases) |
 [Report issues](https://github.com/digital-blueprint/webapppassword/issues)
 
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow

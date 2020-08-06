@@ -1,0 +1,20 @@
+name: sync-with-gitlab
+
+on:
+  schedule:
+    - cron:  "42 * * * *"
+  workflow_dispatch:
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch GitLabs latest master and tags
+        run: |
+          git init --bare
+          git fetch https://gitlab.tugraz.at/dbp/nextcloud/webapppassword.git master:refs/heads/master 'refs/tags/*:refs/tags/*'
+      - name: Push to our fork
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY refs/heads/master 'refs/tags/*:refs/tags/*'

@@ -59,7 +59,7 @@
 <footer></footer>
 </body>
 <script>
-    let wnd;
+    let wnd = null;
     const outputArea = document.querySelector("#output-area");
     const output = document.querySelector("#output");
     const output2 = document.querySelector("#output2");
@@ -71,6 +71,8 @@
         outputArea.classList.remove("hidden");
         output.value = "";
         output2.value = "";
+
+        // open auth window of WebAppPassword application
         wnd = window.open(appUrl + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
             "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
@@ -82,19 +84,22 @@
         fileSource.setAttribute("dialog-open", "");
     }
 
+    // receives the "window.opener.postMessage" from https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/blob/master/js/script.js
     window.addEventListener('message', (event) => {
         const data = event.data;
 
         if (data.type === "webapppassword") {
-            wnd.close();
+            if (wnd !== null) {
+                wnd.close();
+            }
 
-            // output.value = "Login name:\n" + data.loginName + "\n\nApp password:\n" + data.token;
             output.value = JSON.stringify(data);
 
+            // set auth header from data received by WebAppPassword application
             let headers = new Headers();
             headers.set('Authorization', 'Basic ' + btoa(data.loginName + ":" + data.token));
 
-
+            // do PROPFIND WebDAV request
             fetch(webdavUrl + "/" + data.loginName, {
                 method: 'PROPFIND', // *GET, POST, PUT, DELETE, etc.
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

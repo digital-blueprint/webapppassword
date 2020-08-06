@@ -1,2 +1,4 @@
-import{d as s,F as e}from"./shared/file-source.9a307312.es.js";s("dbp-file-source",e);
+import { d as defineCustomElement, F as FileSource } from './shared/file-source.07793cec.es.js';
+
+defineCustomElement('dbp-file-source', FileSource);
 //# sourceMappingURL=dbp-file-source.js.map

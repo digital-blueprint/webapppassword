@@ -36,12 +36,13 @@ docker-compose up
 
 ## Example
 
-You can start a php server with `php -S localhost:8082` to see an example page on <http://localhost:8082/>.
+You can start a php server with `cd docs/example && php -S localhost:8082` to see an example
+page on <http://localhost:8082/>.
 
 If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
 receive a temporary app password for your user.
 
-Take a look at [index.html](index.html) for the source code of the page.
+Take a look at [index.html](docs/example/index.html) for the source code of the page.
 
 ## Running tests
 

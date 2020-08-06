@@ -2,38 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WebAppPassword window.open() Test</title>
+    <title>WebAppPassword Demo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
     <style>
-        body { font-family: 'Calibri', 'Arial', 'sans-serif'; }
+        /*body { font-family: 'Calibri', 'Arial', 'sans-serif'; }*/
         textarea { width: 100%; height: 50px; }
         textarea#output2 { width: 100%; height: 200px; }
-        label { width: 130px; display: inline-block; }
+        /*label { width: 130px; display: inline-block; }*/
+        .hidden { display: none; }
+        .container-fluid { margin: 10px 0; }
     </style>
 </head>
 <body>
 <header>
-    <h1>WebAppPassword window.open() Test</h1>
 </header>
 <main>
-    <p>
-        <label for="app-url">App url:</label>
-        <input type="text" size="60" id="app-url" name="app-url" value="http://localhost:8081/index.php/apps/webapppassword" />
-    </p>
-    <p>
-        <label for="webdav-url">WebDav base url:</label>
-        <input type="text" size="60" id="webdav-url" name="app-url" value="http://localhost:8081/remote.php/dav/files" />
-    </p>
+    <div class="container-fluid">
+        <h1>WebAppPassword Demo</h1>
 
-    <button onclick="login()">Login demo</button>
-    <button onclick="openFilePicker()">Open WebDAV file picker</button>
+        <div class="form-group">
+            <label for="app-url">App url</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="app-url" aria-describedby="basic-addon3" name="app-url" value="http://localhost:8081/index.php/apps/webapppassword">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="webdav-url">WebDAV base url</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="webdav-url" aria-describedby="basic-addon3" name="webdav-url" value="http://localhost:8081/remote.php/dav/files">
+            </div>
+        </div>
 
-    <h2>Output from WebAppPassword</h2>
-
-    <textarea id="output"></textarea>
-
-    <h2>Example WebDav fetch</h2>
-
-    <textarea id="output2"></textarea>
+        <button onclick="openFilePicker()" class="btn btn-primary">Open WebDAV file picker</button>
+        <button onclick="login()" class="btn btn-secondary">Basic window.open()</button>
+    </div>
+    <div class="container-fluid hidden" id="output-area">
+        <h2>Output</h2>
+        <div class="form-group">
+            <label for="output">Output from WebAppPassword</label>
+            <div class="input-group mb-3">
+                <textarea id="output" readonly></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="output2">Example WebDav fetch</label>
+            <div class="input-group mb-3">
+                <textarea id="output2" readonly></textarea>
+            </div>
+        </div>
+    </div>
 
     <dbp-file-source
             id="file-source"
@@ -44,6 +61,7 @@
 </body>
 <script>
     let wnd;
+    const outputArea = document.querySelector("#output-area");
     const output = document.querySelector("#output");
     const output2 = document.querySelector("#output2");
     const appUrl = document.querySelector("#app-url").value;
@@ -51,12 +69,15 @@
     const fileSource = document.querySelector("#file-source");
 
     function login() {
+        outputArea.classList.remove("hidden");
         output.value = "";
+        output2.value = "";
         wnd = window.open(appUrl + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
             "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
 
     function openFilePicker() {
+        outputArea.classList.add("hidden");
         fileSource.setAttribute("nextcloud-auth-url", appUrl);
         fileSource.setAttribute("nextcloud-web-dav-url", webdavUrl);
         fileSource.setAttribute("dialog-open", "");

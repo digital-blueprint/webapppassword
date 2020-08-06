@@ -22,7 +22,7 @@ that uses this app to generate a temporary password and make a WebDAV request to
     </documentation>
     <category>security</category>
     <website>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword</website>
-    <bugs>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues</bugs>
+    <bugs>https://github.com/digital-blueprint/webapppassword/issues</bugs>
     <repository type="git">https://gitlab.tugraz.at/dbp/nextcloud/webapppassword.git</repository>
     <screenshot>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/raw/master/screenshot.png</screenshot>
     <dependencies>

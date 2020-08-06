@@ -2,7 +2,7 @@
 
 ## 20.8.3
 
-- Update example link
+- Update example and issue links
 
 ## 20.8.2
 

@@ -42,7 +42,11 @@ page on <http://localhost:8082/>.
 If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
 receive a temporary app password for your user.
 
+![screenshot](screenshot-filepicker.png)
+
 Take a look at [index.html](docs/example/index.html) for the source code of the page.
+
+![screenshot](screenshot-webdav.png)
 
 ## Running tests
 

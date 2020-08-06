@@ -3,14 +3,17 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>webapppassword</id>
     <name>WebAppPassword</name>
-    <summary>Temporary app password generator</summary>
+    <summary>Temporary app password generator and WebDAV CORS header injection</summary>
     <description><![CDATA[Temporary app password generator and WebDAV CORS header injection to be able access the
 Nextcloud WebDAV service from inside web applications.
 
 There is an [example implementation](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/blob/master/docs/example/index.html)
 that uses this app to generate a temporary password and make a WebDAV request to a Nextcloud instance
-([docker container](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/tree/master/docker) included).]]></description>
-    <version>20.8.3</version>
+([docker container](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/tree/master/docker) included).
+
+See [Example](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword#example) for a Nextcloud WebDAV file picker example
+that uses this application.]]></description>
+    <version>20.8.4</version>
     <licence>agpl</licence>
     <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>

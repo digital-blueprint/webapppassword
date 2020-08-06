@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 20.8.3
+
+- Update example link
+
 ## 20.8.2
 
 - Add more documentation and links

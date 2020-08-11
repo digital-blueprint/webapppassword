@@ -27,4 +27,4 @@ test:
     - cd apps/webapppassword
     - make test
   after_script:
-    - [ -z "$NC_TMP" ] rm -Rf $NC_TMP
+    - [ -z "$NC_TMP" ] || rm -Rf $NC_TMP

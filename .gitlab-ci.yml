@@ -1,0 +1,12 @@
+image: registry.gitlab.tugraz.at/dbp/nextcloud/webapppassword/main:v1
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - export CORE_BRANCH=master
+    - cd ../
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
+    - mv webapppassword nextcloud/apps/

@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     rsync \
     sudo \
     wget \
+    git \
+    make \
     curl \
     lsb-release \
     && rm -rf /var/lib/apt/lists/*

@@ -8,9 +8,8 @@ test:
   before_script:
     - CORE_BRANCH=master
     - NC_TMP=$(mktemp -d -t ci-XXXXXXXXXX)
-    - cd ../
     - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH $NC_TMP
-    - ln -s . $NC_TMP/apps/webapppassword
+    - ln -s `pwd` $NC_TMP/apps/webapppassword
     - cd $NC_TMP
     - mkdir data
     - ./occ maintenance:install

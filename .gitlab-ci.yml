@@ -6,11 +6,12 @@ stages:
 test:
   stage: test
   before_script:
-    - export CORE_BRANCH=master
+    - CORE_BRANCH=master
+    - NC_TMP=$(mktemp -d -t ci-XXXXXXXXXX)
     - cd ../
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
-    - mv webapppassword nextcloud/apps/
-    - cd nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH $NC_TMP
+    - ln -s . $NC_TMP/apps/webapppassword
+    - cd $NC_TMP
     - mkdir data
     - ./occ maintenance:install
       --admin-user="admin"
@@ -25,3 +26,5 @@ test:
   script:
     - cd apps/webapppassword
     - make test
+  after_script:
+    - [ -z "$NC_TMP" ] rm -Rf $NC_TMP

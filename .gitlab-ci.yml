@@ -9,7 +9,8 @@ test:
     - CORE_BRANCH=stable19
     - NC_TMP=$(mktemp -d -t ci-XXXXXXXXXX)
     - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH $NC_TMP
-    - ln -s `pwd` $NC_TMP/apps/webapppassword
+    - mkdir $NC_TMP/apps/webapppassword
+    - cp * $NC_TMP/apps/webapppassword -R
     - cd $NC_TMP
     - mkdir data
     - ./occ maintenance:install

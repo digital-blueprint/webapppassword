@@ -5,7 +5,7 @@ stages:
 
 .test_defaults: &test_defaults
   script:
-    - CORE_BRANCH=stable19
+    - echo "CORE_BRANCH=${CORE_BRANCH}"
     - NC_TMP=$(mktemp -d -t ci-XXXXXXXXXX)
     - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH $NC_TMP
     - mkdir $NC_TMP/apps/webapppassword

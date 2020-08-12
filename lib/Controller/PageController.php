@@ -124,7 +124,8 @@ class PageController extends Controller
         }
 
         $loginName = $credentials->getLoginName();
-        $name = $this->appName.' '.$this->request->getHeader('USER_AGENT');
+        $targetOrigin = $this->request->getHeader("target-origin");
+        $name = $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
         $token = $this->random->generate(
             72,
             ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS

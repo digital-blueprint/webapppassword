@@ -1,0 +1,34 @@
+## Explain the Problem
+What problem did you encounter?
+
+## Steps to Reproduce
+Explain what you did to encounter the issue
+1.
+2.
+3.
+
+## System Information
+* WebAppPassword app version:
+* Nextcloud version:
+* Cron type:
+* PHP version:
+* Database and version:
+* Browser and version:
+* Distribution and version:
+
+## Contents of nextcloud/data/nextcloud.log
+
+```json
+
+Paste output here
+
+```
+
+## Contents of Browser Error Console
+Read http://ggnome.com/wiki/Using_The_Browser_Error_Console if you are unsure what to put here
+
+```
+
+Paste output here
+
+```

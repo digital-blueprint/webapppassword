@@ -1,7 +1,7 @@
 # WebAppPassword Change Log
 
 ## 20.8.5
-- the `target-origin` will now be shown as `Device` in the temporary app passwords
+- The `target-origin` will now be shown as `Device` in the temporary app passwords
 
 ## 20.8.4
 

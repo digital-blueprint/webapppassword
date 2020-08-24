@@ -123,6 +123,14 @@ class PageController extends Controller
             $password = null;
         }
 
+        // We get empty passwords from our OIDC accounts, this causes \OC\User\Session::checkTokenCredentials
+        // to invalidate the token in the first check after 5min, setting the password to null for
+        // \OC\Authentication\Token\IProvider::generateToken solves the problem
+        // https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues/11
+        if ($password === "") {
+            $password = null;
+        }
+
         $loginName = $credentials->getLoginName();
         $targetOrigin = $this->request->getHeader("target-origin");
         $name = $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');

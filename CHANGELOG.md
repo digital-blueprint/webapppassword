@@ -1,5 +1,10 @@
 # WebAppPassword Change Log
 
+## 20.8.6
+
+- Fixed the expiring temporary app passwords after 5 min with [NextCloud OIDC Login](https://github.com/pulsejet/nextcloud-oidc-login)
+  (for [#11](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues/11))
+
 ## 20.8.5
 
 - The `target-origin` will now be shown as `Device` in the temporary app passwords

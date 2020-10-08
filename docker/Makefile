@@ -11,6 +11,9 @@ push-db:
 bash:
 	docker-compose run --rm app su -c "bash" www-data
 
+maintenance-mode-off:
+	docker-compose run --rm app su -c "./occ maintenance:mode --off" www-data
+
 check-code:
 	docker-compose run --rm app su -c "./occ app:check-code webapppassword" www-data
 

@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 20.10.0
+
+- Updated and tested app for Nextcloud 20
+
 ## 20.8.6
 
 - Fixed the expiring temporary app passwords after 5 min with [NextCloud OIDC Login](https://github.com/pulsejet/nextcloud-oidc-login)

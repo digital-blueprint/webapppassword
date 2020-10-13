@@ -1,0 +1,11 @@
+{
+  "error": {
+    "summary": "An error occurred",
+    "connection-to-server-refused": "Connection to server refused!"
+  },
+  "jsonld": {
+    "error-api-server": "Connection to api server {{apiUrl}} failed!",
+    "error-hydra-documentation-url-not-set": "Hydra apiDocumentation url was not set for server {{apiUrl}}!",
+    "api-documentation-server": "Connection to apiDocumentation server {{apiDocUrl}} failed!"
+  }
+}

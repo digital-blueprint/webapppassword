@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "mocha": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-unused-vars": ["error", { "args": "none" }],
+        "semi": [2, "always"],
+        "jsdoc/require-jsdoc": 0,
+        "jsdoc/require-param-description": 0,
+        "jsdoc/require-returns": 0,
+        "jsdoc/require-returns-description": 0,
+        "jsdoc/require-param-type": 0
+    }
+}

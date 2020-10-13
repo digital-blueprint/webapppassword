@@ -1,0 +1,87 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/snap/bin:/snap/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.19.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/dbp-common: Not found
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:140749:22)
+      at Request.emit (events.js:314:20)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141721:10)
+      at Request.emit (events.js:314:20)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:141643:12)
+      at Object.onceWrapper (events.js:420:28)
+      at IncomingMessage.emit (events.js:326:22)
+      at endReadableNT (_stream_readable.js:1223:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+    "name": "dbp-file-handling",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "license": "LGPL-2.1-or-later",
+    "private": true,
+    "devDependencies": {
+      "@rollup/plugin-commonjs": "^14.0.0",
+      "@rollup/plugin-json": "^4.0.2",
+      "@rollup/plugin-node-resolve": "^8.1.0",
+      "chai": "^4.2.0",
+      "i18next-scanner": "^2.10.2",
+      "karma": "^5.0.1",
+      "karma-chai": "^0.1.0",
+      "karma-chrome-launcher": "^3.0.0",
+      "karma-mocha": "^2.0.0",
+      "mocha": "^8.0.1",
+      "puppeteer": "^2.1.1",
+      "rollup": "^2.18.0",
+      "rollup-plugin-consts": "^1.0.1",
+      "rollup-plugin-copy": "^3.1.0",
+      "rollup-plugin-delete": "^2.0.0",
+      "rollup-plugin-serve": "^1.0.1",
+      "rollup-plugin-terser": "^6.1.0"
+    },
+    "dependencies": {
+      "@open-wc/scoped-elements": "^1.0.8",
+      "file-saver": "^2.0.2",
+      "i18next": "^19.4.2",
+      "jszip": "^3.5.0",
+      "lit-element": "^2.1.0",
+      "lit-html": "^1.1.1",
+      "material-design-icons-svg": "^3.0.0",
+      "tabulator-tables": "^4.7.0",
+      "webdav": "^3.3.0",
+      "dbp-common": "^1.0.0"
+    },
+    "scripts": {
+      "clean": "rm dist/*",
+      "build": "npm run build-local",
+      "build-local": "rollup -c",
+      "build-dev": "rollup -c --environment BUILD:development",
+      "build-prod": "rollup -c --environment BUILD:production",
+      "build-demo": "rollup -c --environment BUILD:demo",
+      "build-test": "rollup -c --environment BUILD:test",
+      "i18next": "i18next-scanner",
+      "watch": "npm run watch-local",
+      "watch-local": "rollup -c --watch",
+      "watch-dev": "rollup -c --watch --environment BUILD:development",
+      "test": "npm run build-test && karma start --singleRun"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,0 +1,4 @@
+/vendor/**
+/dist/**
+*.conf.js
+*.config.js

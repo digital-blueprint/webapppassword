@@ -10,5 +10,5 @@ yarn install
 
 ## Other commands
 
-* `yarn run test` -  Run test for all packages`
+* `yarn run test` -  Run test for all packages
 * `yarn run clean` - Removes all `node_modules` directories.

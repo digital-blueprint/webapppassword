@@ -49,7 +49,7 @@ files from a [Nextcloud](https://nextcloud.com/) instance.
 
 This event is sent if a file was selected.
 
-**Payload**: `{'file': File}` where `File` is the binary file that was selected
+**Payload**: `{'file': File}` where [File](https://developer.mozilla.org/en-US/docs/Web/API/File) is the binary file that was selected
 
 ## FileSink
 
@@ -83,7 +83,7 @@ This web component is able to receive files and present as them as ZIP file down
 
 ### Properties
 
-- `files`: an array of File objects which should be downloaded in the dialog
+- `files`: an array of [File](https://developer.mozilla.org/en-US/docs/Web/API/File) objects which should be downloaded in the dialog
     - if the property is set the dialog opens
 
 ## Local development

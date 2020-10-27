@@ -17,7 +17,7 @@ let nextcloudFileURL = nextcloudBaseURL + '/apps/files/?dir=';
 
 export default (async () => {
     return {
-        input: (build !== 'test') ? ['src/demo.js', 'src/dbp-file-source.js'] : glob.sync('test/**/*.js'),
+        input: (build !== 'test') ? ['src/demo.js', 'src/dbp-file-source.js', 'src/dbp-file-sink.js'] : glob.sync('test/**/*.js'),
         output: {
             dir: 'dist',
             entryFileNames: '[name].js',

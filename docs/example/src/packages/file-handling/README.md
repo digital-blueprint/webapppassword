@@ -53,7 +53,8 @@ This event is sent if a file was selected.
 
 ## FileSink
 
-This web component is able to receive files and present as them as ZIP file download. 
+This web component is able to receive files and present as them as ZIP file download or upload
+files to a [Nextcloud](https://nextcloud.com/) instance.
 
 ### Usage
 

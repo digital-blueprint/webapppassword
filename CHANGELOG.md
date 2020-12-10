@@ -1,5 +1,10 @@
 # WebAppPassword Change Log
 
+## 20.12.1
+
+- Now the `webdavUrl` will be returned by `postMessage` to prevent issues if the UID doesn't match the loginName
+  (for [#13](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues/13))
+
 ## 20.12.0
 
 - Leading and trailing whitespaces will now be automatically trimmed from the origins

@@ -13,7 +13,7 @@ fetch(apiUrl, {
     .then(response => response.json())
     .then((data) => {
         // console.log("data", data);
-        const message = {"type": "webapppassword", "loginName": data.loginName, "token": data.token};
+        const message = {"type": "webapppassword", "loginName": data.loginName, "token": data.token, "webdavUrl": data.webdavUrl};
         window.opener.postMessage(message, targetOrigin);
         // console.log("targetOrigin", targetOrigin);
         // console.log("message", message);

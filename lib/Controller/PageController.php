@@ -167,6 +167,12 @@ class PageController extends Controller
             IToken::DO_NOT_REMEMBER
         );
 
-        return new DataResponse(['loginName' => $loginName, 'token' => $token]);
+        return new DataResponse(
+            [
+                'loginName' => $loginName,
+                'token' => $token,
+                'webdavUrl' => \OCP\Util::linkToRemote('dav/files/' . $uid),
+            ]
+        );
     }
 }

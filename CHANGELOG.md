@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 20.12.0
+
+- Leading and trailing whitespaces will now be automatically trimmed from the origins
+
 ## 20.10.0
 
 - Updated and tested app for Nextcloud 20

@@ -13,7 +13,7 @@ that uses this app to generate a temporary password and make a WebDAV request to
 
 See [Example](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword#example) for a Nextcloud WebDAV file picker example
 that uses this application.]]></description>
-    <version>20.10.0</version>
+    <version>20.12.0</version>
     <licence>agpl</licence>
     <author mail="patrizio.bekerle@tugraz.at">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>

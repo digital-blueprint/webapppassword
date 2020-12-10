@@ -31,7 +31,10 @@ class Config
         $this->loggerParams = $LoggerParameters;
     }
 
-    public function getOrigins()
+    /**
+     * @return string
+     */
+    public function getOrigins(): string
     {
         $origins = $this->config->getAppValue('webapppassword', 'origins');
 
@@ -39,7 +42,7 @@ class Config
             $origins = implode(',', $this->config->getSystemValue('webapppassword.origins', []));
         }
 
-        return $origins;
+        return implode(',', array_map('trim', explode(',', $origins)));
     }
 
     public function getOriginList()

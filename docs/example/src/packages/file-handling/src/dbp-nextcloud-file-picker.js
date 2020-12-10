@@ -299,7 +299,7 @@ export class NextcloudFilePicker extends ScopedElementsMixin(DBPLitElement) {
                     this.loginWindow.close();
                 }
 
-                const apiUrl = this.webDavUrl + "/" + data.loginName;
+                const apiUrl = data.webdavUrl || this.webDavUrl + "/" + data.loginName;
                 // see https://github.com/perry-mitchell/webdav-client/blob/master/API.md#module_WebDAV.createClient
 
                 this.webDavClient = createClient(

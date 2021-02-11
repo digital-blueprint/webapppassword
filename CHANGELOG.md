@@ -1,5 +1,8 @@
 # WebAppPassword Change Log
 
+## 21.2.0
+- Now also CalDAV requests are allowed
+
 ## 20.12.1
 
 - Now the `webdavUrl` will be returned by `postMessage` to prevent issues if the UID doesn't match the loginName

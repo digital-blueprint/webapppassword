@@ -6,7 +6,7 @@
 [Report issues](https://github.com/digital-blueprint/webapppassword/issues)
 
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
-WebDAV access from inside a webpage.
+WebDAV/CalDAV access from inside a webpage.
 
 Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword).
 
@@ -21,7 +21,7 @@ Alternatively you can also add this setting to your `config/config.php`
 
 `'webapppassword.origins' => ['https://example.com'],` - array of allowed origins
 
-The setting is both used for the origin of the CORS headers for the WebDAV requests and
+The setting is both used for the origin of the CORS headers for the WebDAV/CalDAV requests and
 for the referrer check whether we want to generate a temporary app password.
 
 ## Docker

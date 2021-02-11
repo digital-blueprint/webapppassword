@@ -13,8 +13,9 @@
     - You should now have a `webapppassword.tar.gz` in your git directory
     - Check the content of the archive for unwanted files (you can exclude more files in
       `docker/nextcloud/sign-app.sh`)
+- Commit and push your changes to the git repository
 - Create a new release on [WebAppPassword releases](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/releases/)
-  with the version like `v20.8.0` as *Tag name* and the changelog text of the current release as *Release notes*
+  with the version like `v21.2.0` as *Tag name* and the changelog text of the current release as *Release notes*
     - You also need to upload `webapppassword.tar.gz` to the *Release notes* of the release and get its url
 - Take the text from *Signature for your app archive*, which was printed by the sign-app command and
   release the app at [Upload app release](https://apps.nextcloud.com/developer/apps/releases/new)

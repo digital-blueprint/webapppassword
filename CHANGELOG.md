@@ -1,9 +1,15 @@
 # WebAppPassword Change Log
 
+## 21.3.0
+
+- Updated and tested app for Nextcloud 21
+
 ## 21.2.1
+
 - Mention CalDAV on Nextcloud app page
 
 ## 21.2.0
+
 - Now also CalDAV requests are allowed
 
 ## 20.12.1

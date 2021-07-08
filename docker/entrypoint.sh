@@ -188,6 +188,9 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         fi
     fi
 
+    # if we get an error "ln: /var/www/html/apps/webapppassword: cannot overwrite directory" we need to remove that directory in the container
+    run_as 'rm -Rf /var/www/html/apps/webapppassword'
+
     run_as 'ln -sfT /var/www/html/custom_apps/webapppassword /var/www/html/apps/webapppassword'
     run_as "php /var/www/html/occ app:enable webapppassword"
 fi

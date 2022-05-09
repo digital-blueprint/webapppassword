@@ -1,5 +1,8 @@
 # WebAppPassword Change Log
 
+## 22.5.0
+- enabled and tested app for Nextcloud 24
+
 ## 21.12.0
 - enabled and tested app for Nextcloud 23
 

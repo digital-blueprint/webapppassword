@@ -38,3 +38,21 @@ nc19:
   variables:
     CORE_BRANCH: "stable19"
   <<: *test_defaults
+
+nc22:
+  stage: test
+  variables:
+    CORE_BRANCH: "stable22"
+  <<: *test_defaults
+
+nc23:
+  stage: test
+  variables:
+    CORE_BRANCH: "stable23"
+  <<: *test_defaults
+
+nc24:
+  stage: test
+  variables:
+    CORE_BRANCH: "stable24"
+  <<: *test_defaults

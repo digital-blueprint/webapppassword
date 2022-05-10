@@ -12,16 +12,16 @@ stages:
     - cp * $NC_TMP/apps/webapppassword -R
     - cd $NC_TMP
     - mkdir data
-    - ./occ maintenance:install
+    - php7.4 ./occ maintenance:install
       --admin-user="admin"
       --admin-pass="admin"
       --database "sqlite"
       --database-name="oc_autotest"
       --database-user="oc_autotest"
       --database-pass="oc_autotest"
-    - ./occ app:enable webapppassword
-    - ./occ app:check-code webapppassword
-    - php -S localhost:8080 &
+    - php7.4 ./occ app:enable webapppassword
+    - php7.4 ./occ app:check-code webapppassword
+    - php7.4 -S localhost:8080 &
     - cd apps/webapppassword
     - make test
   after_script:

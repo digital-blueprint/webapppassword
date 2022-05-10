@@ -151,5 +151,5 @@ appstore:
 
 .PHONY: test
 test: composer
-	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
-	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
+	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml

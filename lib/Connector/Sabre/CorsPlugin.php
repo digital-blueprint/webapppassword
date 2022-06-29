@@ -52,6 +52,7 @@ class CorsPlugin extends ServerPlugin {
         $response->addHeader('access-control-allow-methods', $request->getHeader('access-control-request-method'));
         $response->addHeader('access-control-allow-headers', $request->getHeader('access-control-request-headers'));
         $response->addHeader('access-control-expose-headers', 'etag, dav');
+        $response->addHeader('access-control-allow-credentials', 'true');
 
         if ($request->getMethod() === 'OPTIONS' && empty($request->getHeader('authorization'))) {
             $response->setStatus(204);

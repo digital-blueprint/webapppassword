@@ -78,3 +78,7 @@ This Nextcloud application is used in the
 [NextcloudFilePicker](https://gitlab.tugraz.at/dbp/web-components/toolkit/-/blob/master/packages/file-handling/src/dbp-nextcloud-file-picker.js)
 web component to generate temporary app passwords and to allow WebDAV-access from
 inside the web browser.
+
+---
+
+This project is tested with BrowserStack.

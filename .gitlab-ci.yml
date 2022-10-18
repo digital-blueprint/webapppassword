@@ -56,3 +56,9 @@ nc24:
   variables:
     CORE_BRANCH: "stable24"
   <<: *test_defaults
+
+nc25:
+  stage: test
+  variables:
+    CORE_BRANCH: "stable25"
+  <<: *test_defaults

@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\WebAppPassword\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OCP\AppFramework\Http;
-use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OCA\WebAppPassword\Config\Config;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
-use OCA\WebAppPassword\Config\Config;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 class PageController extends Controller
@@ -56,19 +58,18 @@ class PageController extends Controller
     }
 
     /**
-     * Checks if the origin is allowed
-     *
-     * @return bool
+     * Checks if the origin is allowed.
      */
-    protected function hasAllowedOrigin() :bool {
-        $targetOrigin = $this->request->getParam("target-origin");
+    protected function hasAllowedOrigin(): bool
+    {
+        $targetOrigin = $this->request->getParam('target-origin');
 
-        if ($targetOrigin === "") {
+        if ($targetOrigin === '') {
             return false;
         }
 
         foreach ($this->origins as $origin) {
-            if ($origin !== "" && strpos($targetOrigin, $origin) === 0) {
+            if ($origin !== '' && strpos($targetOrigin, $origin) === 0) {
                 return true;
             }
         }
@@ -77,16 +78,17 @@ class PageController extends Controller
     }
 
     /**
-     * Shows the page where the script with the postMessage is included
+     * Shows the page where the script with the postMessage is included.
      *
      * @NoAdminRequired
+     *
      * @NoCSRFRequired
      */
     public function index()
     {
         $hasAllowedOrigin = $this->hasAllowedOrigin();
         $parameters = [
-            'not-allowed' => !$hasAllowedOrigin
+            'not-allowed' => !$hasAllowedOrigin,
         ];
 
         $response = new TemplateResponse('webapppassword', 'index', $parameters);  // templates/index.php
@@ -104,10 +106,12 @@ class PageController extends Controller
     }
 
     /**
-     * Creates a new temporary app password and returns the token
+     * Creates a new temporary app password and returns the token.
      *
      * @return DataResponse
+     *
      * @NoAdminRequired
+     *
      * @throws OCSForbiddenException
      */
     public function createToken()
@@ -150,8 +154,8 @@ class PageController extends Controller
 
         $uid = $this->userSession->getUser()->getUID();
 //        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
-        $targetOrigin = $this->request->getHeader("target-origin");
-        $name = $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
+        $targetOrigin = $this->request->getHeader('target-origin');
+        $name = $targetOrigin.' '.$this->request->getHeader('USER_AGENT');
         $token = $this->random->generate(
             72,
             ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
@@ -171,7 +175,7 @@ class PageController extends Controller
             [
                 'loginName' => $loginName,
                 'token' => $token,
-                'webdavUrl' => \OCP\Util::linkToRemote('dav/files/' . $uid),
+                'webdavUrl' => \OCP\Util::linkToRemote('dav/files/'.$uid),
             ]
         );
     }

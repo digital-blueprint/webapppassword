@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\WebAppPassword\Utility;
 
-use \OCP\ILogger;
+use OCP\ILogger;
 
 /**
- * This is a wrapper to make OC\Log conform to Psr\Log\LoggerInterface
- *
- * @package OCA\WebAppPassword\Utility
+ * This is a wrapper to make OC\Log conform to Psr\Log\LoggerInterface.
  */
 class PsrLogger implements \Psr\Log\LoggerInterface
 {
@@ -22,7 +22,7 @@ class PsrLogger implements \Psr\Log\LoggerInterface
      */
     public function __construct(ILogger $logger, $appName)
     {
-        $this->logger  = $logger;
+        $this->logger = $logger;
         $this->appName = $appName;
     }
 

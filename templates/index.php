@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // Don't return an app password if origin was not allowed
 if (!$_['not-allowed']) {

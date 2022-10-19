@@ -1,14 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace OCA\WebAppPassword\Controller;
 
-use OCP\IRequest;
-use OCP\AppFramework\Controller;
 use OCA\WebAppPassword\Config\Config;
+use OCP\AppFramework\Controller;
+use OCP\IRequest;
 
 /**
- * Class AdminController
- *
- * @package OCA\WebAppPassword\Controller
+ * Class AdminController.
  */
 class AdminController extends Controller
 {
@@ -16,11 +17,11 @@ class AdminController extends Controller
     private $config;
 
     /**
-     * AdminController constructor
+     * AdminController constructor.
      *
-     * @param string $appName The name of the app
+     * @param string   $appName The name of the app
      * @param IRequest $request The request
-     * @param Config $config Config for nextcloud
+     * @param Config   $config  Config for nextcloud
      */
     public function __construct(
         $appName,
@@ -32,7 +33,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the app config
+     * Update the app config.
      *
      * @param string $origins
      *
@@ -44,7 +45,7 @@ class AdminController extends Controller
         $this->config->setOrigins($origins);
 
         return [
-            'origins' => $this->config->getOrigins()
+            'origins' => $this->config->getOrigins(),
         ];
     }
 }

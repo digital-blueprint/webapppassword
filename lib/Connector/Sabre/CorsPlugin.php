@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
- * Kindly adapted from https://gitlab.com/kinolaev/nextcloud-dav-cors
+ * Kindly adapted from https://gitlab.com/kinolaev/nextcloud-dav-cors.
  */
 
 namespace OCA\WebAppPassword\Connector\Sabre;
@@ -11,40 +13,37 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\HTTP\Sapi;
 
-class CorsPlugin extends ServerPlugin {
-
+class CorsPlugin extends ServerPlugin
+{
     /**
      * @var string[]
      */
     private $origins;
 
-    /**
-     * @param Config $config
-     */
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $this->origins = $config->getOriginList();
     }
 
     /**
-     * @param \Sabre\DAV\Server $server
      * @return void
      */
-    public function initialize(\Sabre\DAV\Server $server) {
+    public function initialize(\Sabre\DAV\Server $server)
+    {
         $server->on(\OCP\Util::getVersion()[0] <= 18 ? 'beforeMethod' : 'beforeMethod:*', [$this, 'setCorsHeaders'], 5);
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
      * @return void|bool
      */
-    public function setCorsHeaders(RequestInterface $request, ResponseInterface $response) {
+    public function setCorsHeaders(RequestInterface $request, ResponseInterface $response)
+    {
         if ($response->hasHeader('access-control-allow-origin')) {
             return;
         }
 
         $origin = $request->getHeader('origin');
-        if (empty($origin) || !in_array($origin, $this->origins)) {
+        if (empty($origin) || !in_array($origin, $this->origins, true)) {
             return;
         }
 
@@ -57,6 +56,7 @@ class CorsPlugin extends ServerPlugin {
         if ($request->getMethod() === 'OPTIONS' && empty($request->getHeader('authorization'))) {
             $response->setStatus(204);
             Sapi::sendResponse($response);
+
             return false;
         }
     }

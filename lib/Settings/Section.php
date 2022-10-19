@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\WebAppPassword\Settings;
 
 use OCP\IL10N;

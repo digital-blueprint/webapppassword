@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 TU Graz
- *
  * @author Patrizio Bekerle <patrizio@bekerle.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,30 +18,31 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
+
 namespace OCA\WebAppPassword\AppInfo;
 
+use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
+use OCA\WebAppPassword\Utility\PsrLogger;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IContainer;
 use OCP\SabrePluginEvent;
-use OCA\WebAppPassword\Utility\PsrLogger;
-use OCA\WebAppPassword\Config\Config;
 
-class Application extends App {
-    const APP_NAME = 'webapppassword';
+class Application extends App
+{
+    public const APP_NAME = 'webapppassword';
 
     /**
-     * Application constructor
+     * Application constructor.
      *
-     * @param array $params
      * @throws QueryException
      */
-    public function __construct(array $params = []) {
+    public function __construct(array $params = [])
+    {
         parent::__construct(self::APP_NAME, $params);
 
         $container = $this->getContainer();
@@ -76,7 +76,7 @@ class Application extends App {
         // Inject CORS headers to allow WebDAV access from inside a webpage
         $eventDispatcher->addListener(
             'OCA\DAV\Connector\Sabre::addPlugin',
-            function(SabrePluginEvent $event) use ($container) {
+            function (SabrePluginEvent $event) use ($container) {
                 $event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
             }
         );

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace OCA\WebAppPassword\Config;
 
 use OCA\WebAppPassword\Utility\PsrLogger;
@@ -15,11 +18,7 @@ class Config
     private $loggerParams;
 
     /**
-     * Config constructor
-     *
-     * @param IConfig $config
-     * @param PsrLogger $logger
-     * @param $LoggerParameters
+     * Config constructor.
      */
     public function __construct(
         IConfig $config,
@@ -31,9 +30,6 @@ class Config
         $this->loggerParams = $LoggerParameters;
     }
 
-    /**
-     * @return string
-     */
     public function getOrigins(): string
     {
         $origins = $this->config->getAppValue('webapppassword', 'origins');

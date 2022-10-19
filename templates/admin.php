@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 script('webapppassword', 'admin');
 style('webapppassword', 'admin');
 ?>

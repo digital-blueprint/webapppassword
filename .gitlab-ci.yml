@@ -22,7 +22,7 @@ stages:
     - php7.4 ./occ app:enable webapppassword
     - php7.4 -S localhost:8080 &
     - cd apps/webapppassword
-    - composer require --dev christophwurst/nextcloud:${CORE_BRANCH}
+    - composer require --dev christophwurst/nextcloud:dev-${CORE_BRANCH}
     - composer run psalm
     - make test
   after_script:

@@ -1,20 +1,25 @@
 {
-    "type": "project",
-    "license": "AGPL",
-    "authors": [
-        {
-            "name": "Patrizio Bekerle",
-            "email": "patrizio@bekerle.com",
-            "role": "Maintainer"
-        }
-    ],
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^9"
-    },
-    "autoload": {
-        "psr-4": {
-            "OCA\\WebAppPassword\\": "lib/"
-        }
+  "type": "project",
+  "license": "AGPL",
+  "authors": [
+    {
+      "name": "Patrizio Bekerle",
+      "email": "patrizio@bekerle.com",
+      "role": "Maintainer"
     }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^9",
+    "vimeo/psalm": "^4.29"
+  },
+  "autoload": {
+    "psr-4": {
+      "OCA\\WebAppPassword\\": "lib/"
+    }
+  },
+  "scripts": {
+    "psalm": [
+      "@php vendor/bin/psalm"
+    ]
+  }
 }

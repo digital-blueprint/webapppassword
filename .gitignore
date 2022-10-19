@@ -4,3 +4,4 @@ vendor
 docker/nextcloud/certificates/webapppassword.*
 *.gz
 *.db*
+/*.cache

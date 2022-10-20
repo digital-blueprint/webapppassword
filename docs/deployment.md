@@ -6,6 +6,10 @@
     - Take a look at [webapppassword.md](https://gitlab.tugraz.at/vpu-private/vpu-docs-private/-/blob/master/docs/projects/webapppassword.md)
       on how to get the files
 
+## Test the app
+
+- see example at [README.md](../README.md) for how to test the app
+
 ### Signing and releasing
 
 - Make sure the version in `appinfo/info.xml` and the `CHANGELOG.md` are updated

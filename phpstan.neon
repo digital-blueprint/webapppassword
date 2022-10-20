@@ -1,0 +1,15 @@
+#includes:
+#    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    inferPrivatePropertyTypeFromConstructor: true
+    level: 3
+    paths:
+        - appinfo
+        - lib
+        - templates
+        - tests
+    excludePaths:
+    ignoreErrors:
+        - message: '#.*NodeDefinition::children.*#'
+          path: ./src/DependencyInjection

@@ -22,8 +22,8 @@ stages:
     - php7.4 ./occ app:enable webapppassword
     - php7.4 -S localhost:8080 &
     - cd apps/webapppassword
-    - php7.4 /usr/local/bin/composer install
-    - php7.4 /usr/local/bin/composer run cs
+#    - php7.4 /usr/local/bin/composer install
+#    - php7.4 /usr/local/bin/composer run cs
     - php7.4 /usr/local/bin/composer require --dev christophwurst/nextcloud:dev-${CORE_BRANCH}
 #    - php7.4 /usr/local/bin/composer run psalm
     - make test

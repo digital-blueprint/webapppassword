@@ -1,4 +1,4 @@
-FROM nextcloud:24-apache
+FROM nextcloud:25-apache
 
 COPY entrypoint.sh /
 

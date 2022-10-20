@@ -55,10 +55,10 @@ RUN apt-get install -y \
     php7.4-mbstring \
     && rm -rf /var/lib/apt/lists/*
 
-# Default to PHP 7.3
-RUN sudo update-alternatives --set php /usr/bin/php7.3
-RUN sudo update-alternatives --set phar /usr/bin/phar7.3
-RUN sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.3
+# Default to PHP 7.4
+RUN sudo update-alternatives --set php /usr/bin/php7.4
+RUN sudo update-alternatives --set phar /usr/bin/phar7.4
+RUN sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.4
 
 # Install composer
 RUN cd /tmp && \

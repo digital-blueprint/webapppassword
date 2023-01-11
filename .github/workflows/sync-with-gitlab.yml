@@ -8,6 +8,8 @@ on:
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Fetch GitLabs latest master and tags
         run: |

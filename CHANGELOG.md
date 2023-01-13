@@ -1,5 +1,8 @@
 # WebAppPassword Change Log
 
+## 23.1.0
+- migrate fully to [GitHub](https://github.com/digital-blueprint/webapppassword)
+
 ## 22.10.0
 - enabled and tested app for Nextcloud 25
 - added support for Access-Control-Allow-Credentials header

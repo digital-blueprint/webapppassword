@@ -5,6 +5,8 @@
 [Changelog](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/blob/master/CHANGELOG.md) |
 [Report issues](https://github.com/digital-blueprint/webapppassword/issues)
 
+[![Test](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml/badge.svg)](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml)
+
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
 WebDAV/CalDAV access from inside a webpage.
 

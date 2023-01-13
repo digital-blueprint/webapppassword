@@ -1,8 +1,8 @@
-# [WebAppPassword](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword)
+# [WebAppPassword](https://github.com/digital-blueprint/webapppassword)
 
 [Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword) |
-[Releases](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/releases) |
-[Changelog](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/blob/master/CHANGELOG.md) |
+[Releases](https://github.com/digital-blueprint/webapppassword/releases) |
+[Changelog](https://github.com/digital-blueprint/webapppassword/blob/main/CHANGELOG.md) |
 [Report issues](https://github.com/digital-blueprint/webapppassword/issues)
 
 [![Test](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml/badge.svg)](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml)

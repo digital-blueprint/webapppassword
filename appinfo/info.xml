@@ -7,11 +7,11 @@
     <description><![CDATA[Temporary app password generator and WebDAV/CalDAV CORS header injection to be able access the
 Nextcloud WebDAV/CalDAV service from inside web applications.
 
-There is an [example implementation](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/blob/master/docs/example/index.html)
+There is an [example implementation](https://github.com/digital-blueprint/webapppassword/blob/main/docs/example/index.html)
 that uses this app to generate a temporary password and make a WebDAV request to a Nextcloud instance
-([docker container](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/tree/master/docker) included).
+([docker container](https://github.com/digital-blueprint/webapppassword/tree/main/docker) included).
 
-See [Example](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword#example) for a Nextcloud WebDAV file picker example
+See [Example](https://github.com/digital-blueprint/webapppassword#example) for a Nextcloud WebDAV file picker example
 that uses this application.]]></description>
     <version>22.10.0</version>
     <licence>agpl</licence>
@@ -21,13 +21,13 @@ that uses this application.]]></description>
         <dav />
     </types>
     <documentation>
-        <admin>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword</admin>
+        <admin>https://github.com/digital-blueprint/webapppassword</admin>
     </documentation>
     <category>security</category>
-    <website>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword</website>
+    <website>https://github.com/digital-blueprint/webapppassword</website>
     <bugs>https://github.com/digital-blueprint/webapppassword/issues</bugs>
-    <repository type="git">https://gitlab.tugraz.at/dbp/nextcloud/webapppassword.git</repository>
-    <screenshot>https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/raw/master/screenshot.png</screenshot>
+    <repository type="git">https://github.com/digital-blueprint/webapppassword.git</repository>
+    <screenshot>https://github.com/digital-blueprint/webapppassword/raw/main/screenshot.png</screenshot>
     <dependencies>
         <nextcloud min-version="18" max-version="25"/>
     </dependencies>

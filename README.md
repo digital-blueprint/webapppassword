@@ -2,6 +2,7 @@
 
 [Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword) |
 [Releases](https://github.com/digital-blueprint/webapppassword/releases) |
+[Old releases](https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/releases) |
 [Changelog](https://github.com/digital-blueprint/webapppassword/blob/main/CHANGELOG.md) |
 [Report issues](https://github.com/digital-blueprint/webapppassword/issues)
 

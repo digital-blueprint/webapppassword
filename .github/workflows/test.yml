@@ -49,6 +49,9 @@ jobs:
     - name: Test app
       run: |
         php -f nextcloud/occ app:enable webapppassword
+    - name: Run tests
+      run: |
+        cd nextcloud
         php -S localhost:8080 &
         cd apps/webapppassword
         php /usr/local/bin/composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}

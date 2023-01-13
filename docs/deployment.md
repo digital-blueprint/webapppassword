@@ -19,9 +19,10 @@
       `docker/nextcloud/sign-app.sh`)
 - Commit and push your changes to the git repository
 - Create a new release on [WebAppPassword releases](https://github.com/digital-blueprint/webapppassword/releases/)
-  with the version like `v22.10.0` as *Tag name* and *Release title* and the changelog text of the current release as *Release notes*
-    - You also need to upload `webapppassword.tar.gz` to the *Release notes* of the release and get its url
+  with the version like `v23.1.0` as *Tag name* and *Release title* and the changelog text of the current
+  release as *Release notes*
+    - You also need to upload `webapppassword.tar.gz` to the release and get its url
 - Take the text from *Signature for your app archive*, which was printed by the sign-app command and
   release the app at [Upload app release](https://apps.nextcloud.com/developer/apps/releases/new)
-    - You need the download link to `webapppassword.tar.gz` from the GitLab release
+    - You need the download link to `webapppassword.tar.gz` from the GitHub release
 - The new version should then appear on the [WebAppPassword store page](https://apps.nextcloud.com/apps/webapppassword)

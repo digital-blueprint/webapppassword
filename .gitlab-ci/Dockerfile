@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 ENV LANG C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive

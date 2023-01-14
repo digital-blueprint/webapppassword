@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@open-wc/scoped-elements": "^1.1.1",
-    "@sentry/browser": "^5.15.5",
+    "@sentry/browser": "^7.0.0",
     "i18next": "^19.5.3",
     "lit-element": "^2.3.1"
   }

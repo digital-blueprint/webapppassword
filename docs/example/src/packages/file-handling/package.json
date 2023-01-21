@@ -29,7 +29,7 @@
     "i18next": "^22.0.0",
     "jszip": "^3.5.0",
     "lit-element": "^2.1.0",
-    "lit-html": "^1.1.1",
+    "lit-html": "^2.0.0",
     "material-design-icons-svg": "^3.0.0",
     "tabulator-tables": "^4.7.0",
     "webdav": "^3.3.0",

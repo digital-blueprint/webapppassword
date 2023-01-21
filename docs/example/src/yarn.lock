@@ -7062,10 +7062,10 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-tabulator-tables@^4.7.0:
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/tabulator-tables/-/tabulator-tables-4.9.3.tgz#89ea8f9bffc11ba9a789369b5165ac82da26f4f0"
-  integrity sha512-iwwQqAEGGxlgrBpcmJJvMJrfjGLcCXOB3AOb/DGkXqBy1YKoYA36hIl7qXGp6Jo8dSkzFAlDT6pKLZgyhs9OnQ==
+tabulator-tables@^5.0.0:
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/tabulator-tables/-/tabulator-tables-5.4.3.tgz#78127f263b5bf26d8dc15e1cd2fc6755fe51b8ca"
+  integrity sha512-XnQcfwd2LzHWKAo8ZzUVglKaQnzn3wZwH48ouYr1dDbfUcQiU1ESJjVhmVxPMr9tf0oDcV6qPViEHinAi/tqbw==
 
 tar@^4.4.10, tar@^4.4.12, tar@^4.4.8:
   version "4.4.13"

@@ -17,7 +17,7 @@
     "karma-firefox-launcher": "^2.0.0",
     "karma-mocha": "^2.0.1",
     "mocha": "^8.0.1",
-    "puppeteer": "^2.1.1",
+    "puppeteer": "^19.0.0",
     "rollup": "^2.19.0",
     "rollup-plugin-consts": "^1.0.1",
     "rollup-plugin-copy": "^3.1.0",

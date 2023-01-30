@@ -9,5 +9,8 @@
   "rangeStrategy": "update-lockfile",
   "lockFileMaintenance": {
     "enabled": true
+  },
+  "js": {
+    "enabled": false
   }
 }

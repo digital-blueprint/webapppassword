@@ -12,5 +12,11 @@
   },
   "js": {
     "enabled": false
-  }
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": ["phpunit/phpunit"],
+      "allowedVersions": "<10"
+    }
+  ]
 }

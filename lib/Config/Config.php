@@ -58,12 +58,6 @@ class Config
 
     public function getAllowCustomName(): bool
     {
-        return $this->config->getAppValue('webapppassword', 'allowCustomName') == 'true';
-    }
-
-    public function setAllowCustomName($value)
-    {
-        $this->config->getAppValue('webapppassword', 'allowCustomName', $value);
-        $this->logger->info('Origins were updated!');
+        return $this->config->getSystemValueBool('webapppassword.allowCustomName', false);
     }
 }

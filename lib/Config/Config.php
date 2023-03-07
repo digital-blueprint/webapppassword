@@ -55,4 +55,15 @@ class Config
         $this->config->setAppValue('webapppassword', 'origins', $value);
         $this->logger->info('Origins were updated!');
     }
+
+    public function getAllowCustomName(): bool
+    {
+        return $this->config->getAppValue('webapppassword', 'allowCustomName') == 'true';
+    }
+
+    public function setAllowCustomName($value)
+    {
+        $this->config->getAppValue('webapppassword', 'allowCustomName', $value);
+        $this->logger->info('Origins were updated!');
+    }
 }

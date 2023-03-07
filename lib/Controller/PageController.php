@@ -152,10 +152,17 @@ class PageController extends Controller
             throw new OCSForbiddenException();
         }
 
+        $name = $this->request->getParam('session-name');
+
+        if ($name === '') {
+            $name = $targetOrigin.' '.$this->request->getHeader('USER_AGENT');
+        } else {
+            'App Password: '.$name;
+        }
+
         $uid = $this->userSession->getUser()->getUID();
 //        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
         $targetOrigin = $this->request->getHeader('target-origin');
-        $name = $targetOrigin.' '.$this->request->getHeader('USER_AGENT');
         $token = $this->random->generate(
             72,
             ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS

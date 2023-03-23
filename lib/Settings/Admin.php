@@ -28,6 +28,7 @@ class Admin implements ISettings
     {
         $parameters = [
             'origins' => $this->config->getOrigins(),
+            'allowCustomName' => $this->config->getAllowCustomName(),
         ];
 
         return new TemplateResponse('webapppassword', 'admin', $parameters);

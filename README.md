@@ -9,23 +9,33 @@
 [![Test](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml/badge.svg)](https://github.com/digital-blueprint/webapppassword/actions/workflows/test.yml)
 
 This is a Nextcloud app to generate a temporary app password and set CORS headers to allow
-WebDAV/CalDAV access from inside a webpage.
+WebDAV/CalDAV and Share API access from inside a webpage.
 
 Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Store](https://apps.nextcloud.com/apps/webapppassword).
 
 ## Configuration
 
-You can configure the allowed origins on the settings page of the application.
+You can configure the allowed origins for both wwebdav/caldav or files sharing api on the settings
+page of the application.
+
 
 ![screenshot](screenshot.png)
 
 Alternatively you can also add this setting to your `config/config.php`
 (it will be used if the origins setting on the settings page are empty).
 
-`'webapppassword.origins' => ['https://example.com'],` - array of allowed origins
+`'webapppassword.origins' => ['https://example.com'],` - array of allowed webdav/caldav origins
 
 The setting is both used for the origin of the CORS headers for the WebDAV/CalDAV requests and
 for the referrer check whether we want to generate a temporary app password.
+
+Alos you can configure in the same way the files sharing part.
+
+`'files_sharing_webapppassword.origins' => ['https://example.com'],` - array of allowed files sharing api origins
+
+Under the hood it exposes parts of the sharing api (CRUD and the preflight OPTIONS endpoint) in this url:
+https://example.com/index.php/apps/files_sharing_webapppassword/api/v1/shares
+
 
 ## Docker
 

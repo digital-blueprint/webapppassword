@@ -63,7 +63,7 @@ class Config
      *   List allowed share api origins separated by commas.
      *
      */
-    protected function getFilesSharingOrigins(): string
+    public function getFilesSharingOrigins(): string
     {
         $origins = $this->config->getAppValue('webapppassword', 'files_sharing_origins');
         

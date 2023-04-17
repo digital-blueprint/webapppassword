@@ -34,7 +34,7 @@ Alos you can configure in the same way the files sharing part.
 `'files_sharing_webapppassword.origins' => ['https://example.com'],` - array of allowed files sharing api origins
 
 Under the hood it exposes parts of the sharing api (CRUD and the preflight OPTIONS endpoint) in this url:
-https://example.com/index.php/apps/files_sharing_webapppassword/api/v1/shares
+https://example.com/index.php/apps/webapppassword/api/v1/shares
 
 
 ## Docker

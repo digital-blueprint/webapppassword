@@ -68,7 +68,7 @@ class Config
         $origins = $this->config->getAppValue('webapppassword', 'files_sharing_origins');
         
         if ($origins === '') {
-        $origins = implode(',', $this->config->getSystemValue('webapppassword.files_sharing.origins', []));
+        $origins = implode(',', $this->config->getSystemValue('webapppassword.files_sharing_origins', []));
         }
 
         if ($origins === null) {

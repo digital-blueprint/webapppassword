@@ -57,7 +57,7 @@ trait AccessControl {
     $origins = $config->getAppValue('webapppassword', 'files_sharing_origins');
     
     if ($origins === '') {
-      $origins = implode(',', $config->getSystemValue('webapppassword.files_sharing.origins', []));
+      $origins = implode(',', $config->getSystemValue('webapppassword.files_sharing_origins', []));
     }
 
     if ($origins === null) {

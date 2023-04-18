@@ -8,7 +8,7 @@ style('webapppassword', 'admin');
     <div class="form-line">
         <p>
             <label for="webapppassword-origins">
-                <?php p($l->t('Allowed origins')); ?>
+                <?php p($l->t('Allowed origins for webdav')); ?>
             </label>
         <p>
             <em><?php p($l->t('Origins that are allowed to access the files using webdav(separated by comma)')); ?></em>

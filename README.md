@@ -29,7 +29,7 @@ Alternatively you can also add this setting to your `config/config.php`
 The setting is both used for the origin of the CORS headers for the WebDAV/CalDAV requests and
 for the referrer check whether we want to generate a temporary app password.
 
-Alos you can configure in the same way the files sharing part.
+Also, you can configure in the same way the files sharing part.
 
 `'webapppassword.files_sharing_origins' => ['https://example.com'],` - array of allowed files sharing api origins
 

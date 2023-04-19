@@ -15,7 +15,7 @@ Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Stor
 
 ## Configuration
 
-You can configure the allowed origins for both wwebdav/caldav or files sharing api on the settings
+You can configure the allowed origins for both WebDAV/CalDAV or files sharing api on the settings
 page of the application.
 
 

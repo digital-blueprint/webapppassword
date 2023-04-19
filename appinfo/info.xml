@@ -4,8 +4,8 @@
     <id>webapppassword</id>
     <name>WebAppPassword</name>
     <summary>Temporary app password generator and WebDAV/CalDAV CORS header injection</summary>
-    <description><![CDATA[Temporary app password generator and WebDAV/CalDAV CORS header injection to be able access the
-Nextcloud WebDAV/CalDAV service from inside web applications.
+    <description><![CDATA[Temporary app password generator and WebDAV/CalDAV CORS header injection to be able to access the
+Nextcloud WebDAV/CalDAV service from inside web applications. There also is a files sharing api endpoint with CORS header injection.
 
 There is an [example implementation](https://github.com/digital-blueprint/webapppassword/blob/main/docs/example/index.html)
 that uses this app to generate a temporary password and make a WebDAV request to a Nextcloud instance

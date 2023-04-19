@@ -40,12 +40,15 @@ class AdminController extends Controller
      * @return array with the updated values
      */
     public function update(
-        $origins
+        $origins,
+        $files_sharing_origins
     ) {
         $this->config->setOrigins($origins);
+        $this->config->setFilesSharingOrigins($files_sharing_origins);
 
         return [
             'origins' => $this->config->getOrigins(),
+            'files_sharing_origins' => $this->config->getFilesSharingOrigins(),
         ];
     }
 }

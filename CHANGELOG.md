@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 23.4.0
+- A files sharing API with origin check was added
+  (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1), thank you @aleixq)
+
 ## 23.3.0
 - Updated and tested app for Nextcloud 26
 

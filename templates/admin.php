@@ -41,8 +41,10 @@ style('webapppassword', 'admin');
                   value="<?php p($_['files_sharing_origins']); ?>">
         </p>
         <p>
-
-      <em><?php print_unescaped($l->t('It exposes parts of the %sOCS Share API%s (CRUD and the preflight OPTIONS endpoint) in this url:',['<a href="https://docs.nextcloud.com/server/latest/developer_manual/client_apis/OCS/ocs-share-api.html">','</a>'])); ?> /index.php/apps/webapppassword/api/v1/shares</em>
+            <em>
+                <?php print_unescaped($l->t('It exposes parts of the %sOCS Share API%s (CRUD and the preflight OPTIONS endpoint) in this url:', ['<a href="https://docs.nextcloud.com/server/latest/developer_manual/client_apis/OCS/ocs-share-api.html">','</a>'])); ?>
+                <code>/index.php/apps/webapppassword/api/v1/shares</code>.
+            </em>
         </p>
     </div>
 </div>

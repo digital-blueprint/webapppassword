@@ -15,7 +15,8 @@ rsync -a --exclude .git* --exclude .gitlab-ci* --exclude .github --exclude scree
   --exclude docs --exclude tests --exclude vendor --exclude package.* \
   --exclude Makefile --exclude *.db* --exclude docker --exclude *.phar \
   --exclude *.gz --exclude .idea --exclude .renovaterc.json --exclude .php-cs* \
-  --exclude phpstan.* --exclude phpunit.xml --exclude psalm.xml \
+  --exclude phpstan.* --exclude phpunit.xml --exclude psalm.xml --exclude shell.nix \
+  --exclude .envrc --exclude .direnv \
   ${APP_SOURCE}/ ${APP_DEST} && \
 su -m -c "./occ integrity:sign-app \
   --privateKey=${CERT_PATH}/${APP_NAME}.key \

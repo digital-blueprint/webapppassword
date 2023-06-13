@@ -1,4 +1,5 @@
-FROM nextcloud:26-apache
+#FROM nextcloud:26-apache
+FROM ghcr.io/pbek/nextcloud-docker-pre-apache:latest
 
 COPY entrypoint.sh /
 

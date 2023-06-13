@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 23.6.0
+- Updated and tested app for Nextcloud 27
+- Updated dependencies
+
 ## 23.4.1
 - Updated store description (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1))
 

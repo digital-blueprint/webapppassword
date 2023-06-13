@@ -14,6 +14,7 @@
 
 - Make sure the version in `appinfo/info.xml` and the `CHANGELOG.md` are updated
 - Build the app with `make build`
+- Test the app with the example in `docs/example` by calling `make serve` and visiting <http://localhost:8001/>
 - Sign the app with `cd docker && make sign-app`
     - You should now have a `webapppassword.tar.gz` in your git directory
     - Check the content of the archive for unwanted files (you can exclude more files in

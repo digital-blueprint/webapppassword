@@ -863,16 +863,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.21.0",
+            "version": "v3.21.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "f29a0598c022baf99d2136da533820fec63167ed"
+                "reference": "80f68059bd371cd42c7b03bb6caa6352faed5b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/f29a0598c022baf99d2136da533820fec63167ed",
-                "reference": "f29a0598c022baf99d2136da533820fec63167ed",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/80f68059bd371cd42c7b03bb6caa6352faed5b8e",
+                "reference": "80f68059bd371cd42c7b03bb6caa6352faed5b8e",
                 "shasum": ""
             },
             "require": {
@@ -896,6 +896,7 @@
                 "symfony/stopwatch": "^5.4 || ^6.0"
             },
             "require-dev": {
+                "facile-it/paraunit": "^1.3 || ^2.0",
                 "justinrainbow/json-schema": "^5.2",
                 "keradus/cli-executor": "^2.0",
                 "mikey179/vfsstream": "^1.6.11",
@@ -947,7 +948,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.21.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.21.2"
             },
             "funding": [
                 {
@@ -955,7 +956,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-05T21:28:10+00:00"
+            "time": "2023-07-16T09:28:11+00:00"
         },
         {
             "name": "myclabs/deep-copy",

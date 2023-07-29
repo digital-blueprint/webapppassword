@@ -29,6 +29,7 @@ class Admin implements ISettings
         $parameters = [
             'origins' => $this->config->getOrigins(),
             'files_sharing_origins' => $this->config->getFilesSharingOrigins(),
+            'preview_origins' => $this->config->getPreviewOrigins(),
         ];
 
         return new TemplateResponse('webapppassword', 'admin', $parameters);

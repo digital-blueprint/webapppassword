@@ -4,6 +4,7 @@ document.querySelector("#webapppassword-store-origins").onclick = (e) => {
     const data = {
         origins: document.querySelector("#webapppassword-origins").value,
         files_sharing_origins: document.querySelector("#files-sharing-webapppassword-origins").value,
+        preview_origins: document.querySelector("#preview-webapppassword-origins").value,
     };
 
     const apiUrl = OC.generateUrl('/apps/webapppassword/admin');
@@ -21,6 +22,7 @@ document.querySelector("#webapppassword-store-origins").onclick = (e) => {
         .then((data) => {
             document.querySelector("#webapppassword-origins").value = data.origins;
             document.querySelector("#files-sharing-webapppassword-origins").value = data.files_sharing_origins;
+            document.querySelector("#preview-webapppassword-origins").value = data.preview_origins;
             const successIndicator = document.querySelector("#webapppassword-saved-message");
             successIndicator.classList.add('show');
 

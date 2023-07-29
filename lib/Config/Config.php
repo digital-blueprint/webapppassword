@@ -58,31 +58,30 @@ class Config
 
     /**
      * Serializes the allowed share api origins in a string.
-     * 
-     * @return string
-     *   List allowed share api origins separated by commas.
      *
+     * @return string
+     *                List allowed share api origins separated by commas
      */
     public function getFilesSharingOrigins(): string
     {
         $origins = $this->config->getAppValue('webapppassword', 'files_sharing_origins');
-        
+
         if ($origins === '') {
-        $origins = implode(',', $this->config->getSystemValue('webapppassword.files_sharing_origins', []));
+            $origins = implode(',', $this->config->getSystemValue('webapppassword.files_sharing_origins', []));
         }
 
         if ($origins === null) {
-        $origins = '';
+            $origins = '';
         }
 
         return implode(',', array_map('trim', explode(',', $origins)));
     }
 
     /**
-     * Gets an array of the defined share api allowed origins
+     * Gets an array of the defined share api allowed origins.
      *
      * @return array
-     *   List of allowed share api origins.
+     *               List of allowed share api origins
      */
     protected function getFilesSharingOriginList()
     {
@@ -90,14 +89,58 @@ class Config
     }
 
     /**
-     * Sets the defined share api allowed origins
+     * Sets the defined share api allowed origins.
      *
      * @param string $value
-     *   Comma separated List of allowed share api origins.
-     */    
+     *                      Comma separated List of allowed share api origins
+     */
     public function setFilesSharingOrigins($value)
     {
         $this->config->setAppValue('webapppassword', 'files_sharing_origins', $value);
         $this->logger->info('Files Sharing Origins were updated!');
-    }    
+    }
+
+    /**
+     * Serializes the allowed preview api origins in a string.
+     *
+     * @return string
+     *                List allowed preview api origins separated by commas
+     */
+    public function getPreviewOrigins(): string
+    {
+        $origins = $this->config->getAppValue('webapppassword', 'preview_origins');
+
+        if ($origins === '') {
+            $origins = implode(',', $this->config->getSystemValue('webapppassword.preview_origins', []));
+        }
+
+        if ($origins === null) {
+            $origins = '';
+        }
+
+        return implode(',', array_map('trim', explode(',', $origins)));
+    }
+
+    /**
+     * Gets an array of the defined preview api allowed origins.
+     *
+     * @return array
+     *               List of allowed preview api origins
+     */
+    protected function getPreviewOriginList()
+    {
+        return explode(',', $this->getPreviewOrigins());
+    }
+
+    /**
+     * Sets the defined preview api allowed origins.
+     *
+     * @param string $value
+     *                      Comma separated List of allowed preview api origins
+     */
+    public function setPreviewOrigins($value)
+    {
+        $this->config->setAppValue('webapppassword', 'preview_origins', $value);
+        $this->logger->info('Preview origins were updated!');
+    }
 }

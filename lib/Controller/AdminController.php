@@ -41,14 +41,17 @@ class AdminController extends Controller
      */
     public function update(
         $origins,
-        $files_sharing_origins
+        $files_sharing_origins,
+        $preview_origins
     ) {
         $this->config->setOrigins($origins);
         $this->config->setFilesSharingOrigins($files_sharing_origins);
+        $this->config->setPreviewOrigins($preview_origins);
 
         return [
             'origins' => $this->config->getOrigins(),
             'files_sharing_origins' => $this->config->getFilesSharingOrigins(),
+            'preview_origins' => $this->config->getPreviewOrigins(),
         ];
     }
 }

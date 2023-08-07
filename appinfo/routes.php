@@ -50,6 +50,11 @@ return [
 			'url' => '/api/v1/shares/{id}',
 			'verb' => 'DELETE',
 		]
+    /*
+     * Core preview API
+     */
+    ['name' => 'Preview#getPreviewByFileId', 'url' => '/core/preview', 'verb' => 'GET'],
+    ['name' => 'Preview#preflighted_cors', 'url' => '/core/preview', 'verb' => 'OPTIONS'],
         
     ],
 ];

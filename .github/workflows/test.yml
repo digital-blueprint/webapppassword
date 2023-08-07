@@ -58,6 +58,8 @@ jobs:
         cd nextcloud
         php -S localhost:8080 &
         cd apps/webapppassword
+        php /usr/local/bin/composer install
+        php /usr/local/bin/composer run lint
         php /usr/local/bin/composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}
         make test
       if: ${{ matrix.php-versions == '7.4' }}

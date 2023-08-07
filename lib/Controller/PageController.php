@@ -99,8 +99,8 @@ class PageController extends Controller
 
         // https://help.nextcloud.com/t/solved-nextcloud-16-how-to-allow-iframe-usage/52278/8?u=pbek
         // https://helpcenter.onlyoffice.com/server/integration-edition/third-party-domains.aspx
-//        $response->addHeader('Content-Security-Policy', "frame-ancestors 'self' http://127.0.0.1:8001;");
-//        $response->addHeader('X-Test', "123123");
+        //        $response->addHeader('Content-Security-Policy', "frame-ancestors 'self' http://127.0.0.1:8001;");
+        //        $response->addHeader('X-Test', "123123");
 
         return $response;
     }
@@ -121,17 +121,17 @@ class PageController extends Controller
         // to invalidate the token in the first check after 5min, using $this->session solves the problem
         // https://gitlab.tugraz.at/dbp/nextcloud/webapppassword/-/issues/11
 
-//        try {
-//            $credentials = $this->credentialStore->getLoginCredentials();
-//        } catch (CredentialsUnavailableException $e) {
-//            throw new OCSForbiddenException();
-//        }
-//
-//        try {
-//            $password = $credentials->getPassword();
-//        } catch (PasswordUnavailableException $e) {
-//            $password = null;
-//        }
+        //        try {
+        //            $credentials = $this->credentialStore->getLoginCredentials();
+        //        } catch (CredentialsUnavailableException $e) {
+        //            throw new OCSForbiddenException();
+        //        }
+        //
+        //        try {
+        //            $password = $credentials->getPassword();
+        //        } catch (PasswordUnavailableException $e) {
+        //            $password = null;
+        //        }
 
         try {
             $sessionId = $this->session->getId();
@@ -153,7 +153,7 @@ class PageController extends Controller
         }
 
         $uid = $this->userSession->getUser()->getUID();
-//        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
+        //        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
         $targetOrigin = $this->request->getHeader('target-origin');
         $name = $targetOrigin.' '.$this->request->getHeader('USER_AGENT');
         $token = $this->random->generate(

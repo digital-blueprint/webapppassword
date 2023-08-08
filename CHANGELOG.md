@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## Next
+- Basic preview API support was added
+  (for [#94](https://github.com/digital-blueprint/webapppassword/pull/94), thank you @aleixq)
+
 ## 23.6.0
 - Updated and tested app for Nextcloud 27
 - Updated dependencies

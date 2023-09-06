@@ -44,14 +44,14 @@ Under the hood it exposes parts of the preview api (get and the preflight OPTION
 `https://example.com/index.php/apps/webapppassword/core/preview`
 
 
-
 ## Docker
 
 You can use this container for development and testing of the application.
 
 ```bash
 cd docker
-docker-compose up
+docker compose build
+docker compose up
 ```
 
 * <http://localhost:8081> admin/admin

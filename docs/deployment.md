@@ -8,9 +8,26 @@
 
 ## Test the app
 
-- see example at [README.md](../README.md) for how to test the app
+- See example at [README.md](../README.md) for how to test the app
 
-### Signing and releasing
+### Test app for next release of Nextcloud
+
+To test the app for the next release of Nextcloud you need to create update at least the `apache` version in
+the `pre-release` directory of the [Digital Blueprint Nextcloud Docker Fork](https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release/pre-release)
+to use the latest release candidate version of Nextcloud.
+
+- Do a `Sync fork` on the [pre-release branch](https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release)
+- Update the configurations in the [pre-release directory](https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release/pre-release)
+    - Lookup the latest release candidate version of Nextcloud on the [Nextcloud Server Branches GitHub page](https://github.com/nextcloud/server/branches/all)
+    - You then need to use that version in the `Dockerfile` files
+- Wait until the [GitHub Workflow](https://github.com/digital-blueprint/nextcloud-docker/actions/workflows/build-deploy-pre-images.yml)
+  has finished and the new image for [nextcloud-docker-pre-apache](https://github.com/digital-blueprint/nextcloud-docker/pkgs/container/nextcloud-docker-pre-apache)
+  is available
+- Jump to the directory `./docker` in a terminal and do a `docker compose build && docker compose up`
+- Visit <http://localhost:8081> and login with `admin`/`admin`
+- Do your testing (TODO)
+
+## Signing and releasing
 
 - Make sure the version in `appinfo/info.xml` and the `CHANGELOG.md` are updated
 - Build the app with `make build`

@@ -1,4 +1,4 @@
 # Documentation
 
-- [Development](development.md)
+- [Development and Testing](development.md)
 - [Deployment](deployment.md)

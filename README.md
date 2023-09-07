@@ -62,7 +62,7 @@ docker compose up
 You can start a php server with `cd docs/example && php -S localhost:8082` to see an example
 page on <http://localhost:8082/>.
 
-If you have started the docker container you can login to your Nextcloud container with `admin`/`admin` and
+If you have started the docker container you can log in to your Nextcloud container with `admin`/`admin` and
 receive a temporary app password for your user.
 
 There also is our [Nextcloud file picker](https://gitlab.tugraz.at/dbp/web-components/toolkit/-/tree/master/packages/file-handling#filesource)

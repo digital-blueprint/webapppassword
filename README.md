@@ -96,7 +96,7 @@ See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/
 ## References
 
 This Nextcloud application is used in the
-[NextcloudFilePicker](https://gitlab.tugraz.at/dbp/web-components/toolkit/-/blob/master/packages/file-handling/src/dbp-nextcloud-file-picker.js)
+[NextcloudFilePicker]https://github.com/digital-blueprint/toolkit/blob/main/packages/file-handling/src/nextcloud-file-picker.js)
 web component to generate temporary app passwords and to allow WebDAV-access from
 inside the web browser.
 

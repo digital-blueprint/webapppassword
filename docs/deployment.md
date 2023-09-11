@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Copy your app certificate files to `./docker/nextcloud/certificates`
-    - Take a look at [webapppassword.md](https://gitlab.tugraz.at/vpu-private/vpu-docs-private/-/blob/master/docs/projects/webapppassword.md)
+    - Take a look at [WebAppPassword Internal Knowledgebase](https://gitlab.tugraz.at/vpu-private/vpu-docs-private/-/tree/main/docs/projects/webapppassword)
       on how to get the files
 
 ## Test the app

@@ -27,7 +27,7 @@
 - Create a new release on [WebAppPassword releases](https://github.com/digital-blueprint/webapppassword/releases/)
   with the version like `v23.1.0` as *Tag name* and *Release title* and the changelog text of the current
   release as *Release notes*
-    - Alternatively you can push to the `release` branch and the GitHub action will create
+    - Alternatively you can rebase and push to the `release` branch and the GitHub action will create
       a draft release for you
     - You also need to upload `webapppassword.tar.gz` to the release and get its url
 - Take the text from *Signature for your app archive*, which was printed by the sign-app command and

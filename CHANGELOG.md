@@ -2,7 +2,7 @@
 
 ## Next
 - Basic preview API support was added
-  (for [#94](https://github.com/digital-blueprint/webapppassword/pull/94), thank you @aleixq)
+  (for [#94](https://github.com/digital-blueprint/webapppassword/pull/94), thank you, @aleixq)
 
 ## 23.6.0
 - Updated and tested app for Nextcloud 27
@@ -13,7 +13,7 @@
 
 ## 23.4.0
 - A files sharing API with origin check was added
-  (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1), thank you @aleixq)
+  (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1), thank you, @aleixq)
 
 ## 23.3.0
 - Updated and tested app for Nextcloud 26
@@ -24,7 +24,7 @@
 ## 22.10.0
 - Enabled and tested app for Nextcloud 25
 - Added support for Access-Control-Allow-Credentials header
-  (for [#6](https://github.com/digital-blueprint/webapppassword/issues/6), thank you @powerflo)
+  (for [#6](https://github.com/digital-blueprint/webapppassword/issues/6), thank you, @powerflo)
 
 ## 22.5.0
 - Enabled and tested app for Nextcloud 24

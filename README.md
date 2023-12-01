@@ -65,7 +65,7 @@ page on <http://localhost:8082/>.
 If you have started the docker container you can log in to your Nextcloud container with `admin`/`admin` and
 receive a temporary app password for your user.
 
-There also is our [Nextcloud file picker](https://gitlab.tugraz.at/dbp/web-components/toolkit/-/tree/master/packages/file-handling#filesource)
+There also is the `FileSource` component of our [Nextcloud file picker](https://github.com/digital-blueprint/toolkit/tree/main/packages/file-handling)
 in the example.
 
 ![screenshot](screenshot-filepicker.png)

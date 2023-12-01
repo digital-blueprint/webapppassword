@@ -24,6 +24,7 @@
     - Check the content of the archive for unwanted files (you can exclude more files in
       `docker/nextcloud/sign-app.sh`)
 - Commit and push your changes to the git repository
+  - You can use a commit message like `release: make changes for Nextcloud 28`
 - Create a new release on [WebAppPassword releases](https://github.com/digital-blueprint/webapppassword/releases/)
   with the version like `v23.1.0` as *Tag name* and *Release title* and the changelog text of the current
   release as *Release notes*

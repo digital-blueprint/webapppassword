@@ -2,8 +2,8 @@
   pkgs.mkShell {
     # nativeBuildInputs is usually what you want -- tools you need to run
     nativeBuildInputs = [
-      pkgs.php82
-      pkgs.php82Packages.composer
+      pkgs.php83
+      pkgs.php83Packages.composer
     ];
 }
 

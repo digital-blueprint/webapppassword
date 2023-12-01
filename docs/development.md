@@ -32,6 +32,6 @@ to use the latest release candidate version of Nextcloud.
   is available
 - Turn off [GitHub Actions](https://github.com/digital-blueprint/nextcloud-docker/settings/actions) again
   so that the scheduler doesn't attempt to build the images by Nextcloud (where we don't have access)
-- Jump to the directory `./docker` in a terminal and do a `docker compose build && docker compose up`
+- In the `webapppassword` project jump to the directory `./docker` in a terminal and do a `docker compose build && docker compose up`
 - Visit <http://localhost:8081> and login with `admin`/`admin`
 - Do your testing, for example with [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance

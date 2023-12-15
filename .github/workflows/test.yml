@@ -14,11 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0', '8.1', '8.2']
-        nextcloud-versions: ['stable28']
+        php-versions: ['8.0', '8.1', '8.2']
+        nextcloud-versions: ['stable27', 'stable28']
         include:
-          - php-versions: 8.2
-            nextcloud-versions: stable27
           - php-versions: 8.2
             nextcloud-versions: stable26
           - php-versions: 8.2

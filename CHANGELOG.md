@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 24.1.0
+- Fixed `app.info` deprecation warning debug message
+  (for [#145](https://github.com/digital-blueprint/webapppassword/issues/145)
+
 ## 23.12.0
 - Basic preview API support was added
   (for [#94](https://github.com/digital-blueprint/webapppassword/pull/94), thank you, @aleixq)

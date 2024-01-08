@@ -2,7 +2,7 @@
 
 ## 24.1.0
 - Fixed `app.info` deprecation warning debug message
-  (for [#145](https://github.com/digital-blueprint/webapppassword/issues/145)
+  (for [#145](https://github.com/digital-blueprint/webapppassword/issues/145))
 - Updated dependencies
 
 ## 23.12.0

@@ -17,6 +17,9 @@ push-db:
 bash:
 	$(DOCKER_COMPOSE) run --rm app su -c "bash" www-data
 
+bash-root:
+	$(DOCKER_COMPOSE) run --rm app bash
+
 maintenance-mode-off:
 	$(DOCKER_COMPOSE) run --rm app su -c "./occ maintenance:mode --off" www-data
 

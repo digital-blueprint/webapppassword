@@ -3,6 +3,7 @@
 ## 24.1.1
 - The missing controller for the Preview API was added
   (for [#149](https://github.com/digital-blueprint/webapppassword/issues/149))
+- Updated dependencies
 
 ## 24.1.0
 - Fixed `app.info` deprecation warning debug message

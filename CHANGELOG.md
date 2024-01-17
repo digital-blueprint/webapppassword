@@ -2,7 +2,7 @@
 
 ## 24.1.1
 - The missing controller for the Preview API was added
-  (for [#149](https://github.com/digital-blueprint/webapppassword/issues/149))
+  (for [#149](https://github.com/digital-blueprint/webapppassword/issues/149), thank you, @aleixq)
 - Updated dependencies
 
 ## 24.1.0

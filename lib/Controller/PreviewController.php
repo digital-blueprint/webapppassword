@@ -65,11 +65,9 @@ class PreviewController extends CorePreviewController
      */
     public function preflightedCors()
     {
-        if (isset($this->request->server['HTTP_ORIGIN'])) {
-            $origin = $this->request->server['HTTP_ORIGIN'];
-        } else {
-            $origin = '*';
-        }
+        // Disallow by default
+        // "null" is not advised to be used as an origin
+        $origin = $this->request->server['HTTP_ORIGIN'] ?? '';
 
         $response = new Response();
         $response->addHeader('Access-Control-Allow-Origin', $origin);

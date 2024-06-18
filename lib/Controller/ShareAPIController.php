@@ -31,20 +31,9 @@ class ShareAPIController extends FilesSharingShareAPIController
      *
      * @suppress PhanUndeclaredClassMethod
      */
-    public function createShare(
-        string $path = null,
-        int $permissions = null,
-        int $shareType = -1,
-        string $shareWith = null,
-        string $publicUpload = 'false',
-        string $password = '',
-        string $sendPasswordByTalk = null,
-        string $expireDate = '',
-        string $note = '',
-        string $label = '',
-        string $attributes = null
+    public function createShare(...$args
     ): DataResponse {
-        $response = parent::createShare(...func_get_args());
+        $response = parent::createShare(...$args);
 
         return $this->checkOrigin($response);
     }

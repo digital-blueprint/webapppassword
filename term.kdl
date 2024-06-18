@@ -11,17 +11,21 @@ layout {
     }
   }
   pane split_direction="vertical" size="40%" {
-    pane size="25%" {
+    pane {
       command "npm"
       args "install"
     }
-    pane size="25%" {
+    pane {
       command "composer"
       args "install"
     }
-    pane size="50%" {
+    pane {
       command "npm"
       args "run" "watch"
+    }
+    pane cwd="docs/example" {
+      command "make"
+      args "serve"
     }
   }
   pane size=1 borderless=true {

@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 24.6.0
+- Fix breaking change introduced in Nextcloud 29.0.2
+  (for [#200](https://github.com/digital-blueprint/webapppassword/issues/200))
+
 ## 24.4.0
 - Updated and tested app for Nextcloud 29 (for [#177](https://github.com/digital-blueprint/webapppassword/issues/177))
 - Updated dependencies

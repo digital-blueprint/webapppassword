@@ -153,3 +153,11 @@ appstore:
 test: composer
 	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
 	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+
+.PHONY: term
+term:
+	zellij --layout term.kdl attach webapppassword -cf
+
+.PHONY: term-kill
+term-kill:
+	zellij delete-session webapppassword -f

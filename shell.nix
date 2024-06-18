@@ -1,9 +1,11 @@
 { pkgs ? import <nixpkgs> {} }:
   pkgs.mkShell {
-    # nativeBuildInputs is usually what you want -- tools you need to run
-    nativeBuildInputs = [
-      pkgs.php83
-      pkgs.php83Packages.composer
+    nativeBuildInputs = with pkgs; [
+      gnumake
+      nodejs
+      php83
+      php83Packages.composer
+      zellij # smart terminal workspace
+      lazygit # git terminal
     ];
 }
-

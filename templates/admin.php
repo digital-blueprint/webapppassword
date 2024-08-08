@@ -18,6 +18,7 @@ style('webapppassword', 'admin');
                   id="webapppassword-origins"
                   name="webapppassword-origins"
                   placeholder="https://example.com,https://example2.com"
+                  autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['origins']); ?>">
         </p>
     </div>
@@ -38,6 +39,7 @@ style('webapppassword', 'admin');
                   id="files-sharing-webapppassword-origins"
                   name="files-sharing-webapppassword-origins"
                   placeholder="https://example.com,https://example2.com"
+                  autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['files_sharing_origins']); ?>">
         </p>
         <p>
@@ -64,6 +66,7 @@ style('webapppassword', 'admin');
                   id="preview-webapppassword-origins"
                   name="preview-webapppassword-origins"
                   placeholder="https://example.com,https://example2.com"
+                  autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['preview_origins']); ?>">
         </p>
         <p>

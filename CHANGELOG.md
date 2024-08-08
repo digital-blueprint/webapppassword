@@ -1,6 +1,8 @@
 # WebAppPassword Change Log
 
 ## 24.8.0
+- Prevent common password managers to fill out admin form
+  (for [#215](https://github.com/digital-blueprint/webapppassword/issues/215))
 - Updated dependencies
 
 ## 24.6.0

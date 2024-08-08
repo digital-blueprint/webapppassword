@@ -1,11 +1,12 @@
 # Use this if there is a release image
 #FROM nextcloud:27-apache
+#FROM nextcloud:28-apache
+FROM nextcloud:29-apache
 
 # Use this if there is no release image yet
 # https://github.com/digital-blueprint/nextcloud-docker/pkgs/container/nextcloud-docker-pre-apache
 # https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release
-FROM ghcr.io/digital-blueprint/nextcloud-docker-pre-apache:latest
-#FROM nextcloud:29-apache
+#FROM ghcr.io/digital-blueprint/nextcloud-docker-pre-apache:latest
 
 COPY entrypoint.sh /
 

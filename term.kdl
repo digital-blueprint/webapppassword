@@ -12,20 +12,17 @@ layout {
   }
   pane split_direction="vertical" size="40%" {
     pane {
-      command "npm"
-      args "install"
-    }
-    pane {
       command "composer"
       args "install"
-    }
-    pane {
-      command "npm"
-      args "run" "watch"
     }
     pane cwd="docs/example" {
       command "make"
       args "serve"
+    }
+    pane cwd="docker" {
+      command "make"
+      args "build"
+      start_suspended true
     }
   }
   pane size=1 borderless=true {

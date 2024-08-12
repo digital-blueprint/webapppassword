@@ -3,6 +3,8 @@
 ## 24.8.0
 - Prevent common password managers to fill out admin form
   (for [#215](https://github.com/digital-blueprint/webapppassword/issues/215))
+- Restore file sharing API in Nextcloud 27+
+  (for [#197](https://github.com/digital-blueprint/webapppassword/issues/197), thank you, @DanRiess)
 - Updated dependencies
 
 ## 24.6.0

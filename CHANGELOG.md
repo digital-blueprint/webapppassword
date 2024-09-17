@@ -1,5 +1,7 @@
 # WebAppPassword Change Log
 
+## 24.9.0
+- Updated and tested app for Nextcloud 30 (for [#226](https://github.com/digital-blueprint/webapppassword/issues/226))
 ## 24.8.0
 - Prevent common password managers to fill out admin form
   (for [#215](https://github.com/digital-blueprint/webapppassword/issues/215))

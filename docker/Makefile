@@ -36,4 +36,5 @@ show-log:
 	$(DOCKER_COMPOSE) run --rm app tail -f /var/www/html/data/nextcloud.log
 
 remove-volumes:
+	docker compose down && \
 	docker volume rm --force nextcloud-webapppassword_nextcloud

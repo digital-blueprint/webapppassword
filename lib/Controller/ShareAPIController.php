@@ -9,7 +9,13 @@ namespace OCA\WebAppPassword\Controller;
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -18,7 +24,10 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
+use OCP\Mail\IMailer;
 use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -46,6 +55,8 @@ class ShareAPIController extends FilesSharingShareAPIController
 		private IUserStatusManager $userStatusManager,
 		private IPreview $previewManager,
 		private IDateTimeZone $dateTimeZone,
+        private IProviderFactory $factory,
+        private IMailer $mailer,
 		private LoggerInterface $logger,
 		IUserSession $userSession,
 	) {
@@ -58,34 +69,43 @@ class ShareAPIController extends FilesSharingShareAPIController
 
 
 		// Call the constructor.
-		// The paremeter order is different between versions, this has to be accounted for.
+		// The parameter order is different between versions, this has to be accounted for.
 		// Version string is identical for 27.1.10.1 and 27.1.10.2.
-		$version = OC_Util::getVersionString();
-		if ($version == '27.1.10') {
+        $intVersion = OC_Util::getVersion();
+        if ($intVersion[0] > 29) {
+            parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $uid);
+        }
+        else if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] ==  '10') {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $uid, $l, $config, $appManager, $serverContainerOld, $userStatusManager, $previewManager, $dateTimeZone);
 		} else {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $uid);
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $path
-	 * @param int    $permissions
-	 * @param string $shareWith
-	 * @param string $sendPasswordByTalk
-	 * @param string $attributes
-	 *
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
-	 * @throws OCSException
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
-	 * @throws InvalidPathException
-	 *
-	 * @suppress PhanUndeclaredClassMethod
-	 */
+    /**
+     * @NoAdminRequired
+     *
+     * @param string|null $path
+     * @param int|null $permissions
+     * @param int $shareType
+     * @param string|null $shareWith
+     * @param string $publicUpload
+     * @param string $password
+     * @param string|null $sendPasswordByTalk
+     * @param string|null $expireDate
+     * @param string $note
+     * @param string $label
+     * @param string|null $attributes
+     * @param string|null $sendMail
+     * @return DataResponse
+     * @throws NotFoundException
+     * @throws OCSBadRequestException
+     * @throws OCSForbiddenException
+     * @throws OCSNotFoundException
+     * @throws OCSException
+     * @throws InvalidPathException
+     * @suppress PhanUndeclaredClassMethod
+     */
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -97,8 +117,9 @@ class ShareAPIController extends FilesSharingShareAPIController
 		?string $expireDate = null,
 		string $note = '',
 		string $label = '',
-		?string $attributes = null
-	): DataResponse {
+        ?string $attributes = null,
+        ?string $sendMail = null
+    ): DataResponse {
 		$response = parent::createShare(...func_get_args());
 
 		return $this->checkOrigin($response);
@@ -191,25 +212,27 @@ class ShareAPIController extends FilesSharingShareAPIController
 		return $this->checkOrigin($response);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param int    $permissions
-	 * @param string $password
-	 * @param string $sendPasswordByTalk
-	 * @param string $publicUpload
-	 * @param string $expireDate
-	 * @param string $note
-	 * @param string $label
-	 * @param string $hideDownload
-	 * @param string $attributes
-	 *
-	 * @throws LockedException
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
-	 */
+    /**
+     * @NoAdminRequired
+     *
+     * @param string $id
+     * @param int|null $permissions
+     * @param string|null $password
+     * @param string|null $sendPasswordByTalk
+     * @param string|null $publicUpload
+     * @param string|null $expireDate
+     * @param string|null $note
+     * @param string|null $label
+     * @param string|null $hideDownload
+     * @param string|null $attributes
+     * @param string|null $sendMail
+     * @return DataResponse
+     * @throws OCSBadRequestException
+     * @throws OCSForbiddenException
+     * @throws OCSNotFoundException
+     * @throws NotFoundException
+     * @throws LockedException
+     */
 	public function updateShare(
 		string $id,
 		int $permissions = null,
@@ -220,7 +243,8 @@ class ShareAPIController extends FilesSharingShareAPIController
 		string $note = null,
 		string $label = null,
 		string $hideDownload = null,
-		string $attributes = null
+        string $attributes = null,
+        ?string $sendMail = null
 	): DataResponse {
 		$response = parent::updateShare(...func_get_args());
 

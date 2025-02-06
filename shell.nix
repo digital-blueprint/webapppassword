@@ -7,5 +7,7 @@
       php83Packages.composer
       zellij # smart terminal workspace
       lazygit # git terminal
+      just # task runner
+      act # run GitHub Actions locally
     ];
 }

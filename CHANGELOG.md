@@ -2,6 +2,7 @@
 
 ## 24.9.1
 - Updated and tested app for Nextcloud 31 (for [#260](https://github.com/digital-blueprint/webapppassword/issues/260))
+- Updated dependencies
 
 ## 24.9.0
 - Updated and tested app for Nextcloud 30 (for [#226](https://github.com/digital-blueprint/webapppassword/issues/226))

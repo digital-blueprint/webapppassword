@@ -1,6 +1,6 @@
 # WebAppPassword Change Log
 
-## 24.9.1
+## 25.2.0
 - Updated and tested app for Nextcloud 31 (for [#260](https://github.com/digital-blueprint/webapppassword/issues/260))
   - The custom `PsrLogger` was removed in favor of `\Psr\Log\LoggerInterface`,
     because it doesn't work with Nextcloud 31

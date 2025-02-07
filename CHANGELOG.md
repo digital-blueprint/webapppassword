@@ -2,6 +2,8 @@
 
 ## 24.9.1
 - Updated and tested app for Nextcloud 31 (for [#260](https://github.com/digital-blueprint/webapppassword/issues/260))
+  - The custom `PsrLogger` was removed in favor of `\Psr\Log\LoggerInterface`,
+    because it doesn't work with Nextcloud 31
 - Updated dependencies
 
 ## 24.9.0

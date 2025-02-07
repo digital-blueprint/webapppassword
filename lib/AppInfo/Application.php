@@ -24,7 +24,7 @@ namespace OCA\WebAppPassword\AppInfo;
 
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
-use OCA\WebAppPassword\Utility\PsrLogger;
+use \Psr\Log\LoggerInterface;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -48,25 +48,11 @@ class Application extends App
         $container = $this->getContainer();
         $server = $container->getServer();
 
-        // Register logger service
-        $container->registerService(PsrLogger::class, function (IContainer $c): PsrLogger {
-            return new PsrLogger(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('AppName')
-            );
-        });
-
-        // Register logger parameters
-        $container->registerService('LoggerParameters', function (IContainer $c): array {
-            return ['app' => $c->query('AppName')];
-        });
-
         // Register config service
         $container->registerService(Config::class, function (IContainer $c): Config {
             return new Config(
                 $c->query(IConfig::class),
-                $c->query(PsrLogger::class),
-                $c->query('LoggerParameters')
+                $c->query(LoggerInterface::class)
             );
         });
 

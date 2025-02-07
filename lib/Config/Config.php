@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\Config;
 
-use OCA\WebAppPassword\Utility\PsrLogger;
+use \Psr\Log\LoggerInterface;
 use OCP\IConfig;
 
 class Config
 {
-    /** @var IConfig */
-    private $config;
+    private IConfig $config;
 
-    /** @var PsrLogger */
-    private $logger;
-
-    private $loggerParams;
+    private LoggerInterface $logger;
 
     /**
      * Config constructor.
      */
     public function __construct(
         IConfig $config,
-        PsrLogger $logger,
-        $LoggerParameters
+        LoggerInterface $logger
     ) {
         $this->config = $config;
         $this->logger = $logger;
-        $this->loggerParams = $LoggerParameters;
     }
 
     public function getOrigins(): string

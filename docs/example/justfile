@@ -1,0 +1,19 @@
+# Use `just <recipe>` to run a recipe
+# https://just.systems/man/en/
+
+# By default, run the `--list` command
+default:
+    @just --list
+
+# Variables
+serveLocation := "localhost:8001"
+
+# Serve the WebAppPassword Demo at http://localhost:8001
+serve:
+    -pkill -f "php -S {{ serveLocation }}"
+    php -S {{ serveLocation }}
+
+# Open the browser with the WebAppPassword Demo
+[group('dev')]
+open-browser:
+    xdg-open http://{{ serveLocation }}

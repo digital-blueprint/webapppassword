@@ -20,11 +20,11 @@ layout {
         args "install"
       }
       pane cwd="docs/example" {
-        command "make"
+        command "just"
         args "serve"
       }
-      pane cwd="docker" {
-        command "make"
+      pane cwd="docker" name="Build the docker containers" {
+        command "just"
         args "build"
         start_suspended true
       }

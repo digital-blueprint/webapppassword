@@ -111,7 +111,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 		?int $permissions = null,
 		int $shareType = -1,
 		?string $shareWith = null,
-		string $publicUpload = 'false',
+        ?string $publicUpload = null,
 		string $password = '',
 		?string $sendPasswordByTalk = null,
 		?string $expireDate = null,
@@ -238,13 +238,14 @@ class ShareAPIController extends FilesSharingShareAPIController
 		int $permissions = null,
 		string $password = null,
 		string $sendPasswordByTalk = null,
-		string $publicUpload = null,
+		?string $publicUpload = null,
 		string $expireDate = null,
 		string $note = null,
 		string $label = null,
 		string $hideDownload = null,
         string $attributes = null,
-        ?string $sendMail = null
+        ?string $sendMail = null,
+        ?string $token = null
 	): DataResponse {
 		$response = parent::updateShare(...func_get_args());
 

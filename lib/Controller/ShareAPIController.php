@@ -32,7 +32,6 @@ use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use OCP\IUserSession;
-use OC_Util;
 use OCP\IServerContainer;
 
 class ShareAPIController extends FilesSharingShareAPIController
@@ -55,8 +54,8 @@ class ShareAPIController extends FilesSharingShareAPIController
 		private IUserStatusManager $userStatusManager,
 		private IPreview $previewManager,
 		private IDateTimeZone $dateTimeZone,
-        private IProviderFactory $factory,
-        private IMailer $mailer,
+		private IProviderFactory $factory,
+		private IMailer $mailer,
 		private LoggerInterface $logger,
 		IUserSession $userSession,
 	) {
@@ -67,60 +66,69 @@ class ShareAPIController extends FilesSharingShareAPIController
 		// will break if it is null, even if it is allowed by its constructor. Passing an empty string is fine.
 		$uid = $user ? $user->getUID() ?? '' : '';
 
-
 		// Call the constructor.
 		// The parameter order is different between versions, this has to be accounted for.
 		// Version string is identical for 27.1.10.1 and 27.1.10.2.
-        $intVersion = OC_Util::getVersion();
-        if ($intVersion[0] > 29) {
-            parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $uid);
-        }
-        else if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] ==  '10') {
+		$version = $this->config->getSystemValue('version', '0.0.0');
+		$intVersion = array_map('intval', explode('.', $version));
+
+		if ($intVersion[0] > 29) {
+			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $uid);
+		} else if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $uid, $l, $config, $appManager, $serverContainerOld, $userStatusManager, $previewManager, $dateTimeZone);
 		} else {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $uid);
 		}
 	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param string|null $path
-     * @param int|null $permissions
-     * @param int $shareType
-     * @param string|null $shareWith
-     * @param string $publicUpload
-     * @param string $password
-     * @param string|null $sendPasswordByTalk
-     * @param string|null $expireDate
-     * @param string $note
-     * @param string $label
-     * @param string|null $attributes
-     * @param string|null $sendMail
-     * @return DataResponse
-     * @throws NotFoundException
-     * @throws OCSBadRequestException
-     * @throws OCSForbiddenException
-     * @throws OCSNotFoundException
-     * @throws OCSException
-     * @throws InvalidPathException
-     * @suppress PhanUndeclaredClassMethod
-     */
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string|null $path
+	 * @param int|null $permissions
+	 * @param int $shareType
+	 * @param string|null $shareWith
+	 * @param string $publicUpload
+	 * @param string $password
+	 * @param string|null $sendPasswordByTalk
+	 * @param string|null $expireDate
+	 * @param string $note
+	 * @param string $label
+	 * @param string|null $attributes
+	 * @param string|null $sendMail
+	 * @return DataResponse
+	 * @throws NotFoundException
+	 * @throws OCSBadRequestException
+	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
+	 * @throws OCSException
+	 * @throws InvalidPathException
+	 * @suppress PhanUndeclaredClassMethod
+	 */
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
 		int $shareType = -1,
 		?string $shareWith = null,
-        ?string $publicUpload = null,
+		?string $publicUpload = null,
 		string $password = '',
 		?string $sendPasswordByTalk = null,
 		?string $expireDate = null,
 		string $note = '',
 		string $label = '',
-        ?string $attributes = null,
-        ?string $sendMail = null
-    ): DataResponse {
-		$response = parent::createShare(...func_get_args());
+		?string $attributes = null,
+		?string $sendMail = null
+	): DataResponse {
+		// Some NC versions expect $publicUpload to be a string and will throw if it is null.
+		// In case of a type error while the variable is null, call the parent function again with
+		// $publicUpload set to 'false' instead.
+		try {
+			$response = parent::createShare(...func_get_args());
+		} catch (\TypeError $e) {
+			if ($publicUpload == null && str_contains($e->getMessage(), 'Argument #5 ($publicUpload) must be of type string, null given')) {
+				$response = parent::createShare($path, $permissions, $shareType, $shareWith, 'false', $password, $sendPasswordByTalk, $expireDate, $note, $label, $attributes, $sendMail);
+			}
+		}
 
 		return $this->checkOrigin($response);
 	}
@@ -212,27 +220,27 @@ class ShareAPIController extends FilesSharingShareAPIController
 		return $this->checkOrigin($response);
 	}
 
-    /**
-     * @NoAdminRequired
-     *
-     * @param string $id
-     * @param int|null $permissions
-     * @param string|null $password
-     * @param string|null $sendPasswordByTalk
-     * @param string|null $publicUpload
-     * @param string|null $expireDate
-     * @param string|null $note
-     * @param string|null $label
-     * @param string|null $hideDownload
-     * @param string|null $attributes
-     * @param string|null $sendMail
-     * @return DataResponse
-     * @throws OCSBadRequestException
-     * @throws OCSForbiddenException
-     * @throws OCSNotFoundException
-     * @throws NotFoundException
-     * @throws LockedException
-     */
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @param int|null $permissions
+	 * @param string|null $password
+	 * @param string|null $sendPasswordByTalk
+	 * @param string|null $publicUpload
+	 * @param string|null $expireDate
+	 * @param string|null $note
+	 * @param string|null $label
+	 * @param string|null $hideDownload
+	 * @param string|null $attributes
+	 * @param string|null $sendMail
+	 * @return DataResponse
+	 * @throws OCSBadRequestException
+	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
+	 * @throws NotFoundException
+	 * @throws LockedException
+	 */
 	public function updateShare(
 		string $id,
 		int $permissions = null,
@@ -243,11 +251,20 @@ class ShareAPIController extends FilesSharingShareAPIController
 		string $note = null,
 		string $label = null,
 		string $hideDownload = null,
-        string $attributes = null,
-        ?string $sendMail = null,
-        ?string $token = null
+		string $attributes = null,
+		?string $sendMail = null,
+		?string $token = null
 	): DataResponse {
-		$response = parent::updateShare(...func_get_args());
+		// Some NC versions expect $publicUpload to be a string and will throw if it is null.
+		// In case of a type error while the variable is null, call the parent function again with
+		// $publicUpload set to 'false' instead.
+		try {
+			$response = parent::updateShare(...func_get_args());
+		} catch (\TypeError $e) {
+			if ($publicUpload == null && str_contains($e->getMessage(), 'Argument #5 ($publicUpload) must be of type string, null given')) {
+				$response = parent::updateShare($id, $permissions, $password, $sendPasswordByTalk, 'false', $expireDate, $note, $label, $hideDownload, $attributes, $sendMail, $token);
+			}
+		}
 
 		return $this->checkOrigin($response);
 	}

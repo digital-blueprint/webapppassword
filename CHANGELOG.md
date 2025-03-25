@@ -1,6 +1,7 @@
 # WebAppPassword Change Log
 
 ## 25.2.0
+
 - Updated and tested password functionality for Nextcloud 31 (for [#260](https://github.com/digital-blueprint/webapppassword/issues/260))
   - The custom `PsrLogger` was removed in favor of `\Psr\Log\LoggerInterface`,
     because it doesn't work with Nextcloud 31
@@ -8,11 +9,13 @@
 - Updated dependencies
 
 ## 24.9.0
+
 - Updated and tested app for Nextcloud 30 (for [#226](https://github.com/digital-blueprint/webapppassword/issues/226))
-    - Nextcloud instance breaking changes in the sharing API were fixed
+  - Nextcloud instance breaking changes in the sharing API were fixed
 - Updated dependencies
 
 ## 24.8.0
+
 - Prevent common password managers to fill out admin form
   (for [#215](https://github.com/digital-blueprint/webapppassword/issues/215))
 - Restore file sharing API in Nextcloud 27+
@@ -20,59 +23,73 @@
 - Updated dependencies
 
 ## 24.6.0
+
 - Fixed breaking change introduced in Nextcloud 29.0.2
   (for [#200](https://github.com/digital-blueprint/webapppassword/issues/200))
 - Updated dependencies
 
 ## 24.4.0
+
 - Updated and tested app for Nextcloud 29 (for [#177](https://github.com/digital-blueprint/webapppassword/issues/177))
 - Updated dependencies
 
 ## 24.1.1
+
 - The missing controller for the Preview API was added
   (for [#149](https://github.com/digital-blueprint/webapppassword/issues/149), thank you, @aleixq)
 - Updated dependencies
 
 ## 24.1.0
+
 - Fixed `app.info` deprecation warning debug message
   (for [#145](https://github.com/digital-blueprint/webapppassword/issues/145))
 - Updated dependencies
 
 ## 23.12.0
+
 - Basic preview API support was added
   (for [#94](https://github.com/digital-blueprint/webapppassword/pull/94), thank you, @aleixq)
 - Updated and tested app for Nextcloud 28
 - Updated dependencies
 
 ## 23.6.0
+
 - Updated and tested app for Nextcloud 27
 - Updated dependencies
 
 ## 23.4.1
+
 - Updated store description (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1))
 
 ## 23.4.0
+
 - A files sharing API with origin check was added
   (for [#1](https://github.com/digital-blueprint/webapppassword/issues/1), thank you, @aleixq)
 
 ## 23.3.0
+
 - Updated and tested app for Nextcloud 26
 
 ## 23.1.0
+
 - Migrate fully to [GitHub](https://github.com/digital-blueprint/webapppassword)
 
 ## 22.10.0
+
 - Enabled and tested app for Nextcloud 25
 - Added support for Access-Control-Allow-Credentials header
   (for [#6](https://github.com/digital-blueprint/webapppassword/issues/6), thank you, @powerflo)
 
 ## 22.5.0
+
 - Enabled and tested app for Nextcloud 24
 
 ## 21.12.0
+
 - Enabled and tested app for Nextcloud 23
 
 ## 21.7.0
+
 - Updated and tested app for Nextcloud 22
 
 ## 21.3.0

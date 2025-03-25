@@ -2,7 +2,7 @@
 
 // Don't return an app password if origin was not allowed
 if (!$_['not-allowed']) {
-    script('webapppassword', 'script');
+	script('webapppassword', 'script');
 }
 
 style('webapppassword', 'style');

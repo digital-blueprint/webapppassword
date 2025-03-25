@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\AppInfo;
 
+use \Psr\Log\LoggerInterface;
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
-use \Psr\Log\LoggerInterface;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -32,39 +32,37 @@ use OCP\IConfig;
 use OCP\IContainer;
 use OCP\SabrePluginEvent;
 
-class Application extends App
-{
-    public const APP_NAME = 'webapppassword';
+class Application extends App {
+	public const APP_NAME = 'webapppassword';
 
-    /**
-     * Application constructor.
-     *
-     * @throws QueryException
-     */
-    public function __construct(array $params = [])
-    {
-        parent::__construct(self::APP_NAME, $params);
+	/**
+	 * Application constructor.
+	 *
+	 * @throws QueryException
+	 */
+	public function __construct(array $params = []) {
+		parent::__construct(self::APP_NAME, $params);
 
-        $container = $this->getContainer();
-        $server = $container->getServer();
+		$container = $this->getContainer();
+		$server = $container->getServer();
 
-        // Register config service
-        $container->registerService(Config::class, function (IContainer $c): Config {
-            return new Config(
-                $c->query(IConfig::class),
-                $c->query(LoggerInterface::class)
-            );
-        });
+		// Register config service
+		$container->registerService(Config::class, function (IContainer $c): Config {
+			return new Config(
+				$c->query(IConfig::class),
+				$c->query(LoggerInterface::class)
+			);
+		});
 
-        /** @var IEventDispatcher $eventDispatcher */
-        $eventDispatcher = $server->query(IEventDispatcher::class);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $server->query(IEventDispatcher::class);
 
-        // Inject CORS headers to allow WebDAV access from inside a webpage
-        $eventDispatcher->addListener(
-            'OCA\DAV\Connector\Sabre::addPlugin',
-            function (SabrePluginEvent $event) use ($container) {
-                $event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
-            }
-        );
-    }
+		// Inject CORS headers to allow WebDAV access from inside a webpage
+		$eventDispatcher->addListener(
+			'OCA\DAV\Connector\Sabre::addPlugin',
+			function (SabrePluginEvent $event) use ($container) {
+				$event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
+			}
+		);
+	}
 }

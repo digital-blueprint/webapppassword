@@ -18,7 +18,6 @@ Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Stor
 You can configure the allowed origins for both WebDAV/CalDAV or files sharing api on the settings
 page of the application.
 
-
 ![screenshot](screenshot.png)
 
 Alternatively you can also add this setting to your `config/config.php`
@@ -43,7 +42,6 @@ Also, you can configure in the same way the files preview part.
 Under the hood it exposes parts of the preview api (get and the preflight OPTIONS endpoint) in this url:
 `https://example.com/index.php/apps/webapppassword/core/preview`
 
-
 ## Docker
 
 You can use this container for development and testing of the application.
@@ -54,8 +52,8 @@ docker compose build
 docker compose up
 ```
 
-* <http://localhost:8081> admin/admin
-* (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
+- <http://localhost:8081> admin/admin
+- (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
 
 ## Example
 

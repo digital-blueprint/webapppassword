@@ -25,8 +25,8 @@ to use the latest release candidate version of Nextcloud.
 - Turn on [GitHub Actions](https://github.com/digital-blueprint/nextcloud-docker/settings/actions)
   so that the images are built later
 - Update the configurations in the [pre-release directory](https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release/pre-release)
-    - Lookup the latest release candidate version of Nextcloud on the [Nextcloud Server Branches GitHub page](https://github.com/nextcloud/server/branches/all)
-    - You then need to use that version in the `Dockerfile` files
+  - Lookup the latest release candidate version of Nextcloud on the [Nextcloud Server Branches GitHub page](https://github.com/nextcloud/server/branches/all)
+  - You then need to use that version in the `Dockerfile` files
 - Wait until the [GitHub Workflow](https://github.com/digital-blueprint/nextcloud-docker/actions/workflows/build-deploy-pre-images.yml)
   has finished and the new image for [nextcloud-docker-pre-apache](https://github.com/digital-blueprint/nextcloud-docker/pkgs/container/nextcloud-docker-pre-apache)
   is available

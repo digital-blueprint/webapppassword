@@ -7,8 +7,8 @@ declare(strict_types=1);
 namespace OCA\WebAppPassword\Controller;
 
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -22,8 +22,10 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Share\IManager;
@@ -31,11 +33,8 @@ use OCP\Share\IProviderFactory;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use OCP\IUserSession;
-use OCP\IServerContainer;
 
-class ShareAPIController extends FilesSharingShareAPIController
-{
+class ShareAPIController extends FilesSharingShareAPIController {
 	use AccessControl;
 
 	public function __construct(
@@ -74,7 +73,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 
 		if ($intVersion[0] > 29) {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $uid);
-		} else if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
+		} elseif ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $uid, $l, $config, $appManager, $serverContainerOld, $userStatusManager, $previewManager, $dateTimeZone);
 		} else {
 			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $uid);
@@ -170,8 +169,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 	 *
 	 * @throws OCSNotFoundException
 	 */
-	public function getShare(string $id, bool $include_tags = false): DataResponse
-	{
+	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		$response = parent::getShare(...func_get_args());
 
 		return $this->checkOrigin($response);
@@ -197,8 +195,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 	 * @throws OCSBadRequestException
 	 * @throws SharingRightsException
 	 */
-	public function getInheritedShares(string $path): DataResponse
-	{
+	public function getInheritedShares(string $path): DataResponse {
 		$response = parent::getInheritedShares(...func_get_args());
 
 		return $this->checkOrigin($response);
@@ -213,8 +210,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 	 * @throws OCSBadRequestException
 	 * @throws SharingRightsException
 	 */
-	public function pendingShares(): DataResponse
-	{
+	public function pendingShares(): DataResponse {
 		$response = parent::pendingShares(...func_get_args());
 
 		return $this->checkOrigin($response);
@@ -276,8 +272,7 @@ class ShareAPIController extends FilesSharingShareAPIController
 	 *
 	 * @throws OCSNotFoundException
 	 */
-	public function deleteShare(string $id): DataResponse
-	{
+	public function deleteShare(string $id): DataResponse {
 		$response = parent::deleteShare(...func_get_args());
 
 		return $this->checkOrigin($response);

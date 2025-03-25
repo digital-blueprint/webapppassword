@@ -1,4 +1,4 @@
-name: 'nextcloud-webapppassword'
+name: "nextcloud-webapppassword"
 
 services:
   app:

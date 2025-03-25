@@ -84,4 +84,4 @@ jobs:
       - uses: cachix/install-nix-action@v31
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-      - run: nix-shell -p just --run "just fmt --ci"
+      - run: nix-shell --run "composer install && just fmt --ci"

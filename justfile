@@ -39,7 +39,7 @@ git-apply-patch:
 # Run the GitHub Actions test workflow locally with act
 [group('dev')]
 github-run-test:
-    act -W .github/workflows/test.yml
+    nix-shell -p act --run "act -W .github/workflows/test.yml"
 
 # Build the project
 [group('dev')]

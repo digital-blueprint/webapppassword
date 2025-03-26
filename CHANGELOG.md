@@ -1,5 +1,10 @@
 # WebAppPassword Change Log
 
+## 25.3.0
+
+- The sharing API was fixed for Nextcloud v28.0.14 and newer
+  (for [#271](https://github.com/digital-blueprint/webapppassword/issues/271), thank you, @DanRiess)
+
 ## 25.2.0
 
 - Updated and tested password functionality for Nextcloud 31 (for [#260](https://github.com/digital-blueprint/webapppassword/issues/260))

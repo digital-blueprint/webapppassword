@@ -33,8 +33,6 @@ includes = ["*.nix"]
 
 [formatter.php-cs-fixer]
 command = "php-cs-fixer"
-excludes = ["config/bundles.php"]
-includes = ["*.php"]
 options = ["fix", "--config", "./.php-cs-fixer.dist.php"]
 
 [formatter.shfmt]

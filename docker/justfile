@@ -16,9 +16,6 @@ volumeName := "nextcloud-webapppassword_nextcloud"
 
 alias remove-volumes := reset
 
-# Check the code, run tests and sign the app
-all: check-code test sign-app
-
 # Build the docker image
 build:
     {{ dockerComposeCommand }} build
@@ -62,6 +59,12 @@ sign-app-owncloud:
 # Show Nextcloud logs
 show-log:
     {{ dockerComposeCommand }} run --rm app tail -f /var/www/html/data/nextcloud.log
+
+run-unit-test:
+  {{ dockerComposeCommand }} run --rm app su -c "cd apps/webapppassword && php ./vendor/phpunit/phpunit/phpunit -c phpunit.xml" www-data
+
+run-integration-test:
+  {{ dockerComposeCommand }} run --rm app su -c "cd apps/webapppassword && php ./vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml" www-data
 
 # Remove the docker volume
 reset:

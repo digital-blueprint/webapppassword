@@ -59,10 +59,6 @@ sign-app:
 sign-app-owncloud:
     {{ dockerComposeCommand }} run --rm app ../sign-app-owncloud.sh
 
-# Run the tests
-test:
-    {{ dockerComposeCommand }} run --rm app su -c "cd apps/webapppassword && just test" www-data
-
 # Show Nextcloud logs
 show-log:
     {{ dockerComposeCommand }} run --rm app tail -f /var/www/html/data/nextcloud.log

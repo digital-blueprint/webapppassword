@@ -45,20 +45,16 @@ git-apply-patch:
 github-run-test:
     nix-shell -p act --run "act -W .github/workflows/test.yml"
 
+# Run the unit tests (only would work in a Nextcloud test environment)
+[group('dev')]
+test:
+    php ./vendor/phpunit/phpunit/phpunit -c phpunit.xml
+    php ./vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+
 # Build the project
 [group('dev')]
 build:
     make build
-
-# Format all justfiles
-[group('linter')]
-just-format:
-    #!/usr/bin/env bash
-    # Find all files named "justfile" recursively and run just --fmt --unstable on them
-    find . -type f -name "justfile" -print0 | while IFS= read -r -d '' file; do
-        echo "Formatting $file"
-        just --fmt --unstable -f "$file"
-    done
 
 # Format all files
 [group('linter')]

@@ -21,7 +21,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_id: ${{ steps.create_release.outputs.id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install libxml2-utils
         run: sudo apt-get install libxml2-utils
       - name: Set Env

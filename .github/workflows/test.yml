@@ -49,7 +49,7 @@ jobs:
       - name: Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - name: Checkout webapppassword
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: nextcloud/apps/webapppassword
       - name: Test app
@@ -80,7 +80,7 @@ jobs:
     name: Check code formatting with "just fmt"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
         with:
           nix_path: nixpkgs=channel:nixos-unstable

@@ -15,9 +15,9 @@ docker compose up
 - (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in [docker-compose.yml](../docker/docker-compose.yml>)
 - See [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance
 
-## Test app for next release of Nextcloud
+## Test app for the next release of Nextcloud
 
-To test the app for the next release of Nextcloud you need to create update at least the `apache` version in
+To test the app for the next release of Nextcloud, you need to create update at least the `apache` version in
 the `pre-release` directory of the [Digital Blueprint Nextcloud Docker Fork](https://github.com/digital-blueprint/nextcloud-docker/tree/pre-release/pre-release)
 to use the latest release candidate version of Nextcloud.
 
@@ -34,4 +34,4 @@ to use the latest release candidate version of Nextcloud.
   so that the scheduler doesn't attempt to build the images by Nextcloud (where we don't have access)
 - In the `webapppassword` project jump to the directory `./docker` in a terminal and do a `docker compose build && docker compose up`
 - Visit <http://localhost:8081> and login with `admin`/`admin`
-- Do your testing, for example with [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance
+- Do your testing, for example, with [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance

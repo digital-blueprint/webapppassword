@@ -10,9 +10,9 @@
 
 - See [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance
 
-### Test app for next release of Nextcloud
+### Test app for the next release of Nextcloud
 
-- See [Test app for next release of Nextcloud](development.md#test-app-for-next-release-of-nextcloud)
+- See [Test app for the next release of Nextcloud](development.md#test-app-for-next-release-of-nextcloud)
 
 ## Signing and releasing
 

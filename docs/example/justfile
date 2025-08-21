@@ -6,9 +6,9 @@ default:
     @just --list
 
 # Variables
-serveLocation := "localhost:8001"
+serveLocation := "localhost:8082"
 
-# Serve the WebAppPassword Demo at http://localhost:8001
+# Serve the WebAppPassword Demo at http://localhost:8082
 serve:
     -pkill -f "php -S {{ serveLocation }}"
     php -S {{ serveLocation }}

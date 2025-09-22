@@ -89,6 +89,8 @@ jobs:
   endpoints-check:
     name: Check that share api endpoints could be fetchable with Nextcloud ${{ matrix.nextcloud-versions }} php${{ matrix.php-versions }} unit tests
     runs-on: ubuntu-latest
+    needs: unit-tests
+    if: ${{ success() }}
     strategy:
       fail-fast: false
       matrix:

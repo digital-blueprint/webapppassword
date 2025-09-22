@@ -75,50 +75,6 @@ jobs:
   #      if: ${{ matrix.php-versions == '7.4' }}
   #      env:
   #        XDEBUG_MODE: coverage
-
-  format-check:
-    name: Check code formatting with "just fmt"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-      - run: nix-shell --run "composer install && just fmt --ci"
-
-  endpoints-check:
-    name: Check that share api endpoints could be fetchable with Nextcloud ${{ matrix.nextcloud-versions }} php${{ matrix.php-versions }} unit tests
-    runs-on: ubuntu-latest
-    needs: unit-tests
-    if: ${{ success() }}
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ["8.0", "8.1", "8.2"]
-        nextcloud-versions:
-          ["stable27", "stable28", "stable29", "stable30", "stable31"]
-        include:
-          - php-versions: 8.2
-            nextcloud-versions: stable26
-          - php-versions: 8.2
-            nextcloud-versions: stable25
-          - php-versions: 8.0
-            nextcloud-versions: stable24
-          - php-versions: 8.0
-            nextcloud-versions: stable23
-          - php-versions: 8.0
-            nextcloud-versions: stable22
-        exclude:
-          - php-versions: 8.0
-            nextcloud-versions: stable31
-          - php-versions: 8.0
-            nextcloud-versions: stable30    
-    steps:
-      #- uses: actions/checkout@v5
-      #- uses: cachix/install-nix-action@v31
-      #  with:
-      #    nix_path: nixpkgs=channel:nixos-unstable
-      #- run: nix-shell --run "composer install && just fmt --ci"
       - name: Run endpoints tests
         run: |
           cd nextcloud
@@ -132,4 +88,15 @@ jobs:
           #php /usr/local/bin/composer run cs || result=1
           #php /usr/local/bin/composer run phpstan || result=1
           #php /usr/local/bin/composer run psalm || result=1
-          #exit $result      
+          #exit $result        
+
+  format-check:
+    name: Check code formatting with "just fmt"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - run: nix-shell --run "composer install && just fmt --ci"
+

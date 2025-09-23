@@ -76,8 +76,11 @@ jobs:
   #      env:
   #        XDEBUG_MODE: coverage
       - name: Run endpoints tests
-        working-directory: nextcloud/
-        run: composer global require phpunit/phpunit && phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
+        run: |
+          composer global require phpunit/phpunit 
+          cd 
+          cd nextcloud/
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
 
   format-check:
     name: Check code formatting with "just fmt"

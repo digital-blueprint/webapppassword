@@ -76,19 +76,8 @@ jobs:
   #      env:
   #        XDEBUG_MODE: coverage
       - name: Run endpoints tests
-        run: |
-          cd nextcloud
-          php -S localhost:8080 &
-          #cd apps/webapppassword
-          #php /usr/local/bin/composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}
-          #make test
-          #php /usr/local/bin/composer install
-          curl localhost:8080/apps/webapppassword/api/v1/shares
-          #result=0
-          #php /usr/local/bin/composer run cs || result=1
-          #php /usr/local/bin/composer run phpstan || result=1
-          #php /usr/local/bin/composer run psalm || result=1
-          #exit $result        
+        working-directory: nextcloud/
+        run: phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
 
   format-check:
     name: Check code formatting with "just fmt"

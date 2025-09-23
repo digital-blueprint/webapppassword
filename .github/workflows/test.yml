@@ -77,7 +77,7 @@ jobs:
   #        XDEBUG_MODE: coverage
       - name: Run endpoints tests
         working-directory: nextcloud/
-        run: phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
+        run: php $(CURDIR)/vendor/phpunit/phpunit/phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
 
   format-check:
     name: Check code formatting with "just fmt"

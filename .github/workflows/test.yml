@@ -79,7 +79,7 @@ jobs:
         run: |
           composer global require phpunit/phpunit 
           cd ${{ github.workspace }}/nextcloud
-          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/APIControllerResolverTest.php   
 
   format-check:
     name: Check code formatting with "just fmt"

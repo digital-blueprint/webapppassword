@@ -76,10 +76,9 @@ jobs:
   #      env:
   #        XDEBUG_MODE: coverage
       - name: Run endpoints tests
-        working-directory: nextcloud/
         run: |
           composer global require phpunit/phpunit 
-          cd ${{ github.workspace }}
+          cd ${{ github.workspace }}/nextcloud
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/APIControllerResolverTest.php --filter testSubclassConstructorArgumentsMatch   
 
   format-check:

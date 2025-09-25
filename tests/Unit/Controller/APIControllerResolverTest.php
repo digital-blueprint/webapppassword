@@ -20,7 +20,7 @@ class APIControllerResolverTest extends TestCase {
 	/**
 	 * Data provider with each parent and extended subclass name
 	 */
-	public static extendedClasses() {
+	public static function extendedClasses() {
 		$data = [];
 		$parent_class = ShareAPIController::class;
 		$subclass = FilesSharingShareAPIController::class;

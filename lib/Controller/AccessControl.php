@@ -9,17 +9,15 @@ namespace OCA\WebAppPassword\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 
 trait AccessControl {
 	/**
 	 * Checks the origin of a request and modifies response.
 	 *
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
 	 * @throws OCSException
 	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
+	 * @throws OCSBadRequestException
 	 * @throws InvalidPathException
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -28,12 +26,12 @@ trait AccessControl {
 	): DataResponse {
 		$origins_allowed = $this->getOriginList();
 		if (in_array('access-control-allow-origin', $response->getHeaders(), true)) {
-			throw new OCSNotFoundException($this->l->t('Could not create share'));
+			throw new OCSBadRequestException($this->l->t('Could not create share'));
 		}
 
 		$origin = $this->request->getHeader('origin');
 		if (empty($origin) || !in_array($origin, $origins_allowed, true)) {
-			throw new OCSNotFoundException($this->l->t('Could not create share'));
+			throw new OCSBadRequestException($this->l->t('Could not create share'));
 		}
 
 		$response->addHeader('access-control-allow-origin', $origin);
@@ -86,7 +84,6 @@ trait AccessControl {
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
 	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
 	 * @throws InvalidPathException
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -95,12 +92,12 @@ trait AccessControl {
 	): FileDisplayResponse|DataResponse {
 		$origins_allowed = $this->getPreviewOriginList();
 		if (in_array('access-control-allow-origin', $response->getHeaders(), true)) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		$origin = $this->request->getHeader('origin');
 		if (empty($origin) || !in_array($origin, $origins_allowed, true)) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		$response->addHeader('access-control-allow-origin', $origin);

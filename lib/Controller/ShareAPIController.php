@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\Controller;
 
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -13,7 +14,6 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCA\Federation\TrustedServers;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -24,8 +24,8 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\ITagManager;
 use OCP\IServerContainer;
+use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;

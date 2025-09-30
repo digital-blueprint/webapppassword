@@ -7,41 +7,85 @@ declare(strict_types=1);
 namespace OCA\WebAppPassword\Controller;
 
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCA\Federation\TrustedServers;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
+use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
 use OCP\IServerContainer;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\LockedException;
+use OCP\Mail\IMailer;
+use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
+use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerInterface;
-
-use ReflectionNamedType;
-use ReflectionParameter;
+use Psr\Log\LoggerInterface;
 
 class ShareAPIController extends FilesSharingShareAPIController {
 	use AccessControl;
 
-	private $files_sharing_controller;
-
-
 	public function __construct(
 		$AppName,
 		IRequest $request,
+		private IManager $shareManager,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
 		private IL10N $l,
 		private IConfig $config,
+		private IAppManager $appManager,
 		private IServerContainer $serverContainerOld,
 		private ContainerInterface $serverContainer,
+		private IUserStatusManager $userStatusManager,
+		private IPreview $previewManager,
+		private IDateTimeZone $dateTimeZone,
+		private IProviderFactory $factory,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
+		private ITagManager $tagManager,
+		private TrustedServers $trustedServers,
+		private IAppConfig $appConfig,
+		IUserSession $userSession,
 	) {
-		$this->files_sharing_controller = $serverContainer->resolve(parent::class);
-		$parent_constructor_method = new \ReflectionMethod(parent::class, '__construct');
-		$parent_constructor_params = $this->buildClassConstructorParameters($parent_constructor_method);
-		parent::__construct(...$parent_constructor_params);
+		// In an options request, $user will be null, as there is no Auth header to get data from.
+		$user = $userSession->getUser();
+
+		// Enforce $uid to be a string under all circumstances, because Nextcloud's own ShareApiController
+		// will break if it is null, even if it is allowed by its constructor. Passing an empty string is fine.
+		$uid = $user ? $user->getUID() ?? '' : '';
+
+		// Call the constructor.
+		// The parameter order is different between versions, this has to be accounted for.
+		// Version string is identical for 27.1.10.1 and 27.1.10.2.
+		$version = $this->config->getSystemValue('version', '0.0.0');
+		$intVersion = array_map('intval', explode('.', $version));
+
+		if ($intVersion[0] > 31) {
+			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appConfig, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $tagManager, $trustedServers, $uid);
+		} elseif ($intVersion[0] > 29 and $intVersion[0] < 32) {
+			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $factory, $mailer, $uid);
+		} elseif ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
+			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $uid, $l, $config, $appManager, $serverContainerOld, $userStatusManager, $previewManager, $dateTimeZone);
+		} else {
+			parent::__construct($AppName, $request, $shareManager, $groupManager, $userManager, $rootFolder, $urlGenerator, $l, $config, $appManager, $serverContainer, $userStatusManager, $previewManager, $dateTimeZone, $logger, $uid);
+		}
 	}
 
 	/**
@@ -134,8 +178,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 * @throws OCSNotFoundException
 	 */
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
-		$this->files_sharing_controller->getShare(...func_get_args());
-		//		$response = parent::getShare(...func_get_args());
+		$response = parent::getShare(...func_get_args());
 
 		return $this->checkOrigin($response);
 	}
@@ -241,71 +284,5 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		$response = parent::deleteShare(...func_get_args());
 
 		return $this->checkOrigin($response);
-	}
-
-	/**
-	 * Fetch of constructor parameters as in AppFramework/Utility/SimpleContainer.php
-	 *
-	 * @param ReflectionMethod $constructor
-	 *   The constructor method
-	 *
-	 * @return array
-	 *   With the parameters needed to call the constructor.
-	 */
-	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
-		// The parameter order is different between versions, this has to be accounted for.
-		// Version string is identical for 27.1.10.1 and 27.1.10.2.
-		$version = $this->config->getSystemValue('version', '0.0.0');
-		$intVersion = array_map('intval', explode('.', $version));
-
-		return array_map(function (ReflectionParameter $parameter) {
-
-			$parameterType = $parameter->getType();
-
-			$resolveName = $parameter->getName();
-
-			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-				$resolveName = $parameterType->getName();
-			}
-
-			try {
-				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
-							&& $parameterType->isBuiltin();
-				if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
-					return $this->serverContainerOld->query($resolveName, !$builtIn);
-				} else {
-					return $this->serverContainer->query($resolveName, !$builtIn);
-				}
-			} catch (ContainerExceptionInterface $e) {
-				// Service not found, use the default value when available
-				if ($parameter->isDefaultValueAvailable()) {
-					return $parameter->getDefaultValue();
-				}
-
-				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameter->getName();
-					try {
-						if ($intVersion[0] == 27 and $intVersion[1] == 1 and $intVersion[2] == 10) {
-							return $this->serverContainerOld->query($resolveName);
-						} else {
-							return $this->serverContainer->query($resolveName);
-						}
-
-						return $this->serverContainer->query($resolveName);
-					} catch (ContainerExceptionInterface $e2) {
-						// Pass null if typed and nullable
-						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-							return null;
-						}
-
-						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
-					}
-				}
-
-				throw $e;
-			}
-		}, $constructor->getParameters());
 	}
 }

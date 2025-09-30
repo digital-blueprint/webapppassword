@@ -56,10 +56,15 @@ test:
 build:
     make build
 
-# Format all files
+# Format all files using treefmt
 [group('linter')]
 format args='':
-    nix-shell -p treefmt nodePackages.prettier shfmt nixfmt-rfc-style statix taplo php83Packages.php-cs-fixer --run "treefmt {{ args }}"
+    treefmt {{ args }}
+
+# Format all files using pre-commit
+[group('linter')]
+format-all args='':
+    pre-commit run --all-files {{ args }}
 
 # Add git commit hashes to the .git-blame-ignore-revs file
 [group('linter')]

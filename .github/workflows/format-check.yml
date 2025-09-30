@@ -1,0 +1,34 @@
+name: 📄 Check formatting
+
+on:
+  push:
+    branches-ignore:
+      - release
+    tags-ignore:
+      - "*"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  format-check:
+    name: 📄 Check code formatting with "just format-all"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: 🧰 Checkout code
+        uses: actions/checkout@v5
+      - name: ⚙️ Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: 🔒 Cache dependencies
+        uses: cachix/cachix-action@v16
+        with:
+          # https://app.cachix.org/cache/pbek-nixcfg-devenv
+          name: pbek-nixcfg-devenv
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: 🔧 Install devenv.sh
+        run: nix profile add nixpkgs#devenv
+      - name: 🌳 Format code
+        run: devenv shell "just format-all"

@@ -68,7 +68,7 @@ jobs:
           #php /usr/local/bin/composer run phpstan || result=1
           #php /usr/local/bin/composer run psalm || result=1
           #exit $result
-        if: ${{ matrix.php-versions == '7.4' }}
+  #      if: ${{ matrix.php-versions == '7.4' }}
   #    - name: Run tests
   #      working-directory: nextcloud/apps/webapppassword
   #      run: composer global require phpunit/phpunit && phpunit -c phpunit.coverage.xml --coverage-clover build/logs/clover.xml

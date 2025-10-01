@@ -151,8 +151,8 @@ appstore:
 
 .PHONY: test
 test: composer
-	php $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
-	php $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
+	php7.4 $(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
 
 .PHONY: term
 term:

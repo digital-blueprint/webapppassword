@@ -35,6 +35,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		private IL10N $l,
 		private IConfig $config,
 		private ContainerInterface $serverContainer,
+		?string $userId = null
 	) {
 		$this->files_sharing_controller = $this->serverContainer->get(parent::class);
 
@@ -43,8 +44,8 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		$parent_constructor_params = $this->buildClassConstructorParameters($parent_constructor_method);
 		// set the Appname parameter as it cannot come from reflection (will inject string class)
 		$parent_constructor_params[0] = $AppName;
-		// unset the userid parameter as it cannot come from reflection (will inject string class too)
-		$parent_constructor_params[array_key_last($parent_constructor_params)] = "";
+		// reset the userid parameter as it cannot come from reflection (will inject string class too)
+		$parent_constructor_params[array_key_last($parent_constructor_params)] = $userId;
 		parent::__construct(...$parent_constructor_params);
 	}
 

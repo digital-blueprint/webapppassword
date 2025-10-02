@@ -248,7 +248,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 
 	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
 
-		$constructor_params = array_map(function (ReflectionParameter $parameter) use ($intVersion) {
+		$constructor_params = array_map(function (ReflectionParameter $parameter) {
 
 			$parameterType = $parameter->getType();
 

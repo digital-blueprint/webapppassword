@@ -60,7 +60,7 @@ jobs:
           cd nextcloud
           php -S localhost:8080 &
           cd apps/webapppassword
-          php /usr/local/bin/composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}
+          php /usr/local/bin/composer require --dev nextcloud/ocp:dev-${{ matrix.nextcloud-versions }} -W
           make test
           php /usr/local/bin/composer install
           #result=0
@@ -69,6 +69,12 @@ jobs:
           #php /usr/local/bin/composer run psalm || result=1
           #exit $result
         if: ${{ matrix.php-versions == '7.4' }}
+      - name: Run endpoints tests
+        run: |
+          composer global require phpunit/phpunit 
+          cd ${{ github.workspace }}/nextcloud
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
+
   #    - name: Run tests
   #      working-directory: nextcloud/apps/webapppassword
   #      run: composer global require phpunit/phpunit && phpunit -c phpunit.coverage.xml --coverage-clover build/logs/clover.xml

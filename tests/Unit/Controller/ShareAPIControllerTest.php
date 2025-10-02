@@ -79,8 +79,9 @@ class ShareAPIControllerTest extends TestCase {
 		$this->filesharingParamMocks = [];
 		$reflected_sharing = new \ReflectionMethod(FilesSharingShareAPIController::class,'__construct')->getParameters();
 		foreach ($reflected_sharing as $param) {
-			$param_t = $param->getType()->getName();
-			if (!$param->getType()->isBuiltin()) {
+			$type = $param->getType();
+			if ($type && !$type->isBuiltin()) {
+				$param_t = $type->getName();
 				$this->filesharingParamMocks[$param_t] = $this->createMock($param_t);
 			}
 		}

@@ -13,7 +13,8 @@
     "vimeo/psalm": "^6.0",
     "friendsofphp/php-cs-fixer": "^3.12",
     "phpstan/phpstan": "^2.0",
-    "nextcloud/coding-standard": "^1.1"
+    "nextcloud/coding-standard": "^1.1",
+    "christophwurst/nextcloud_testing": "^1.0.1"
   },
   "config": {
     "platform": {

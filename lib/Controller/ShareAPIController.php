@@ -45,7 +45,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		// set the Appname parameter as it cannot come from reflection (will inject string class)
 		$parent_constructor_params[0] = $AppName;
 		// reset the userid parameter as it cannot come from reflection (will inject string class too)
-		$parent_constructor_params[array_key_last($parent_constructor_params)] = $userId;
+		$parent_constructor_params[array_key_last($parent_constructor_params)] = $userId ?? '';
 		parent::__construct(...$parent_constructor_params);
 	}
 

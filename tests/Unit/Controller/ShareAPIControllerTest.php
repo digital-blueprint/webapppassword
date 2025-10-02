@@ -1,45 +1,25 @@
 <?php
+
+declare(strict_types=1);
 // SPDX-FileCopyrightText: Aleix Quintana Alsius <kinta@communia.org>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 namespace OCA\WebAppPassword\Tests\Unit\Controller;
 
-use OCA\WebAppPassword\AppInfo\Application;
-use OCA\WebAppPassword\Controller\ShareAPIController;
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
-use OCP\App\IAppManager;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSBadRequestException;
-use OCP\AppFramework\OCS\OCSException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\Constants;
+use OCA\WebAppPassword\Controller\ShareAPIController;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
-use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
-use OCP\IDateTimeZone;
-use OCP\IGroup;
-use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
-use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserManager;
-use OCP\Lock\LockedException;
-use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IAttributes as IShareAttributes;
-use OCP\Share\IManager;
 use OCP\Share\IShare;
-use OCP\UserStatus\IManager as IUserStatusManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -49,7 +29,7 @@ use Test\TestCase;
  * @group DB
  */
 class ShareAPIControllerTest extends TestCase {
-    private string $appName = 'webapppassword';
+	private string $appName = 'webapppassword';
 	private ShareAPIController  $ocs;
 
 	private IRequest|MockObject $request;
@@ -77,7 +57,8 @@ class ShareAPIControllerTest extends TestCase {
 			* parameters to build it from reflected.
 			*/
 		$this->filesharingParamMocks = [];
-		$reflected_sharing = new \ReflectionMethod(FilesSharingShareAPIController::class,'__construct')->getParameters();
+		$reflected_constructor = new \ReflectionMethod(FilesSharingShareAPIController::class, '__construct');
+		$reflected_sharing = $reflected_constructor->getParameters();
 		foreach ($reflected_sharing as $param) {
 			$type = $param->getType();
 			if ($type && !$type->isBuiltin()) {
@@ -387,76 +368,76 @@ class ShareAPIControllerTest extends TestCase {
 	 *
 	 * FIXME: WIP testGetShare
 	 *
-	public function testGetShare(IShare $share, array $result): void {
-
-		// @var ShareAPIController&MockObject $ocs
-		$ocs = $this->getMockBuilder(ShareAPIController::class)
-				->setConstructorArgs([
-					$this->appName,
-					$this->request,
-					$this->l,
-					$this->config,
-					$this->serverContainer,
-				])//->setMethods(['canAccessShare'])
-				->getMock();
-
-		$this->filesharingParamMocks['OCP\Share\IManager']
-			->expects($this->any())
-			->method('getsharebyid')
-			->with($share->getfullid(), 'currentuser')
-			->willreturn($share);
-
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
-		$userFolder
-			->method('getRelativePath')
-			->willReturnArgument(0);
-
-		$userFolder->method('getById')
-			->with($share->getNodeId())
-			->willReturn([$share->getNode()]);
-
-		$this->filesharingParamMocks['OCP\Files\IRootFolder']->method('getUserFolder')
-			->with($this->currentUser)
-			->willReturn($userFolder);
-
-		$this->filesharingParamMocks['OCP\IURLGenerator']
-			->method('linkToRouteAbsolute')
-			->willReturn('url');
-
-		$initiator = $this->getMockBuilder(IUser::class)->getMock();
-		$initiator->method('getUID')->willReturn('initiatorId');
-		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
-
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
-		$owner->method('getUID')->willReturn('ownerId');
-		$owner->method('getDisplayName')->willReturn('ownerDisplay');
-
-		$user = $this->getMockBuilder(IUser::class)->getMock();
-		$user->method('getUID')->willReturn('userId');
-		$user->method('getDisplayName')->willReturn('userDisplay');
-		$user->method('getSystemEMailAddress')->willReturn('userId@example.com');
-
-		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
-		$group->method('getGID')->willReturn('groupId');
-
-		$this->filesharingParamMocks['OCP\IUserManager']
-		->method('get')->willReturnMap([
-			['userId', $user],
-			['initiatorId', $initiator],
-			['ownerId', $owner],
-		]);
-
-		$this->filesharingParamMocks['OCP\IGroupManager']
-		->method('get')->willReturnMap([
-			['group', $group],
-		]);
-		$this->filesharingParamMocks['OCP\IDateTimeZone']->method('getTimezone')->willReturn(new \DateTimeZone('UTC'));
-
-		$d = $ocs->getShare($share->getId())->getData()[0];
-
-		$this->assertEquals($result, $ocs->getShare($share->getId())->getData()[0]);
-	}
-*/
+	 * public function testGetShare(IShare $share, array $result): void {
+	 *
+	 * // @var ShareAPIController&MockObject $ocs
+	 * $ocs = $this->getMockBuilder(ShareAPIController::class)
+	 * ->setConstructorArgs([
+	 * $this->appName,
+	 * $this->request,
+	 * $this->l,
+	 * $this->config,
+	 * $this->serverContainer,
+	 * ])//->setMethods(['canAccessShare'])
+	 * ->getMock();
+	 *
+	 * $this->filesharingParamMocks['OCP\Share\IManager']
+	 * ->expects($this->any())
+	 * ->method('getsharebyid')
+	 * ->with($share->getfullid(), 'currentuser')
+	 * ->willreturn($share);
+	 *
+	 * $userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+	 * $userFolder
+	 * ->method('getRelativePath')
+	 * ->willReturnArgument(0);
+	 *
+	 * $userFolder->method('getById')
+	 * ->with($share->getNodeId())
+	 * ->willReturn([$share->getNode()]);
+	 *
+	 * $this->filesharingParamMocks['OCP\Files\IRootFolder']->method('getUserFolder')
+	 * ->with($this->currentUser)
+	 * ->willReturn($userFolder);
+	 *
+	 * $this->filesharingParamMocks['OCP\IURLGenerator']
+	 * ->method('linkToRouteAbsolute')
+	 * ->willReturn('url');
+	 *
+	 * $initiator = $this->getMockBuilder(IUser::class)->getMock();
+	 * $initiator->method('getUID')->willReturn('initiatorId');
+	 * $initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+	 *
+	 * $owner = $this->getMockBuilder(IUser::class)->getMock();
+	 * $owner->method('getUID')->willReturn('ownerId');
+	 * $owner->method('getDisplayName')->willReturn('ownerDisplay');
+	 *
+	 * $user = $this->getMockBuilder(IUser::class)->getMock();
+	 * $user->method('getUID')->willReturn('userId');
+	 * $user->method('getDisplayName')->willReturn('userDisplay');
+	 * $user->method('getSystemEMailAddress')->willReturn('userId@example.com');
+	 *
+	 * $group = $this->getMockBuilder('OCP\IGroup')->getMock();
+	 * $group->method('getGID')->willReturn('groupId');
+	 *
+	 * $this->filesharingParamMocks['OCP\IUserManager']
+	 * ->method('get')->willReturnMap([
+	 * ['userId', $user],
+	 * ['initiatorId', $initiator],
+	 * ['ownerId', $owner],
+	 * ]);
+	 *
+	 * $this->filesharingParamMocks['OCP\IGroupManager']
+	 * ->method('get')->willReturnMap([
+	 * ['group', $group],
+	 * ]);
+	 * $this->filesharingParamMocks['OCP\IDateTimeZone']->method('getTimezone')->willReturn(new \DateTimeZone('UTC'));
+	 *
+	 * $d = $ocs->getShare($share->getId())->getData()[0];
+	 *
+	 * $this->assertEquals($result, $ocs->getShare($share->getId())->getData()[0]);
+	 * }
+	 */
 
 
 

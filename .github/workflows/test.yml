@@ -73,6 +73,8 @@ jobs:
         run: |
           composer global require phpunit/phpunit 
           cd ${{ github.workspace }}/nextcloud
+          php -v; php -i;
+          php apps/webapppassword/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
 
   #    - name: Run tests

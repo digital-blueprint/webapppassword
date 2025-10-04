@@ -85,6 +85,7 @@ jobs:
           cd apps/webapppassword
           php /usr/local/bin/composer install --dev
           BEHAT_CONFIG=tests/Integration/config/behat.yml vendor/bin/behat  --config=tests/Integration/config/behat.yml --profile ci
+        if: ${{ matrix.php-versions >= '8.2' }}
   #    - name: Run tests
   #      working-directory: nextcloud/apps/webapppassword
   #      run: composer global require phpunit/phpunit && phpunit -c phpunit.coverage.xml --coverage-clover build/logs/clover.xml

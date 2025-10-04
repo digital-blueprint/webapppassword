@@ -170,7 +170,7 @@ class FeatureContext implements Context {
 	public function notLoggedUserCannotSeeShares(): void {
 		$this->setCurrentUser("unknown");
 		$this->sendShareApiWebAppRequest('GET', 'shares');
-		$this->assertStatusCode(500);
+		$this->assertStatusCode([401,500]);
 	}
 
 

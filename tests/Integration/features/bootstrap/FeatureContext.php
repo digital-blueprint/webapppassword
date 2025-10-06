@@ -91,9 +91,11 @@ class FeatureContext implements Context {
 	}
 
 	/**
+	 * User cannot see recently shared item
+	 *
 	 * @throws GuzzleException
 	 */
-	#[Then('user :arg1 cannot see recently shared item')]
+	#[Then('user :user cannot see recently shared item')]
 	public function userCannotSeeRecentlyShared(string $user): void {
 		$this->setCurrentUser($user);
 		$this->sendShareApiWebAppRequest('GET', 'shares/' . $this->lastShareId);
@@ -103,10 +105,11 @@ class FeatureContext implements Context {
 	}
 
 	/**
-	 * @Then user :user sees shares
+	 * User sees shares
 	 *
 	 * @throws GuzzleException
 	 */
+	#[Then('user :user sees shares')]
 	public function userSeesShares(string $user): void {
 		$this->setCurrentUser($user);
 		$this->sendShareApiWebAppRequest('GET', 'shares');
@@ -116,10 +119,11 @@ class FeatureContext implements Context {
 	}
 
 	/**
-	 * @Then user :user cannot see shares
+	 * User cannot see shares
 	 *
 	 * @throws GuzzleException
 	 */
+	#[Then('user :user cannot see shares')]
 	public function userCannotSeeShares(string $user): void {
 		$this->setCurrentUser($user);
 		$this->sendShareApiWebAppRequest('GET', 'shares');
@@ -128,7 +132,7 @@ class FeatureContext implements Context {
 		$this->assertResponseData();
 	}
 
-	#[When('user :user comes from :origin')]
+	#[When('user comes from :origin')]
 	public function userComesFromOrigin(string $origin): void {
 		$this->setOrigin($origin);
 	}

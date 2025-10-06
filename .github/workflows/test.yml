@@ -16,17 +16,6 @@ jobs:
       matrix:
         php-versions: ["8.0", "8.1", "8.2", "8.3"]
         nextcloud-versions: ["stable28", "stable29", "stable30", "stable31"]
-        include:
-          - php-versions: 8.2
-            nextcloud-versions: stable26
-          - php-versions: 8.2
-            nextcloud-versions: stable25
-          - php-versions: 8.0
-            nextcloud-versions: stable24
-          - php-versions: 8.0
-            nextcloud-versions: stable23
-          - php-versions: 8.0
-            nextcloud-versions: stable22
         exclude:
           - php-versions: 8.0
             nextcloud-versions: stable31

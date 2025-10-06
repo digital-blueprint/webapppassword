@@ -38,7 +38,7 @@
         nixfmt-rfc-style
         statix
         taplo
-        php83Packages.php-cs-fixer
+        php84Packages.php-cs-fixer
       ];
     };
 

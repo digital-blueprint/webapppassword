@@ -18,6 +18,8 @@ jobs:
         nextcloud-versions: ["stable28", "stable29", "stable30", "stable31", "stable32"]
         exclude:
           - php-versions: 8.0
+            nextcloud-versions: stable32
+          - php-versions: 8.0
             nextcloud-versions: stable31
           - php-versions: 8.0
             nextcloud-versions: stable30

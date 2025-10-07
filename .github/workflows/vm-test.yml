@@ -1,4 +1,4 @@
-name: "🧪 Run tests"
+name: "🧪 Run VM test"
 
 on:
   push:

@@ -78,3 +78,24 @@ add-git-blame-ignore-revs:
 [group('test')]
 vm-test-combined args='':
     nix build -L .#nixosTests.nextcloud-webapppassword {{ args }}
+
+# Interactive NixOS test driver session for the combined Nextcloud versions.
+# Tries driverInteractive first (non-executing build), then falls back to driver (also non-executing) if needed.
+# Usage examples:
+#   just vm-test-interactive
+#   just vm-test-interactive args="--impure"        # allow env vars: ALLOW_INSECURE_NEXTCLOUD=1 FORCE_REBUILD_NONCE=...
+# Environment knobs (export or prefix before just):
+#   ALLOW_INSECURE_NEXTCLOUD=1   # enable Nextcloud 28 (needs --impure)
+
+# FORCE_REBUILD_NONCE=$(date +%s)  # force rebuild of app derivation
+[group('test')]
+vm-test-interactive args='':
+    if nix build -L .#nixosTests.nextcloud-webapppassword.driverInteractive {{ args }}; then \
+        echo "Built driverInteractive attribute"; \
+    elif nix build -L .#nixosTests.nextcloud-webapppassword.driver {{ args }}; then \
+        echo "driverInteractive missing; using driver attribute"; \
+    else \
+        echo "Failed to build either driverInteractive or driver attribute"; \
+        exit 1; \
+    fi
+    ./result/bin/nixos-test-driver

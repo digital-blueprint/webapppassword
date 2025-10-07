@@ -76,8 +76,8 @@ add-git-blame-ignore-revs:
 
 # Run tests for multiple versions of Nextcloud
 [group('test')]
-vm-test-combined:
-    nix build -L .#nixosTests.nextcloud-webapppassword
+vm-test-combined args='':
+    nix build -L .#nixosTests.nextcloud-webapppassword {{ args }}
 
 # Run tests for Nextcloud 31
 [group('test')]

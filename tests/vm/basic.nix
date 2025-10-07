@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  pkgs24 ? null,
+  allowInsecureNextcloud ? false,
+  ...
+}:
 
 let
   inherit (pkgs) lib;
@@ -11,6 +16,39 @@ let
       t = builtins.tryEval (builtins.getAttr name pkgs);
     in
     if t.success then t.value else null;
+  # Safe lookup on pkgs24 catching insecure-package eval errors
+  tryAttr24 =
+    name:
+    if pkgs24 != null && builtins.hasAttr name pkgs24 then
+      (
+        let
+          t = builtins.tryEval (builtins.getAttr name pkgs24);
+        in
+        if t.success then t.value else null
+      )
+    else
+      null;
+
+  # Wrapper to make legacy Nextcloud derivations ignore override args (e.g. caBundle introduced later)
+  legacyCompat =
+    pkg:
+    pkg
+    // {
+      override = _args: legacyCompat pkg; # ignore args to avoid unexpected argument errors
+      overrideDerivation = f: legacyCompat (pkg.overrideDerivation f);
+    };
+
+  # Flexible PHP package set selection for composer
+  phpPkgSet =
+    pkgs.php84Packages or (pkgs.php83Packages or (pkgs.php82Packages or (pkgs.php81Packages or null)));
+  composerPkg =
+    if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs.composer; # pkgs.composer as last resort
+  phpInterp = pkgs.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
+
+  raw28 = if allowInsecureNextcloud then tryAttr24 "nextcloud28" else null;
+  raw29 = tryAttr24 "nextcloud29"; # still supported
+  pkg28 = if raw28 != null then legacyCompat raw28 else null;
+  pkg29 = if raw29 != null then legacyCompat raw29 else null;
   pkg30 = tryAttr "nextcloud30"; # may be null / removal alias
   raw31 = tryAttr "nextcloud31";
   rawGeneric = tryAttr "nextcloud";
@@ -21,17 +59,21 @@ let
       rawGeneric
     else
       null;
+
+  has28 = pkg28 != null;
+  has29 = pkg29 != null;
   has30 = pkg30 != null;
   has31 = pkg31 != null;
-  # Build the app: copy source, run composer install only if vendor directory is present (network is disallowed in Nix builds)
+
+  # Build the app once (using primary pkgs set)
   webapppasswordApp =
     pkgs.runCommand "webapppassword-app"
       (
         {
           src = ../../.;
-          buildInputs = [
-            pkgs.php84Packages.composer
-            pkgs.php
+          buildInputs = lib.filter (x: x != null) [
+            composerPkg
+            phpInterp
           ];
           preferLocalBuild = true;
           allowSubstitutes = false; # ensure we always build locally (still won't rebuild if output already exists)
@@ -70,8 +112,8 @@ let
         config.dbname = "nextcloud";
         extraApps = {
           webapppassword = webapppasswordApp;
-        }; # attrset form
-        extraAppsEnable = true; # auto-enable on first run
+        };
+        extraAppsEnable = true;
       };
       networking.firewall.allowedTCPPorts = [
         80
@@ -81,16 +123,48 @@ let
     };
   };
 
+  node28 = if has28 then mkNode pkg28 "nextcloud28" else { };
+  node29 = if has29 then mkNode pkg29 "nextcloud29" else { };
   node30 = if has30 then mkNode pkg30 "nextcloud30" else { };
   node31 = if has31 then mkNode pkg31 "nextcloud31" else { };
 
 in
 pkgs.nixosTest {
-  name = "nextcloud30-31-webapppassword";
-  nodes = node30 // node31;
+  name = "nextcloud28-31-webapppassword";
+  nodes = node28 // node29 // node30 // node31;
   testScript = ''
-    print("Has30=${toString has30} Has31=${toString has31}")
+    print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31}")
     start_all()
+
+    ${
+      if has28 then
+        ''
+          print("Testing Nextcloud 28 (${pkg28.version})")
+          nextcloud28.wait_for_unit("phpfpm-nextcloud.service")
+          nextcloud28.wait_for_unit("nginx.service")
+          nextcloud28.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
+          nextcloud28.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (28)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          nextcloud28.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
+          nextcloud28.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
+        ''
+      else
+        ''print("Skipping Nextcloud 28: not enabled or not permitted") ''
+    }
+
+    ${
+      if has29 then
+        ''
+          print("Testing Nextcloud 29 (${pkg29.version})")
+          nextcloud29.wait_for_unit("phpfpm-nextcloud.service")
+          nextcloud29.wait_for_unit("nginx.service")
+          nextcloud29.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
+          nextcloud29.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (29)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          nextcloud29.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
+          nextcloud29.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
+        ''
+      else
+        ''print("Skipping Nextcloud 29: package not present") ''
+    }
 
     ${
       if has30 then
@@ -104,9 +178,7 @@ pkgs.nixosTest {
           nextcloud30.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
         ''
       else
-        ''
-          print("Skipping Nextcloud 30: package not present")
-        ''
+        ''print("Skipping Nextcloud 30: package not present") ''
     }
 
     ${
@@ -121,9 +193,7 @@ pkgs.nixosTest {
           nextcloud31.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
         ''
       else
-        ''
-          print("Skipping Nextcloud 31: package not present or not version 31.x")
-        ''
+        ''print("Skipping Nextcloud 31: package not present or not version 31.x") ''
     }
 
     print("ALL_TESTS_DONE")

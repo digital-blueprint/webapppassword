@@ -65,7 +65,18 @@ jobs:
           composer global require phpunit/phpunit 
           cd ${{ github.workspace }}/nextcloud
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
-
+      - name: Run endpoint functional tests
+        run: |
+          cd nextcloud
+          php ./occ config:system:set  webapppassword.files_sharing_origins  0 --value "https://known-site.com"
+          for user in alice bob jane john; do \
+          OC_PASS="$user" ./occ user:add --password-from-env "$user"; \
+          done
+          php -S localhost:8080 &
+          cd apps/webapppassword
+          php /usr/local/bin/composer install --dev
+          BEHAT_CONFIG=tests/Integration/config/behat.yml vendor/bin/behat  --config=tests/Integration/config/behat.yml --profile ci
+        if: ${{ matrix.php-versions >= '8.2' }}
   #    - name: Run tests
   #      working-directory: nextcloud/apps/webapppassword
   #      run: composer global require phpunit/phpunit && phpunit -c phpunit.coverage.xml --coverage-clover build/logs/clover.xml

@@ -53,7 +53,7 @@ class ShareAPIControllerTest extends TestCase {
 		/*
 			* We collect the reflected constructor parameters from (files
 			* sharing share api controller  to be mocked later. As
-			* shareapicontroller will need these when dinamically adding
+			* shareapicontroller will need these when dynamically adding
 			* parameters to build it from reflected.
 			*/
 		$this->filesharingParamMocks = [];

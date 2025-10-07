@@ -32,7 +32,7 @@ options = ["-euc", "for file in \"$@\"; do statix fix \"$file\"; done"]
 includes = ["*.nix"]
 
 [formatter.php-cs-fixer]
-command = "php-cs-fixer"
+command = "./vendor/bin/php-cs-fixer"
 excludes = ["config/bundles.php"]
 includes = ["*.php"]
 options = ["fix", "--config", "./.php-cs-fixer.dist.php"]

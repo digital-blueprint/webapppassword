@@ -73,3 +73,13 @@ add-git-blame-ignore-revs:
     git log --pretty=format:"%H" --grep="^lint" >> .git-blame-ignore-revs
     sort .git-blame-ignore-revs | uniq > .git-blame-ignore-revs.tmp
     mv .git-blame-ignore-revs.tmp .git-blame-ignore-revs
+
+# Run tests for multiple versions of Nextcloud
+[group('test')]
+vm-test-combined args='':
+    nix build -L .#nixosTests.nextcloud-webapppassword {{ args }}
+
+# Run tests for Nextcloud 31
+[group('test')]
+vm-test-nextcloud31:
+    nix build -L .#nixosTests.nextcloud31-webapppassword

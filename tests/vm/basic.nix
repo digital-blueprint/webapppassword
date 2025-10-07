@@ -20,59 +20,57 @@ let
       null;
   has30 = pkg30 != null;
   has31 = pkg31 != null;
-  # Package the webapppassword app from the repo root (two levels up from this file)
-  webapppasswordApp = pkgs.runCommand "webapppassword-app" { src = ../../.; } ''
-    mkdir -p $out
-    cp -r $src/* $out/
-  '';
-
-  node30 =
-    if has30 then
+  # Build the app: copy source, run composer install only if vendor directory is present (network is disallowed in Nix builds)
+  webapppasswordApp =
+    pkgs.runCommand "webapppassword-app"
       {
-        nextcloud30 = _: {
-          services.nextcloud = {
-            enable = true;
-            package = pkg30;
-            hostName = "localhost";
-            config.adminuser = "admin";
-            config.adminpassFile = "/etc/nextcloud-adminpass";
-            config.dbtype = "sqlite";
-            config.dbname = "nextcloud";
-          };
-          networking.firewall.allowedTCPPorts = [
-            80
-            443
-          ];
-          environment.etc."webapppassword-app".source = webapppasswordApp;
-          environment.etc."nextcloud-adminpass".text = "adminpass";
-        };
+        src = ../../.;
+        buildInputs = [
+          pkgs.php84Packages.composer
+          pkgs.php
+        ];
       }
-    else
-      { };
+      ''
+        mkdir -p $out
+        cp -r $src/* $out/
+        chmod -R u+w $out
+        export COMPOSER_ALLOW_SUPERUSER=1
+        export HOME=$TMPDIR
+        if [ -f "$out/composer.json" ]; then
+          if [ -d "$out/vendor" ]; then
+            echo "Running composer install (offline, expects vendor already vendored)"
+            (cd $out && ${pkgs.php84Packages.composer}/bin/composer install --no-dev --optimize-autoloader --no-interaction || ${pkgs.php84Packages.composer}/bin/composer dump-autoload --optimize || true)
+          else
+            echo "No vendor directory found; skipping composer install to avoid network (would fail)"
+          fi
+        fi
+      '';
 
-  node31 =
-    if has31 then
-      {
-        nextcloud31 = _: {
-          services.nextcloud = {
-            enable = true;
-            package = pkg31;
-            hostName = "localhost";
-            config.adminuser = "admin";
-            config.adminpassFile = "/etc/nextcloud-adminpass";
-            config.dbtype = "sqlite";
-            config.dbname = "nextcloud";
-          };
-          networking.firewall.allowedTCPPorts = [
-            80
-            443
-          ];
-          environment.etc."webapppassword-app".source = webapppasswordApp;
-          environment.etc."nextcloud-adminpass".text = "adminpass";
-        };
-      }
-    else
-      { };
+  mkNode = pkg: name: {
+    ${name} = _: {
+      services.nextcloud = {
+        enable = true;
+        package = pkg;
+        hostName = "localhost";
+        config.adminuser = "admin";
+        config.adminpassFile = "/etc/nextcloud-adminpass";
+        config.dbtype = "sqlite";
+        config.dbname = "nextcloud";
+        extraApps = {
+          webapppassword = webapppasswordApp;
+        }; # attrset form
+        extraAppsEnable = true; # auto-enable on first run
+      };
+      networking.firewall.allowedTCPPorts = [
+        80
+        443
+      ];
+      environment.etc."nextcloud-adminpass".text = "adminpass";
+    };
+  };
+
+  node30 = if has30 then mkNode pkg30 "nextcloud30" else { };
+  node31 = if has31 then mkNode pkg31 "nextcloud31" else { };
 
 in
 pkgs.nixosTest {
@@ -88,17 +86,10 @@ pkgs.nixosTest {
           print("Testing Nextcloud 30 (${pkg30.version})")
           nextcloud30.wait_for_unit("phpfpm-nextcloud.service")
           nextcloud30.wait_for_unit("nginx.service")
-          nextcloud30.succeed("install -d -o nextcloud -g nextcloud /var/lib/nextcloud/apps && cp -r /etc/webapppassword-app /var/lib/nextcloud/apps/webapppassword && chown -R nextcloud:nextcloud /var/lib/nextcloud/apps/webapppassword")
-          nextcloud30.succeed("systemctl restart phpfpm-nextcloud")
           nextcloud30.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud30.succeed("ls -ld /var/lib/nextcloud/apps/webapppassword")
-          nextcloud30.succeed("find /var/lib/nextcloud/apps/webapppassword/appinfo -maxdepth 1 -type f -print")
-          # Try enabling, capture output
-          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:enable webapppassword 2>&1 | tee /tmp/enable30.log || true")
-          # Dump full app:list for debugging
-          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:list 2>&1 | tee /tmp/app_list30.log")
-          # Require presence (fallback to show diagnostics then fail)
-          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'FAILED_TO_FIND_APP_30'; echo 'Enable output:'; cat /tmp/enable30.log; echo 'App list:'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (30)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          # Idempotent enable
+          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:enable webapppassword || true")
           nextcloud30.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
           nextcloud30.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
         ''
@@ -114,14 +105,9 @@ pkgs.nixosTest {
           print("Testing Nextcloud 31 (${pkg31.version})")
           nextcloud31.wait_for_unit("phpfpm-nextcloud.service")
           nextcloud31.wait_for_unit("nginx.service")
-          nextcloud31.succeed("install -d -o nextcloud -g nextcloud /var/lib/nextcloud/apps && cp -r /etc/webapppassword-app /var/lib/nextcloud/apps/webapppassword && chown -R nextcloud:nextcloud /var/lib/nextcloud/apps/webapppassword")
-          nextcloud31.succeed("systemctl restart phpfpm-nextcloud")
           nextcloud31.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud31.succeed("ls -ld /var/lib/nextcloud/apps/webapppassword")
-          nextcloud31.succeed("find /var/lib/nextcloud/apps/webapppassword/appinfo -maxdepth 1 -type f -print")
-          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:enable webapppassword 2>&1 | tee /tmp/enable31.log || true")
-          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:list 2>&1 | tee /tmp/app_list31.log")
-          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'FAILED_TO_FIND_APP_31'; echo 'Enable output:'; cat /tmp/enable31.log; echo 'App list:'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (31)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:enable webapppassword || true")
           nextcloud31.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
           nextcloud31.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
         ''

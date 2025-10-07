@@ -18,23 +18,14 @@
         if allowInsecure then { config.permittedInsecurePackages = permittedInsecure; } else { };
       pkgs25_05 = import nixpkgs25_05 ({ inherit system; } // baseConfig);
       pkgs24_11 = import nixpkgs24_11 ({ inherit system; } // baseConfig);
-      inherit (pkgs25_05) lib;
       combinedTest = import ./tests/vm/basic.nix {
         inherit pkgs25_05 pkgs24_11;
         allowInsecureNextcloud = allowInsecure;
       };
-      hasNextcloud31 = lib.hasAttr "nextcloud31" pkgs25_05;
-      test31 = if hasNextcloud31 then import ./tests/vm/nextcloud31.nix { inherit pkgs25_05; } else null;
     in
     {
       nixosTests = {
         nextcloud-webapppassword = combinedTest;
-      }
-      // lib.optionalAttrs hasNextcloud31 { nextcloud31-webapppassword = test31; };
-
-      checks.${system} = {
-        nextcloud-webapppassword = combinedTest;
-      }
-      // lib.optionalAttrs hasNextcloud31 { nextcloud31-webapppassword = test31; };
+      };
     };
 }

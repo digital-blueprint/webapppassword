@@ -143,7 +143,7 @@ pkgs25_05.nixosTest {
         node.wait_for_unit("phpfpm-nextcloud.service")
         node.wait_for_unit("nginx.service")
         node.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-        node.succeed(f"sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing ({label})'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+        node.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing ({label})'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
         node.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
         node.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
 

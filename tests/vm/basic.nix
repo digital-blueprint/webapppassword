@@ -137,64 +137,42 @@ pkgs25_05.nixosTest {
     print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31}")
     start_all()
 
+    # Helper to test a Nextcloud node consistently
+    def test_version(node, label, pkg_version):
+        print(f"Testing Nextcloud {label} ({pkg_version})")
+        node.wait_for_unit("phpfpm-nextcloud.service")
+        node.wait_for_unit("nginx.service")
+        node.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
+        node.succeed(f"sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing ({label})'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
+        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
+        node.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
+
     ${
       if has28 then
-        ''
-          print("Testing Nextcloud 28 (${pkg28.version})")
-          nextcloud28.wait_for_unit("phpfpm-nextcloud.service")
-          nextcloud28.wait_for_unit("nginx.service")
-          nextcloud28.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud28.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (28)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
-          nextcloud28.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
-          nextcloud28.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
-        ''
+        ''test_version(nextcloud28, "28", "${pkg28.version}")''
       else
-        ''print("Skipping Nextcloud 28: not enabled or not permitted") ''
+        ''print("Skipping Nextcloud 28: not enabled or not permitted")''
     }
 
     ${
       if has29 then
-        ''
-          print("Testing Nextcloud 29 (${pkg29.version})")
-          nextcloud29.wait_for_unit("phpfpm-nextcloud.service")
-          nextcloud29.wait_for_unit("nginx.service")
-          nextcloud29.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud29.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (29)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
-          nextcloud29.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
-          nextcloud29.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
-        ''
+        ''test_version(nextcloud29, "29", "${pkg29.version}")''
       else
-        ''print("Skipping Nextcloud 29: package not present") ''
+        ''print("Skipping Nextcloud 29: package not present")''
     }
 
     ${
       if has30 then
-        ''
-          print("Testing Nextcloud 30 (${pkg30.version})")
-          nextcloud30.wait_for_unit("phpfpm-nextcloud.service")
-          nextcloud30.wait_for_unit("nginx.service")
-          nextcloud30.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (30)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
-          nextcloud30.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
-          nextcloud30.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
-        ''
+        ''test_version(nextcloud30, "30", "${pkg30.version}")''
       else
-        ''print("Skipping Nextcloud 30: package not present") ''
+        ''print("Skipping Nextcloud 30: package not present")''
     }
 
     ${
       if has31 then
-        ''
-          print("Testing Nextcloud 31 (${pkg31.version})")
-          nextcloud31.wait_for_unit("phpfpm-nextcloud.service")
-          nextcloud31.wait_for_unit("nginx.service")
-          nextcloud31.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
-          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing (31)'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
-          nextcloud31.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
-          nextcloud31.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
-        ''
+        ''test_version(nextcloud31, "31", "${pkg31.version}")''
       else
-        ''print("Skipping Nextcloud 31: package not present or not version 31.x") ''
+        ''print("Skipping Nextcloud 31: package not present or not version 31.x")''
     }
 
     print("ALL_TESTS_DONE")

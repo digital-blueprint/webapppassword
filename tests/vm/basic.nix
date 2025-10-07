@@ -1,28 +1,28 @@
 {
-  pkgs,
-  pkgs24 ? null,
+  pkgs25_05,
+  pkgs24_11 ? null,
   allowInsecureNextcloud ? false,
   ...
 }:
 
 let
-  inherit (pkgs) lib;
+  inherit (pkgs25_05) lib;
   # Optional dev-only knob: set FORCE_REBUILD_NONCE (with --impure) to force a new store path
   # Example (fish): env FORCE_REBUILD_NONCE=(date +%s) nix build --impure -L .#nixosTests.nextcloud-webapppassword
   forceRebuildNonce = builtins.getEnv "FORCE_REBUILD_NONCE";
   tryAttr =
     name:
     let
-      t = builtins.tryEval (builtins.getAttr name pkgs);
+      t = builtins.tryEval (builtins.getAttr name pkgs25_05);
     in
     if t.success then t.value else null;
-  # Safe lookup on pkgs24 catching insecure-package eval errors
+  # Safe lookup on pkgs24_11 catching insecure-package eval errors
   tryAttr24 =
     name:
-    if pkgs24 != null && builtins.hasAttr name pkgs24 then
+    if pkgs24_11 != null && builtins.hasAttr name pkgs24_11 then
       (
         let
-          t = builtins.tryEval (builtins.getAttr name pkgs24);
+          t = builtins.tryEval (builtins.getAttr name pkgs24_11);
         in
         if t.success then t.value else null
       )
@@ -40,10 +40,11 @@ let
 
   # Flexible PHP package set selection for composer
   phpPkgSet =
-    pkgs.php84Packages or (pkgs.php83Packages or (pkgs.php82Packages or (pkgs.php81Packages or null)));
+    pkgs25_05.php84Packages
+      or (pkgs25_05.php83Packages or (pkgs25_05.php82Packages or (pkgs25_05.php81Packages or null)));
   composerPkg =
-    if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs.composer; # pkgs.composer as last resort
-  phpInterp = pkgs.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
+    if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs25_05.composer; # pkgs25_05.composer as last resort
+  phpInterp = pkgs25_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
 
   raw28 = if allowInsecureNextcloud then tryAttr24 "nextcloud28" else null;
   raw29 = tryAttr24 "nextcloud29"; # still supported
@@ -67,7 +68,7 @@ let
 
   # Build the app once (using primary pkgs set)
   webapppasswordApp =
-    pkgs.runCommand "webapppassword-app"
+    pkgs25_05.runCommand "webapppassword-app"
       (
         {
           src = ../../.;
@@ -129,7 +130,7 @@ let
   node31 = if has31 then mkNode pkg31 "nextcloud31" else { };
 
 in
-pkgs.nixosTest {
+pkgs25_05.nixosTest {
   name = "nextcloud28-31-webapppassword";
   nodes = node28 // node29 // node30 // node31;
   testScript = ''

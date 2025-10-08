@@ -151,6 +151,7 @@ pkgs25_05.nixosTest {
         # Test origins webapppassword app endpoint
         node.succeed("sudo -u nextcloud nextcloud-occ config:system:set webapppassword.origins 0 --value 'https://known-site.com'")
         node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Fknown-site.com | grep 200")
+        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Funknown-site.com | grep 403")
 
     ${
       if has28 then

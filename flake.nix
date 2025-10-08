@@ -10,9 +10,7 @@
     let
       system = "x86_64-linux";
       # Allow insecure Nextcloud versions (e.g. 28) only if explicitly opted in via env (requires --impure) or always by editing below.
-      allowInsecure =
-        (builtins.getEnv "NIXPKGS_ALLOW_INSECURE" == "1")
-        || (builtins.getEnv "ALLOW_INSECURE_NEXTCLOUD" == "1");
+      allowInsecure = true;
       permittedInsecure = [ "nextcloud-28.0.14" ];
       baseConfig =
         if allowInsecure then { config.permittedInsecurePackages = permittedInsecure; } else { };

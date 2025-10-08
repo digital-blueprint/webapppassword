@@ -1,3 +1,4 @@
+# https://wiki.nixos.org/wiki/NixOS_VM_tests
 {
   pkgs25_05,
   pkgs24_11 ? null,
@@ -133,6 +134,7 @@ in
 pkgs25_05.nixosTest {
   name = "nextcloud_webapppassword";
   nodes = node28 // node29 // node30 // node31;
+  interactive.sshBackdoor.enable = true; # provides ssh-config & vsock access (needs host vsock support)
   testScript = ''
     print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31}")
     start_all()

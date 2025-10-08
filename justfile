@@ -76,18 +76,18 @@ add-git-blame-ignore-revs:
 
 # Run tests for multiple versions of Nextcloud
 [group('test')]
-vm-test-combined args='':
+vm-test args='':
     nix build -L .#nixosTests.nextcloud-webapppassword {{ args }}
 
 # Interactive NixOS test driver session for the combined Nextcloud versions.
 # Tries driverInteractive first (non-executing build), then falls back to driver (also non-executing) if needed.
 # Usage examples:
 #   just vm-test-interactive
-#   just vm-test-interactive args="--impure"        # allow env vars: ALLOW_INSECURE_NEXTCLOUD=1 FORCE_REBUILD_NONCE=...
+#   just vm-test-interactive args="--impure"        # allow env vars: FORCE_REBUILD_NONCE=...
 # Environment knobs (export or prefix before just):
-#   ALLOW_INSECURE_NEXTCLOUD=1   # enable Nextcloud 28 (needs --impure)
-
 # FORCE_REBUILD_NONCE=$(date +%s)  # force rebuild of app derivation
+
+# Interactive NixOS test driver session for the combined Nextcloud versions test
 [group('test')]
 vm-test-interactive args='':
     if nix build -L .#nixosTests.nextcloud-webapppassword.driverInteractive {{ args }}; then \

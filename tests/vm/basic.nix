@@ -148,6 +148,9 @@ pkgs25_05.nixosTest {
         node.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing ({label})'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
         node.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
         node.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
+        # Test origins webapppassword app endpoint
+        node.succeed("sudo -u nextcloud nextcloud-occ config:system:set webapppassword.origins 0 --value 'https://known-site.com'")
+        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Fknown-site.com | grep 200")
 
     ${
       if has28 then

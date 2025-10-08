@@ -2,16 +2,12 @@
 {
   pkgs25_05,
   pkgs24_11 ? null,
-  allowInsecureNextcloud ? false,
   ...
 }:
 
 let
   inherit (pkgs25_05) lib;
-  # Optional dev-only knob: set FORCE_REBUILD_NONCE (with --impure) to force a new store path
-  # Example (fish): env FORCE_REBUILD_NONCE=(date +%s) nix build --impure -L .#nixosTests.nextcloud-webapppassword
-  forceRebuildNonce = builtins.getEnv "FORCE_REBUILD_NONCE";
-  tryAttr =
+  tryAttr25 =
     name:
     let
       t = builtins.tryEval (builtins.getAttr name pkgs25_05);
@@ -39,6 +35,14 @@ let
       overrideDerivation = f: legacyCompat (pkg.overrideDerivation f);
     };
 
+  # Helper to fetch a legacy pkg (from 24_11 set) and wrap it iff it exists
+  legacyPkg =
+    name:
+    let
+      p = tryAttr24 name;
+    in
+    if p != null then legacyCompat p else null;
+
   # Flexible PHP package set selection for composer
   phpPkgSet =
     pkgs25_05.php84Packages
@@ -47,13 +51,12 @@ let
     if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs25_05.composer; # pkgs25_05.composer as last resort
   phpInterp = pkgs25_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
 
-  raw28 = if allowInsecureNextcloud then tryAttr24 "nextcloud28" else null;
-  raw29 = tryAttr24 "nextcloud29"; # still supported
-  pkg28 = if raw28 != null then legacyCompat raw28 else null;
-  pkg29 = if raw29 != null then legacyCompat raw29 else null;
-  pkg30 = tryAttr "nextcloud30"; # may be null / removal alias
-  raw31 = tryAttr "nextcloud31";
-  rawGeneric = tryAttr "nextcloud";
+  # Legacy (28/29) come from 24.11, newer from 25.05
+  pkg28 = legacyPkg "nextcloud28";
+  pkg29 = legacyPkg "nextcloud29";
+  pkg30 = tryAttr25 "nextcloud30"; # may be null / removal alias
+  raw31 = tryAttr25 "nextcloud31";
+  rawGeneric = tryAttr25 "nextcloud";
   pkg31 =
     if raw31 != null then
       raw31
@@ -70,18 +73,15 @@ let
   # Build the app once (using primary pkgs set)
   webapppasswordApp =
     pkgs25_05.runCommand "webapppassword-app"
-      (
-        {
-          src = ../../.;
-          buildInputs = lib.filter (x: x != null) [
-            composerPkg
-            phpInterp
-          ];
-          preferLocalBuild = true;
-          allowSubstitutes = false; # ensure we always build locally (still won't rebuild if output already exists)
-        }
-        // lib.optionalAttrs (forceRebuildNonce != "") { FORCE_REBUILD_NONCE = forceRebuildNonce; }
-      )
+      {
+        src = ../../.;
+        buildInputs = lib.filter (x: x != null) [
+          composerPkg
+          phpInterp
+        ];
+        preferLocalBuild = true;
+        allowSubstitutes = false; # ensure we always build locally (still won't rebuild if output already exists)
+      }
       ''
         mkdir -p $out
         cp -r $src/* $out/

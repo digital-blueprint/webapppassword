@@ -84,8 +84,6 @@ vm-test args='':
 # Usage examples:
 #   just vm-test-interactive
 #   just vm-test-interactive args="--impure"        # allow env vars: FORCE_REBUILD_NONCE=...
-# Environment knobs (export or prefix before just):
-# FORCE_REBUILD_NONCE=$(date +%s)  # force rebuild of app derivation
 
 # Interactive NixOS test driver session for the combined Nextcloud versions test
 [group('test')]

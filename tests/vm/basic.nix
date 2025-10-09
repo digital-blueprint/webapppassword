@@ -146,18 +146,18 @@ pkgs25_05.nixosTest {
         node.wait_for_unit("nginx.service")
         node.succeed("curl -fsSL http://localhost/status.php | grep 'installed' | grep 'true'")
         node.succeed("sudo -u nextcloud nextcloud-occ app:list | grep -i webapppassword || (echo 'App missing ({label})'; sudo -u nextcloud nextcloud-occ app:list; exit 1)")
-        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login | grep 200")
+        assert "200" in node.succeed("curl -s -o /dev/null -w '%{http_code}' http://localhost/login"), "Login page needs to show up!"
         node.succeed("sudo -u nextcloud nextcloud-occ status | grep -i 'version:'")
         # Test origins webapppassword app endpoint
         node.succeed("sudo -u nextcloud nextcloud-occ config:system:set webapppassword.origins 0 --value 'https://known-site.com'")
-        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Fknown-site.com | grep 200")
-        node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Funknown-site.com | grep 403")
+        assert "200" in node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Fknown-site.com"), "Access to https://known-site.com must be allowed!"
+        assert "403" in node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Funknown-site.com"), "Access to https://unknown-site.com must be denied!"
 
     ${
       if has28 then
         ''test_version(nextcloud28, "28", "${pkg28.version}")''
       else
-        ''print("Skipping Nextcloud 28: not enabled or not permitted")''
+        ''print("Skipping Nextcloud 28: package not present")''
     }
 
     ${
@@ -178,7 +178,7 @@ pkgs25_05.nixosTest {
       if has31 then
         ''test_version(nextcloud31, "31", "${pkg31.version}")''
       else
-        ''print("Skipping Nextcloud 31: package not present or not version 31.x")''
+        ''print("Skipping Nextcloud 31: package not present")''
     }
 
     print("ALL_TESTS_DONE")

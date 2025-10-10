@@ -139,6 +139,13 @@ let
   node32 = if has32 then mkNode pkg32 "nextcloud32" else { };
 
 in
+# Fail early if any required Nextcloud package is missing
+assert (lib.assertMsg has28 "Missing required package: nextcloud28 (expected in pkgs24_11)");
+assert (lib.assertMsg has29 "Missing required package: nextcloud29 (expected in pkgs24_11)");
+assert (lib.assertMsg has30 "Missing required package: nextcloud30 (expected in pkgs25_05)");
+assert (lib.assertMsg has31 "Missing required package: nextcloud31 (expected in pkgs25_05)");
+assert (lib.assertMsg has32 "Missing required package: nextcloud32 (expected in pkgs25_11)");
+
 pkgs25_05.nixosTest {
   name = "nextcloud_webapppassword";
   nodes = node28 // node29 // node30 // node31 // node32;

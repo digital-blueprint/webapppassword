@@ -1,7 +1,8 @@
 # https://wiki.nixos.org/wiki/NixOS_VM_tests
 {
+  pkgs24_11,
   pkgs25_05,
-  pkgs24_11 ? null,
+  pkgs25_11,
   ...
 }:
 
@@ -25,6 +26,18 @@ let
       )
     else
       null;
+  # Safe lookup on pkgs25_11 catching eval errors
+  tryAttr2511 =
+    name:
+    if pkgs25_11 != null && builtins.hasAttr name pkgs25_11 then
+      (
+        let
+          t = builtins.tryEval (builtins.getAttr name pkgs25_11);
+        in
+        if t.success then t.value else null
+      )
+    else
+      null;
 
   # Wrapper to make legacy Nextcloud derivations ignore override args (e.g. caBundle introduced later)
   legacyCompat =
@@ -35,7 +48,7 @@ let
       overrideDerivation = f: legacyCompat (pkg.overrideDerivation f);
     };
 
-  # Helper to fetch a legacy pkg (from 24_11 set) and wrap it iff it exists
+  # Helper to fetch a legacy pkg (from 24_11 set) and wrap it if it exists
   legacyPkg =
     name:
     let
@@ -51,24 +64,18 @@ let
     if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs25_05.composer; # pkgs25_05.composer as last resort
   phpInterp = pkgs25_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
 
-  # Legacy (28/29) come from 24.11, newer from 25.05
+  # Legacy (28/29) come from 24.11, 30/31 from 25.05, 32 from 25.11
   pkg28 = legacyPkg "nextcloud28";
   pkg29 = legacyPkg "nextcloud29";
-  pkg30 = tryAttr25 "nextcloud30"; # may be null / removal alias
-  raw31 = tryAttr25 "nextcloud31";
-  rawGeneric = tryAttr25 "nextcloud";
-  pkg31 =
-    if raw31 != null then
-      raw31
-    else if rawGeneric != null && lib.hasPrefix "31." rawGeneric.version then
-      rawGeneric
-    else
-      null;
+  pkg30 = tryAttr25 "nextcloud30";
+  pkg31 = tryAttr25 "nextcloud31";
+  pkg32 = tryAttr2511 "nextcloud32";
 
   has28 = pkg28 != null;
   has29 = pkg29 != null;
   has30 = pkg30 != null;
   has31 = pkg31 != null;
+  has32 = pkg32 != null;
 
   # Build the app once (using primary pkgs set)
   webapppasswordApp =
@@ -129,14 +136,15 @@ let
   node29 = if has29 then mkNode pkg29 "nextcloud29" else { };
   node30 = if has30 then mkNode pkg30 "nextcloud30" else { };
   node31 = if has31 then mkNode pkg31 "nextcloud31" else { };
+  node32 = if has32 then mkNode pkg32 "nextcloud32" else { };
 
 in
 pkgs25_05.nixosTest {
   name = "nextcloud_webapppassword";
-  nodes = node28 // node29 // node30 // node31;
+  nodes = node28 // node29 // node30 // node31 // node32;
   interactive.sshBackdoor.enable = true; # provides ssh-config & vsock access (needs host vsock support)
   testScript = ''
-    print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31}")
+    print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31} Has32=${toString has32}")
     start_all()
 
     # Helper to test a Nextcloud node consistently
@@ -181,6 +189,12 @@ pkgs25_05.nixosTest {
         ''print("Skipping Nextcloud 31: package not present")''
     }
 
+    ${
+      if has32 then
+        ''test_version(nextcloud32, "32", "${pkg32.version}")''
+      else
+        ''print("Skipping Nextcloud 32: package not present")''
+    }
     print("ALL_TESTS_DONE")
   '';
 }

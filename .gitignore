@@ -5,6 +5,7 @@ docker/nextcloud/certificates/webapppassword.*
 *.gz
 *.db*
 /*.cache
+.shared
 
 # Devenv
 .devenv*

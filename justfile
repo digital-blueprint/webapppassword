@@ -1,6 +1,8 @@
 # Use `just <recipe>` to run a recipe
 # https://just.systems/man/en/
 
+import ".shared/common.just"
+
 # By default, run the `--list` command
 default:
     @just --list
@@ -9,10 +11,6 @@ default:
 
 transferDir := `if [ -d "$HOME/NextcloudPrivate/Transfer" ]; then echo "$HOME/NextcloudPrivate/Transfer"; else echo "$HOME/Nextcloud/Transfer"; fi`
 projectName := 'webapppassword'
-
-# Aliases
-
-alias fmt := format
 
 # Open a terminal with the project session
 [group('dev')]
@@ -55,24 +53,6 @@ test:
 [group('dev')]
 build:
     make build
-
-# Format all files using treefmt
-[group('linter')]
-format args='':
-    treefmt {{ args }}
-
-# Format all files using pre-commit
-[group('linter')]
-format-all args='':
-    composer install
-    pre-commit run --all-files {{ args }}
-
-# Add git commit hashes to the .git-blame-ignore-revs file
-[group('linter')]
-add-git-blame-ignore-revs:
-    git log --pretty=format:"%H" --grep="^lint" >> .git-blame-ignore-revs
-    sort .git-blame-ignore-revs | uniq > .git-blame-ignore-revs.tmp
-    mv .git-blame-ignore-revs.tmp .git-blame-ignore-revs
 
 # Run tests for multiple versions of Nextcloud
 [group('test')]

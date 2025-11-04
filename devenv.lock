@@ -3,10 +3,10 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1759708398,
+        "lastModified": 1761922975,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "f6351d5ca43b5d8de07744574b49ebb98750eb9e",
+        "rev": "c9f0b47815a4895fadac87812de8a4de27e0ace1",
         "type": "github"
       },
       "original": {
@@ -19,10 +19,10 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1747046372,
+        "lastModified": 1761588595,
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "9100a0f413b0c601e0533d1d94ffd501ce2e7885",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
         "type": "github"
       },
       "original": {
@@ -40,10 +40,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1759523803,
+        "lastModified": 1760663237,
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "cfc9f7bb163ad8542029d303e599c0f7eee09835",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
         "type": "github"
       },
       "original": {
@@ -74,16 +74,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1758532697,
-        "owner": "cachix",
-        "repo": "devenv-nixpkgs",
-        "rev": "207a4cb0e1253c7658c6736becc6eb9cace1f25f",
+        "lastModified": 1761907660,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2fb006b87f04c4d3bdf08cfdbc7fab9c13d94a15",
         "type": "github"
       },
       "original": {
-        "owner": "cachix",
-        "ref": "rolling",
-        "repo": "devenv-nixpkgs",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -94,7 +94,23 @@
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": [
           "git-hooks"
-        ]
+        ],
+        "shared": "shared"
+      }
+    },
+    "shared": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762176501,
+        "owner": "digital-blueprint",
+        "repo": "shared",
+        "rev": "d621df42bc9d31b5c2753c4a0f2f34cab123334e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "digital-blueprint",
+        "repo": "shared",
+        "type": "github"
       }
     }
   },

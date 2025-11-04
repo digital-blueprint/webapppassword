@@ -115,10 +115,12 @@ let
         enable = true;
         package = pkg;
         hostName = "localhost";
-        config.adminuser = "admin";
-        config.adminpassFile = "/etc/nextcloud-adminpass";
-        config.dbtype = "sqlite";
-        config.dbname = "nextcloud";
+        config = {
+          adminuser = "admin";
+          adminpassFile = "/etc/nextcloud-adminpass";
+          dbtype = "sqlite";
+          dbname = "nextcloud";
+        };
         extraApps = {
           webapppassword = webapppasswordApp;
         };

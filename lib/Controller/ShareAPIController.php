@@ -37,7 +37,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		private IL10N $l,
 		private IConfig $config,
 		private ContainerInterface $serverContainer,
-		?string $userId = null
+		?string $userId = null,
 	) {
 		$this->files_sharing_controller = $this->serverContainer->get(parent::class);
 
@@ -87,7 +87,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		string $note = '',
 		string $label = '',
 		?string $attributes = null,
-		?string $sendMail = null
+		?string $sendMail = null,
 	): DataResponse {
 		// Some NC versions expect $publicUpload to be a string and will throw if it is null.
 		// In case of a type error while the variable is null, call the parent function again with
@@ -126,7 +126,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		string $reshares = 'false',
 		string $subfiles = 'false',
 		string $path = '',
-		string $include_tags = 'false'
+		string $include_tags = 'false',
 	): DataResponse {
 		$response = parent::getShares(...func_get_args());
 
@@ -211,17 +211,17 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 */
 	public function updateShare(
 		string $id,
-		int $permissions = null,
-		string $password = null,
-		string $sendPasswordByTalk = null,
+		?int $permissions = null,
+		?string $password = null,
+		?string $sendPasswordByTalk = null,
 		?string $publicUpload = null,
-		string $expireDate = null,
-		string $note = null,
-		string $label = null,
-		string $hideDownload = null,
-		string $attributes = null,
+		?string $expireDate = null,
+		?string $note = null,
+		?string $label = null,
+		?string $hideDownload = null,
+		?string $attributes = null,
 		?string $sendMail = null,
-		?string $token = null
+		?string $token = null,
 	): DataResponse {
 		// Some NC versions expect $publicUpload to be a string and will throw if it is null.
 		// In case of a type error while the variable is null, call the parent function again with

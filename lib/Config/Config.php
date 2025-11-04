@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\Config;
 
-use \Psr\Log\LoggerInterface;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 class Config {
 	private IConfig $config;
@@ -17,7 +17,7 @@ class Config {
 	 */
 	public function __construct(
 		IConfig $config,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->config = $config;
 		$this->logger = $logger;

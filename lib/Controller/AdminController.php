@@ -18,14 +18,14 @@ class AdminController extends Controller {
 	/**
 	 * AdminController constructor.
 	 *
-	 * @param string   $appName The name of the app
+	 * @param string $appName The name of the app
 	 * @param IRequest $request The request
-	 * @param Config   $config  Config for nextcloud
+	 * @param Config $config Config for nextcloud
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
-		Config $config
+		Config $config,
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
@@ -41,7 +41,7 @@ class AdminController extends Controller {
 	public function update(
 		$origins,
 		$files_sharing_origins,
-		$preview_origins
+		$preview_origins,
 	) {
 		$this->config->setOrigins($origins);
 		$this->config->setFilesSharingOrigins($files_sharing_origins);

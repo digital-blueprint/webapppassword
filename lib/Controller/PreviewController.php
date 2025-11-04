@@ -24,12 +24,12 @@ class PreviewController extends CorePreviewController {
 	 *
 	 * Get a preview by file ID
 	 *
-	 * @param int    $fileId    ID of the file
-	 * @param int    $x         Width of the preview
-	 * @param int    $y         Height of the preview
-	 * @param bool   $a         Whether to not crop the preview
-	 * @param bool   $forceIcon Force returning an icon
-	 * @param string $mode      How to crop the image
+	 * @param int $fileId ID of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to not crop the preview
+	 * @param bool $forceIcon Force returning an icon
+	 * @param string $mode How to crop the image
 	 *
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
 	 *
@@ -69,7 +69,7 @@ class PreviewController extends CorePreviewController {
 		$response = new Response();
 		$response->addHeader('Access-Control-Allow-Origin', $origin);
 		$response->addHeader('Access-Control-Allow-Methods', $this->corsMethods);
-		$response->addHeader('Access-Control-Max-Age', (string) $this->corsMaxAge);
+		$response->addHeader('Access-Control-Max-Age', (string)$this->corsMaxAge);
 		$response->addHeader('Access-Control-Allow-Headers', $this->corsAllowedHeaders);
 		$response->addHeader('Access-Control-Allow-Credentials', 'false');
 

@@ -35,7 +35,7 @@ class FeatureContext implements Context {
 	private array $requestTokens = [];
 	private array $store = [];
 	private bool $setXdebugSession = true;
-	private string $xdebugSession = "local_ide";
+	private string $xdebugSession = 'local_ide';
 
 	private const SHARE_API_URL = '/apps/webapppassword/api/v1/';
 
@@ -141,10 +141,10 @@ class FeatureContext implements Context {
 	public function userCannotCreateShare($user, $share): void {
 		$this->setCurrentUser($user);
 		$formData = new TableNode([
-			["path", $share],
-			["shareType", "3"],
-			["label", "welcome txt shared"],
-			["password", 'undefined']
+			['path', $share],
+			['shareType', '3'],
+			['label', 'welcome txt shared'],
+			['password', 'undefined']
 		]);
 		$this->sendShareApiWebAppRequest('POST', 'shares', $formData);
 		$this->assertStatusCode(200);
@@ -157,10 +157,10 @@ class FeatureContext implements Context {
 	public function userCreatesShare($user, $share): void {
 		$this->setCurrentUser($user);
 		$formData = new TableNode([
-			["path", $share],
-			["shareType", "3"],
-			["label", "welcome txt shared"],
-			["password", 'undefined']
+			['path', $share],
+			['shareType', '3'],
+			['label', 'welcome txt shared'],
+			['password', 'undefined']
 		]);
 		$this->sendShareApiWebAppRequest('POST', 'shares', $formData);
 		$this->assertStatusCode(200);
@@ -172,7 +172,7 @@ class FeatureContext implements Context {
 
 	#[Then('Not logged user cannot see shares')]
 	public function notLoggedUserCannotSeeShares(): void {
-		$this->setCurrentUser("unknown");
+		$this->setCurrentUser('unknown');
 		$this->sendShareApiWebAppRequest('GET', 'shares');
 		$this->assertStatusCode([401,500]);
 	}

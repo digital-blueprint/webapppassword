@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\AppInfo;
 
-use \Psr\Log\LoggerInterface;
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
 use OCP\AppFramework\App;
@@ -31,6 +30,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IContainer;
 use OCP\SabrePluginEvent;
+use Psr\Log\LoggerInterface;
 
 class Application extends App {
 	public const APP_NAME = 'webapppassword';

@@ -30,7 +30,7 @@ use Test\TestCase;
  */
 class ShareAPIControllerTest extends TestCase {
 	private string $appName = 'webapppassword';
-	private ShareAPIController  $ocs;
+	private ShareAPIController $ocs;
 
 	private IRequest|MockObject $request;
 	private IL10N|MockObject $l;
@@ -72,10 +72,10 @@ class ShareAPIControllerTest extends TestCase {
 			* above.
 			*/
 		$this->serverContainer
-		->method('get')
-		->willReturnCallback(function ($className) {
-			return $this->filesharingParamMocks[$className] ?? null;
-		});
+			->method('get')
+			->willReturnCallback(function ($className) {
+				return $this->filesharingParamMocks[$className] ?? null;
+			});
 		$this->ocs = new ShareAPIController(
 			$this->appName,
 			$this->request,

@@ -45,7 +45,7 @@ class PageController extends Controller {
 		ISession $session,
 		ISecureRandom $random,
 		IProvider $tokenProvider,
-		Config $config
+		Config $config,
 	) {
 		parent::__construct($AppName, $request);
 
@@ -151,10 +151,10 @@ class PageController extends Controller {
 		$uid = $this->userSession->getUser()->getUID();
 		//        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
 		$targetOrigin = $this->request->getHeader('target-origin');
-		$name = $targetOrigin.' '.$this->request->getHeader('USER_AGENT');
+		$name = $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
 		$token = $this->random->generate(
 			72,
-			ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
+			ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 		);
 
 		$this->tokenProvider->generateToken(
@@ -171,7 +171,7 @@ class PageController extends Controller {
 			[
 				'loginName' => $loginName,
 				'token' => $token,
-				'webdavUrl' => \OCP\Util::linkToRemote('dav/files/'.$uid),
+				'webdavUrl' => \OCP\Util::linkToRemote('dav/files/' . $uid),
 			]
 		);
 	}

@@ -22,7 +22,7 @@ trait AccessControl {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function checkOrigin(DataResponse $response
+	protected function checkOrigin(DataResponse $response,
 	): DataResponse {
 		$origins_allowed = $this->getOriginList();
 		if (in_array('access-control-allow-origin', $response->getHeaders(), true)) {
@@ -88,7 +88,7 @@ trait AccessControl {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function checkPreviewOrigin(FileDisplayResponse|DataResponse $response
+	protected function checkPreviewOrigin(FileDisplayResponse|DataResponse $response,
 	): FileDisplayResponse|DataResponse {
 		$origins_allowed = $this->getPreviewOriginList();
 		if (in_array('access-control-allow-origin', $response->getHeaders(), true)) {

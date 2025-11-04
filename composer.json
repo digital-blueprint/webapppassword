@@ -13,7 +13,7 @@
     "vimeo/psalm": "^6.0",
     "friendsofphp/php-cs-fixer": "^3.12",
     "phpstan/phpstan": "^2.0",
-    "nextcloud/coding-standard": "^1.1",
+    "nextcloud/coding-standard": "^1.4",
     "behat/behat": "^3.14",
     "guzzlehttp/guzzle": "^7.8"
   },
@@ -36,14 +36,10 @@
       "@composer run phpstan",
       "@composer run psalm"
     ],
-    "cs-fix": [
-      "@php vendor/bin/php-cs-fixer --ansi fix"
-    ],
-    "cs": [
-      "@php vendor/bin/php-cs-fixer --ansi fix --dry-run --diff"
-    ],
     "psalm": [
       "@php vendor/bin/psalm"
-    ]
+    ],
+    "cs:check": "php-cs-fixer fix --dry-run --diff",
+    "cs:fix": "php-cs-fixer fix"
   }
 }

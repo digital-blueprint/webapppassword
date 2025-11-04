@@ -11,6 +11,8 @@ $config
 	->getFinder()
 	->ignoreVCSIgnored(true)
 	->notPath('build')
+	->notPath('l10n')
+	->notPath('src')
 	->notPath('vendor')
 	->in(__DIR__);
 return $config;

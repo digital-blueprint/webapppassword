@@ -13,7 +13,7 @@ that uses this app to generate a temporary password and make a WebDAV request to
 
 See [Example](https://github.com/digital-blueprint/webapppassword#example) for a Nextcloud WebDAV file picker example
 that uses this application.]]></description>
-    <version>25.8.0</version>
+    <version>26.2.0</version>
     <licence>agpl</licence>
     <author mail="patrizio@bekerle.com">Patrizio Bekerle</author>
     <namespace>WebAppPassword</namespace>
@@ -29,7 +29,7 @@ that uses this application.]]></description>
     <repository type="git">https://github.com/digital-blueprint/webapppassword.git</repository>
     <screenshot>https://github.com/digital-blueprint/webapppassword/raw/main/screenshot.png</screenshot>
     <dependencies>
-        <nextcloud min-version="22" max-version="32"/>
+        <nextcloud min-version="22" max-version="33"/>
     </dependencies>
     <settings>
         <admin>OCA\WebAppPassword\Settings\Admin</admin>

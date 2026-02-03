@@ -1,5 +1,10 @@
 # WebAppPassword Change Log
 
+## 26.2.0
+
+- Updated and tested app for Nextcloud 33 (for [#320](https://github.com/digital-blueprint/webapppassword/issues/320))
+- Updated dependencies
+
 ## 25.8.0
 
 - Updated and tested app for Nextcloud 32 (for [#290](https://github.com/digital-blueprint/webapppassword/issues/290))

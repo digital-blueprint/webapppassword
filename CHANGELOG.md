@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 26.2.1
+
+- Fix installation error message `Out-of-path file extraction` (for [#320](https://github.com/digital-blueprint/webapppassword/issues/320))
+
 ## 26.2.0
 
 - Updated and tested app for Nextcloud 33 (for [#320](https://github.com/digital-blueprint/webapppassword/issues/320))

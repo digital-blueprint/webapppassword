@@ -1,6 +1,6 @@
 #!/bin/sh
 ########################################################################
-# Creates the signature.json for the Nextcloud application
+# Creates the signature.json and the release archive for the Nextcloud application
 # This script runs in a Nextcloud Docker container.
 ########################################################################
 

@@ -25,7 +25,9 @@ rm -rf ${APP_DEST} &&
 		${APP_SOURCE}/ ${APP_DEST} &&
 	echo "✅ Files copied to deployment directory." &&
 	if [ "$(find ${APP_DEST} -type l | wc -l)" -gt 0 ]; then
-		echo "❌ Error: Symlinks found in deployment directory. Aborting."
+		echo "❌ Error: The following symlinks were found in the deployment directory:"
+		find ${APP_DEST} -type l
+		echo "Aborting."
 		exit 1
 	fi &&
 	find ${APP_DEST} -type d -empty -delete &&

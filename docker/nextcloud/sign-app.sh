@@ -24,6 +24,10 @@ rm -rf ${APP_DEST} &&
 		--exclude AGENTS.md \
 		${APP_SOURCE}/ ${APP_DEST} &&
 	echo "✅ Files copied to deployment directory." &&
+	if [ "$(find ${APP_DEST} -type l | wc -l)" -gt 0 ]; then
+		echo "❌ Error: Symlinks found in deployment directory. Aborting."
+		exit 1
+	fi &&
 	find ${APP_DEST} -type d -empty -delete &&
 	echo "🗑️ Empty directories removed." &&
 	su -m -c "./occ integrity:sign-app \

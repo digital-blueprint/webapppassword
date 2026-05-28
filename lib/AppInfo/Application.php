@@ -22,18 +22,26 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\AppInfo;
 
+use OCA\WebAppPassword\BackgroundJob\CleanupExpiredTokensJob;
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
+use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IContainer;
 use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public const APP_NAME = 'webapppassword';
+	public const TOKEN_NAME_PREFIX = 'WebAppPassword: ';
+	public const TOKEN_LIFETIME = 86400;
+	private const CLEANUP_JOB_INTERVAL_CONFIG_KEY = 'cleanup_job_interval';
 
 	/**
 	 * Application constructor.
@@ -64,5 +72,25 @@ class Application extends App {
 				$event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
 			}
 		);
+	}
+
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		$context->injectFn(function (IJobList $jobList, IConfig $config): void {
+			$currentInterval = (string)self::TOKEN_LIFETIME;
+			$registeredInterval = $config->getAppValue(self::APP_NAME, self::CLEANUP_JOB_INTERVAL_CONFIG_KEY, '');
+			$hasJob = $jobList->has(CleanupExpiredTokensJob::class, null);
+
+			if (!$hasJob || $registeredInterval !== $currentInterval) {
+				if ($hasJob) {
+					$jobList->remove(CleanupExpiredTokensJob::class, null);
+				}
+
+				$jobList->add(CleanupExpiredTokensJob::class, null);
+				$config->setAppValue(self::APP_NAME, self::CLEANUP_JOB_INTERVAL_CONFIG_KEY, $currentInterval);
+			}
+		});
 	}
 }

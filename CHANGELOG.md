@@ -1,5 +1,11 @@
 # WebAppPassword Change Log
 
+## 26.5.0
+
+- Fixed generated WebDAV app passwords for Nextcloud 32.0.9 and newer by creating expiring app tokens instead of session tokens
+  (for [#329](https://github.com/digital-blueprint/webapppassword/issues/329))
+  - Added cleanup of expired WebAppPassword tokens
+
 ## 26.2.1
 
 - Fix installation error message `Out-of-path file extraction` (for [#320](https://github.com/digital-blueprint/webapppassword/issues/320))

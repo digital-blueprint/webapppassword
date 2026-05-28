@@ -8,12 +8,14 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OCA\WebAppPassword\AppInfo\Application;
 use OCA\WebAppPassword\Config\Config;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -33,6 +35,9 @@ class PageController extends Controller {
 	/** @var IProvider */
 	private $tokenProvider;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * @var string[]
 	 */
@@ -45,6 +50,7 @@ class PageController extends Controller {
 		ISession $session,
 		ISecureRandom $random,
 		IProvider $tokenProvider,
+		ITimeFactory $timeFactory,
 		Config $config,
 	) {
 		parent::__construct($AppName, $request);
@@ -53,6 +59,7 @@ class PageController extends Controller {
 		$this->session = $session;
 		$this->random = $random;
 		$this->tokenProvider = $tokenProvider;
+		$this->timeFactory = $timeFactory;
 		$this->origins = $config->getOriginList();
 	}
 
@@ -103,7 +110,7 @@ class PageController extends Controller {
 	}
 
 	/**
-	 * Creates a new temporary app password and returns the token.
+	 * Creates a new expiring app password and returns the token.
 	 *
 	 * @return DataResponse
 	 *
@@ -151,21 +158,23 @@ class PageController extends Controller {
 		$uid = $this->userSession->getUser()->getUID();
 		//        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
 		$targetOrigin = $this->request->getHeader('target-origin');
-		$name = $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
+		$name = Application::TOKEN_NAME_PREFIX . $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
 		$token = $this->random->generate(
 			72,
 			ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 		);
 
-		$this->tokenProvider->generateToken(
+		$dbToken = $this->tokenProvider->generateToken(
 			$token,
 			$uid,
 			$loginName,
 			$password,
 			$name,
-			IToken::TEMPORARY_TOKEN,
+			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
+		$dbToken->setExpires($this->timeFactory->getTime() + Application::TOKEN_LIFETIME);
+		$this->tokenProvider->updateToken($dbToken);
 
 		return new DataResponse(
 			[

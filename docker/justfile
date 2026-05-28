@@ -66,12 +66,19 @@ run-unit-test:
 run-integration-test:
   {{ dockerComposeCommand }} run --rm app su -c "cd apps/webapppassword && php ./vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml" www-data
 
+# Run only the WebAppPassword expired token cleanup cronjob
+run-cleanup-cron:
+    {{ dockerComposeCommand }} run --rm app su -c "job_id=\$(./occ background-job:list --class='OCA\\WebAppPassword\\BackgroundJob\\CleanupExpiredTokensJob' --output=json | php -r '\$jobs = json_decode(stream_get_contents(STDIN), true); echo \$jobs[0][\"id\"] ?? \$jobs[\"data\"][0][\"id\"] ?? \"\";'); if [ -z \"\$job_id\" ]; then echo 'Cleanup job is not registered'; exit 1; fi; ./occ background-job:execute --force-execute \"\$job_id\"" www-data
+
 # Remove the docker volume
 reset:
     docker compose down
     docker volume rm {{ volumeName }}
 
-# Open the browser with the app
-[group('dev')]
-open-browser:
+# Open a browser with the app
+open-browser-app:
     xdg-open http://localhost:8081
+
+# Open a browser with sqlite-web
+open-browser-sqlite:
+    xdg-open http://localhost:8083

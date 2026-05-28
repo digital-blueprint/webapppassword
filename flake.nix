@@ -1,13 +1,13 @@
 {
-  description = "Nextcloud webapppassword app NixOS VM tests (Nextcloud 28-32)";
+  description = "Nextcloud webapppassword app NixOS VM tests (Nextcloud 28-33)";
 
   inputs = {
     # Add 24.11 channel for Nextcloud 28 & 29
     nixpkgs24_11.url = "github:NixOS/nixpkgs/nixos-24.11";
     # Add 25.05 channel for Nextcloud 30 & 31
     nixpkgs25_05.url = "github:NixOS/nixpkgs/nixos-25.05";
-    # Add unstable channel for Nextcloud 32
-    nixpkgs25_11.url = "github:NixOS/nixpkgs/daebeba791763abfe3cce5e0f16376ddf1b724d4";
+    # Add 25.11 channel for Nextcloud 32 & 33
+    nixpkgs25_11.url = "github:NixOS/nixpkgs/nixos-25.11";
   };
 
   outputs =

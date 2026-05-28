@@ -1,11 +1,12 @@
-name: Test
+name: 🧪 Test
 
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - feature/*
+    branches-ignore:
+      - release
+    tags-ignore:
+      - "*"
   workflow_dispatch:
 
 jobs:
@@ -16,37 +17,48 @@ jobs:
       matrix:
         php-versions: ["8.0", "8.1", "8.2", "8.3"]
         nextcloud-versions:
-          ["stable28", "stable29", "stable30", "stable31", "stable32"]
+          [
+            "stable28",
+            "stable29",
+            "stable30",
+            "stable31",
+            "stable32",
+            "stable33",
+          ]
         exclude:
+          - php-versions: 8.0
+            nextcloud-versions: stable33
+          - php-versions: 8.1
+            nextcloud-versions: stable33
           - php-versions: 8.0
             nextcloud-versions: stable32
           - php-versions: 8.0
             nextcloud-versions: stable31
           - php-versions: 8.0
             nextcloud-versions: stable30
-    name: Nextcloud ${{ matrix.nextcloud-versions }} php${{ matrix.php-versions }} unit tests
+    name: ☁️ Nextcloud ${{ matrix.nextcloud-versions }} php${{ matrix.php-versions }} unit tests
     steps:
-      - name: Set up php${{ matrix.php-versions }}
+      - name: 🐘 Set up php${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
           coverage: xdebug
-      - name: Checkout Nextcloud
+      - name: 📥 Checkout Nextcloud
         run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
-      - name: Patch version check for nightly PHP
+      - name: 🩹 Patch version check for nightly PHP
         if: ${{ matrix.php-versions == '8.2' }}
         run: echo "<?php" > nextcloud/lib/versioncheck.php
-      - name: Install Nextcloud
+      - name: ⚙️ Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
-      - name: Checkout webapppassword
+      - name: 📦 Checkout webapppassword
         uses: actions/checkout@v6
         with:
           path: nextcloud/apps/webapppassword
-      - name: Test app
+      - name: ✅ Test app
         run: |
           php -f nextcloud/occ app:enable webapppassword
-      - name: Run tests
+      - name: 🧪 Run tests
         run: |
           cd nextcloud
           php -S localhost:8080 &
@@ -60,12 +72,12 @@ jobs:
           #php /usr/local/bin/composer run psalm || result=1
           #exit $result
         if: ${{ matrix.php-versions == '7.4' }}
-      - name: Run endpoints tests
+      - name: 🔌 Run endpoints tests
         run: |
           composer global require phpunit/phpunit 
           cd ${{ github.workspace }}/nextcloud
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
-      - name: Run endpoint functional tests
+      - name: 🚦 Run endpoint functional tests
         run: |
           cd nextcloud
           php ./occ config:system:set  webapppassword.files_sharing_origins  0 --value "https://known-site.com"

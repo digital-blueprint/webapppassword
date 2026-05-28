@@ -63,8 +63,8 @@
     const outputArea = document.querySelector("#output-area");
     const output = document.querySelector("#output");
     const output2 = document.querySelector("#output2");
-    const appUrl = document.querySelector("#app-url").value;
-    const webdavUrl = document.querySelector("#webdav-url").value;
+    const appUrl = document.querySelector("#app-url");
+    const webdavUrl = document.querySelector("#webdav-url");
     const fileSource = document.querySelector("#file-source");
 
     function login() {
@@ -73,14 +73,14 @@
         output2.value = "";
 
         // open auth window of WebAppPassword application
-        wnd = window.open(appUrl + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
+        wnd = window.open(appUrl.value + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
             "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
 
     function openFilePicker() {
         outputArea.classList.add("hidden");
-        fileSource.setAttribute("nextcloud-auth-url", appUrl);
-        fileSource.setAttribute("nextcloud-web-dav-url", webdavUrl);
+        fileSource.setAttribute("nextcloud-auth-url", appUrl.value);
+        fileSource.setAttribute("nextcloud-web-dav-url", webdavUrl.value);
         fileSource.setAttribute("dialog-open", "");
     }
 
@@ -100,7 +100,7 @@
             headers.set('Authorization', 'Basic ' + btoa(data.loginName + ":" + data.token));
 
             // do PROPFIND WebDAV request
-            fetch(webdavUrl + "/" + data.loginName, {
+            fetch(webdavUrl.value + "/" + data.loginName, {
                 method: 'PROPFIND', // *GET, POST, PUT, DELETE, etc.
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 headers: headers

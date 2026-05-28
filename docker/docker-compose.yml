@@ -18,5 +18,17 @@ services:
       - ./nextcloud/sign-app.sh:/var/www/sign-app.sh
       - ./webapppassword.config.php:/var/www/html/config/webapppassword.config.php
 
+  # https://github.com/coleifer/sqlite-web
+  sqlite-web:
+    image: ghcr.io/coleifer/sqlite-web:latest
+    ports:
+      - 8083:8080
+    volumes:
+      - sqlite-web:/data
+      - nextcloud:/nextcloud
+    environment:
+      - SQLITE_DATABASE=/nextcloud/data/mydb.db
+
 volumes:
   nextcloud:
+  sqlite-web:

@@ -4,6 +4,8 @@
 #FROM nextcloud:29-apache
 #FROM nextcloud:30-apache
 #FROM nextcloud:31-apache
+#FROM nextcloud:32-apache
+#FROM nextcloud:33-apache
 
 # Use this if there is no release image yet
 # https://github.com/digital-blueprint/nextcloud-docker/pkgs/container/nextcloud-docker-pre-apache

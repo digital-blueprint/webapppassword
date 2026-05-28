@@ -5,6 +5,8 @@
 - Fixed generated WebDAV app passwords for Nextcloud 32.0.9 and newer by creating expiring app tokens instead of session tokens
   (for [#329](https://github.com/digital-blueprint/webapppassword/issues/329))
   - Added cleanup of expired WebAppPassword tokens
+- Updated and tested app for Nextcloud 34 (for [#328](https://github.com/digital-blueprint/webapppassword/issues/328))
+- Updated dependencies
 
 ## 26.2.1
 

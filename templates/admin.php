@@ -11,13 +11,13 @@ style('webapppassword', 'admin');
                 <?php p($l->t('Allowed origins for webdav')); ?>
             </label>
         <p>
-            <em><?php p($l->t('Origins that are allowed to access the files using webdav(separated by comma)')); ?></em>
+            <em><?php p($l->t('Origins that are allowed to access the files using webdav (separated by comma). Use full origins like https://example.com. One-level subdomain wildcards are supported as https://*.example.com, matching https://app.example.com but not https://a.b.example.com or https://example.com.')); ?></em>
         </p>
         <p>
             <input type="text"
                   id="webapppassword-origins"
                   name="webapppassword-origins"
-                  placeholder="https://example.com,https://example2.com"
+                  placeholder="https://example.com,https://*.example.org"
                   autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['origins']); ?>">
         </p>
@@ -32,13 +32,13 @@ style('webapppassword', 'admin');
                 <?php p($l->t('Allowed origins for files sharing api')); ?>
             </label>
         <p>
-            <em><?php p($l->t('Origins that are allowed to access files sharing api(separated by comma)')); ?></em>
+            <em><?php p($l->t('Origins that are allowed to access files sharing api (separated by comma). Use full origins like https://example.com. One-level subdomain wildcards are supported as https://*.example.com, matching https://app.example.com but not https://a.b.example.com or https://example.com.')); ?></em>
         </p>
         <p>
             <input type="text"
                   id="files-sharing-webapppassword-origins"
                   name="files-sharing-webapppassword-origins"
-                  placeholder="https://example.com,https://example2.com"
+                  placeholder="https://example.com,https://*.example.org"
                   autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['files_sharing_origins']); ?>">
         </p>
@@ -59,13 +59,13 @@ style('webapppassword', 'admin');
                 <?php p($l->t('Allowed origins for preview api')); ?>
             </label>
         <p>
-            <em><?php p($l->t('Origins that are allowed to access preview api(separated by comma)')); ?></em>
+            <em><?php p($l->t('Origins that are allowed to access preview api (separated by comma). Use full origins like https://example.com. One-level subdomain wildcards are supported as https://*.example.com, matching https://app.example.com but not https://a.b.example.com or https://example.com.')); ?></em>
         </p>
         <p>
             <input type="text"
                   id="preview-webapppassword-origins"
                   name="preview-webapppassword-origins"
-                  placeholder="https://example.com,https://example2.com"
+                  placeholder="https://example.com,https://*.example.org"
                   autocomplete="off" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other"
                   value="<?php p($_['preview_origins']); ?>">
         </p>

@@ -1,5 +1,11 @@
 # WebAppPassword Change Log
 
+## 26.6.0
+
+- Added support for one-level wildcard origins, such as `https://*.example.com`, for WebDAV/CalDAV,
+  app-password generation, files sharing API and preview API origin checks
+  (for [#332](https://github.com/digital-blueprint/webapppassword/issues/332))
+
 ## 26.5.0
 
 - Fixed generated WebDAV app passwords for Nextcloud 32.0.9 and newer by creating expiring app tokens instead of session tokens

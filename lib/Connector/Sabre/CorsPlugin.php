@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCA\WebAppPassword\Connector\Sabre;
 
 use OCA\WebAppPassword\Config\Config;
+use OCA\WebAppPassword\Security\OriginMatcher;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -39,7 +40,7 @@ class CorsPlugin extends ServerPlugin {
 		}
 
 		$origin = $request->getHeader('origin');
-		if (empty($origin) || !in_array($origin, $this->origins, true)) {
+		if (empty($origin) || !OriginMatcher::isAllowed($origin, $this->origins)) {
 			return;
 		}
 

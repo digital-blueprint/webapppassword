@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OCA\WebAppPassword\Controller;
 
+use OCA\WebAppPassword\Security\OriginMatcher;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -30,7 +31,7 @@ trait AccessControl {
 		}
 
 		$origin = $this->request->getHeader('origin');
-		if (empty($origin) || !in_array($origin, $origins_allowed, true)) {
+		if (empty($origin) || !OriginMatcher::isAllowed($origin, $origins_allowed)) {
 			throw new OCSBadRequestException($this->l->t('Could not create share'));
 		}
 
@@ -96,7 +97,7 @@ trait AccessControl {
 		}
 
 		$origin = $this->request->getHeader('origin');
-		if (empty($origin) || !in_array($origin, $origins_allowed, true)) {
+		if (empty($origin) || !OriginMatcher::isAllowed($origin, $origins_allowed)) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

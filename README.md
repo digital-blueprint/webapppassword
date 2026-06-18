@@ -25,6 +25,12 @@ Alternatively you can also add this setting to your `config/config.php`
 
 `'webapppassword.origins' => ['https://example.com'],` - array of allowed webdav/caldav origins
 
+Origins must include the scheme, host and optional port. Paths are ignored. One-level subdomain
+wildcards are supported in the host as `https://*.example.com`. This matches
+`https://app.example.com`, but not `https://a.b.example.com` and not `https://example.com`.
+Add the apex origin separately if it should also be allowed. The scheme and port still need to
+match, so `https://*.example.com` does not allow `http://app.example.com`.
+
 The setting is both used for the origin of the CORS headers for the WebDAV/CalDAV requests and
 for the referrer check whether we want to generate a temporary app password.
 

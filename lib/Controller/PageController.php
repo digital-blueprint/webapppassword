@@ -10,6 +10,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OCA\WebAppPassword\AppInfo\Application;
 use OCA\WebAppPassword\Config\Config;
+use OCA\WebAppPassword\Security\OriginMatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -73,13 +74,7 @@ class PageController extends Controller {
 			return false;
 		}
 
-		foreach ($this->origins as $origin) {
-			if ($origin !== '' && strpos($targetOrigin, $origin) === 0) {
-				return true;
-			}
-		}
-
-		return false;
+		return OriginMatcher::isAllowed($targetOrigin, $this->origins);
 	}
 
 	/**

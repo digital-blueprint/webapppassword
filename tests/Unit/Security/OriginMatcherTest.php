@@ -24,6 +24,21 @@ class OriginMatcherTest extends TestCase {
 				['https://example.com'],
 				true,
 			],
+			'exact localhost origin with port matches' => [
+				'http://localhost:8001',
+				['http://localhost:8001'],
+				true,
+			],
+			'exact loopback ip origin with port matches' => [
+				'http://127.0.0.1:8001',
+				['http://127.0.0.1:8001'],
+				true,
+			],
+			'localhost and loopback ip are distinct origins' => [
+				'http://127.0.0.1:8001',
+				['http://localhost:8001'],
+				false,
+			],
 			'exact origin allows path in input url' => [
 				'https://example.com/path',
 				['https://example.com'],

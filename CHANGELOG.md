@@ -2,6 +2,7 @@
 
 ## 26.8.0
 
+- Updated and tested app for Nextcloud 35 (for [#341](https://github.com/digital-blueprint/webapppassword/issues/341))
 - Dropped support for Nextcloud versions older than 32
 - Fixed sharing and preview origin configuration access on Nextcloud 34 and newer
 - Replaced deprecated controller annotations with HTTP attributes

@@ -3,6 +3,7 @@
 ## 26.8.0
 
 - Dropped support for Nextcloud versions older than 32
+- Updated dependencies
 
 ## 26.6.0
 

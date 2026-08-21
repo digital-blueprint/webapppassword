@@ -55,7 +55,11 @@ jobs:
           path: nextcloud/apps/webapppassword
       - name: ✅ Test app
         run: |
-          php -f nextcloud/occ app:enable webapppassword
+          if [[ "${{ matrix.nextcloud-versions }}" == "master" ]]; then
+            php -f nextcloud/occ app:enable --force webapppassword
+          else
+            php -f nextcloud/occ app:enable webapppassword
+          fi
       - name: 🧪 Run tests
         run: |
           cd nextcloud

@@ -3,6 +3,7 @@
 ## 26.8.0
 
 - Dropped support for Nextcloud versions older than 32
+- Fixed sharing and preview origin configuration access on Nextcloud 34 and newer
 - Updated dependencies
 
 ## 26.6.0

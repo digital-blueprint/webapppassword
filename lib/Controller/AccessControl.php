@@ -11,6 +11,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\IConfig;
+use OCP\Server;
 
 trait AccessControl {
 	/**
@@ -51,9 +53,7 @@ trait AccessControl {
 	 *                List allowed origins separated by commas
 	 */
 	protected function getOrigins(): string {
-		// TODO DI $this->config->getAppValue('files_sharing_origins', 'origins');
-		// __construct must be reimplemented as config prop in parent is private...
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$origins = $config->getAppValue('webapppassword', 'files_sharing_origins');
 
 		if ($origins === '') {
@@ -117,9 +117,7 @@ trait AccessControl {
 	 *                List allowed origins separated by commas
 	 */
 	protected function getPreviewOrigins(): string {
-		// TODO DI $this->config->getAppValue('files_sharing_origins', 'origins');
-		// __construct must be reimplemented as config prop in parent is private...
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$origins = $config->getAppValue('webapppassword', 'preview_origins');
 
 		if ($origins === '') {

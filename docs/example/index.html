@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
     <style>
         textarea { width: 100%; height: 50px; }
+        textarea#selected-files { height: 150px; }
         textarea#output2 { height: 200px; }
         .hidden { display: none; }
         .container-fluid { margin: 10px 0; }
@@ -33,6 +34,10 @@
 
         <button onclick="openFilePicker()" class="btn btn-primary">Open WebDAV file picker</button>
         <button onclick="login()" class="btn btn-secondary">Basic window.open()</button>
+        <div class="form-group mt-3">
+            <label for="selected-files">Selected file(s)</label>
+            <textarea class="form-control" id="selected-files" readonly aria-live="polite" placeholder="No files selected"></textarea>
+        </div>
     </div>
     <div class="container-fluid hidden" id="output-area">
         <h2>Output</h2>
@@ -66,6 +71,8 @@
     const appUrl = document.querySelector("#app-url");
     const webdavUrl = document.querySelector("#webdav-url");
     const fileSource = document.querySelector("#file-source");
+    const selectedFiles = document.querySelector("#selected-files");
+    let selectedFileNames = [];
 
     function login() {
         outputArea.classList.remove("hidden");
@@ -79,10 +86,17 @@
 
     function openFilePicker() {
         outputArea.classList.add("hidden");
+        selectedFileNames = [];
+        selectedFiles.value = "";
         fileSource.setAttribute("nextcloud-auth-url", appUrl.value);
         fileSource.setAttribute("nextcloud-web-dav-url", webdavUrl.value);
         fileSource.setAttribute("dialog-open", "");
     }
+
+    fileSource.addEventListener("dbp-file-source-file-selected", (event) => {
+        selectedFileNames.push(event.detail.file.name);
+        selectedFiles.value = selectedFileNames.join("\n");
+    });
 
     // receives the "window.opener.postMessage" from https://github.com/digital-blueprint/webapppassword/blob/main/js/script.js
     window.addEventListener('message', (event) => {

@@ -1,31 +1,12 @@
 # https://wiki.nixos.org/wiki/NixOS_VM_tests
 {
-  pkgs24_11,
-  pkgs25_05,
   pkgs25_11,
+  pkgs26_05,
   ...
 }:
 
 let
-  inherit (pkgs25_05) lib;
-  tryAttr25 =
-    name:
-    let
-      t = builtins.tryEval (builtins.getAttr name pkgs25_05);
-    in
-    if t.success then t.value else null;
-  # Safe lookup on pkgs24_11 catching insecure-package eval errors
-  tryAttr24 =
-    name:
-    if pkgs24_11 != null && builtins.hasAttr name pkgs24_11 then
-      (
-        let
-          t = builtins.tryEval (builtins.getAttr name pkgs24_11);
-        in
-        if t.success then t.value else null
-      )
-    else
-      null;
+  inherit (pkgs26_05) lib;
   # Safe lookup on pkgs25_11 catching eval errors
   tryAttr2511 =
     name:
@@ -39,56 +20,42 @@ let
     else
       null;
 
-  # Wrapper to make legacy Nextcloud derivations ignore override args (e.g. caBundle introduced later)
-  legacyCompat =
+  # Make older Nextcloud derivations ignore override args introduced by newer modules.
+  packageCompat =
     pkg:
     pkg
     // {
-      override = _args: legacyCompat pkg; # ignore args to avoid unexpected argument errors
-      overrideDerivation = f: legacyCompat (pkg.overrideDerivation f);
+      override = _args: packageCompat pkg;
+      overrideDerivation = f: packageCompat (pkg.overrideDerivation f);
     };
-
-  # Helper to fetch a legacy pkg (from 24_11 set) and wrap it if it exists
-  legacyPkg =
-    name:
-    let
-      p = tryAttr24 name;
-    in
-    if p != null then legacyCompat p else null;
 
   compatPkg25_11 =
     name:
     let
       p = tryAttr2511 name;
     in
-    if p != null then legacyCompat p else null;
+    if p != null then packageCompat p else null;
 
   # Flexible PHP package set selection for composer
   phpPkgSet =
-    pkgs25_05.php84Packages
-      or (pkgs25_05.php83Packages or (pkgs25_05.php82Packages or (pkgs25_05.php81Packages or null)));
+    pkgs26_05.php85Packages
+      or (pkgs26_05.php84Packages or (pkgs26_05.php83Packages or (pkgs26_05.php82Packages or null)));
   composerPkg =
-    if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs25_05.composer; # pkgs25_05.composer as last resort
-  phpInterp = pkgs25_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
+    if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs26_05.composer;
+  phpInterp = pkgs26_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
 
-  # Legacy (28/29) come from 24.11, 30/31 from 25.05, 32/33 from 25.11
-  pkg28 = legacyPkg "nextcloud28";
-  pkg29 = legacyPkg "nextcloud29";
-  pkg30 = tryAttr25 "nextcloud30";
-  pkg31 = tryAttr25 "nextcloud31";
+  # Nextcloud 32/33 come from 25.11, 34 from 26.05.
   pkg32 = compatPkg25_11 "nextcloud32";
   pkg33 = compatPkg25_11 "nextcloud33";
+  pkg34 = pkgs26_05.nextcloud34 or null;
 
-  has28 = pkg28 != null;
-  has29 = pkg29 != null;
-  has30 = pkg30 != null;
-  has31 = pkg31 != null;
   has32 = pkg32 != null;
   has33 = pkg33 != null;
+  has34 = pkg34 != null;
 
   # Build the app once (using primary pkgs set)
   webapppasswordApp =
-    pkgs25_05.runCommand "webapppassword-app"
+    pkgs26_05.runCommand "webapppassword-app"
       {
         src = ../../.;
         buildInputs = lib.filter (x: x != null) [
@@ -143,28 +110,22 @@ let
     };
   };
 
-  node28 = if has28 then mkNode pkg28 "nextcloud28" else { };
-  node29 = if has29 then mkNode pkg29 "nextcloud29" else { };
-  node30 = if has30 then mkNode pkg30 "nextcloud30" else { };
-  node31 = if has31 then mkNode pkg31 "nextcloud31" else { };
   node32 = if has32 then mkNode pkg32 "nextcloud32" else { };
   node33 = if has33 then mkNode pkg33 "nextcloud33" else { };
+  node34 = if has34 then mkNode pkg34 "nextcloud34" else { };
 
 in
 # Fail early if any required Nextcloud package is missing
-assert (lib.assertMsg has28 "Missing required package: nextcloud28 (expected in pkgs24_11)");
-assert (lib.assertMsg has29 "Missing required package: nextcloud29 (expected in pkgs24_11)");
-assert (lib.assertMsg has30 "Missing required package: nextcloud30 (expected in pkgs25_05)");
-assert (lib.assertMsg has31 "Missing required package: nextcloud31 (expected in pkgs25_05)");
 assert (lib.assertMsg has32 "Missing required package: nextcloud32 (expected in pkgs25_11)");
 assert (lib.assertMsg has33 "Missing required package: nextcloud33 (expected in pkgs25_11)");
+assert (lib.assertMsg has34 "Missing required package: nextcloud34 (expected in pkgs26_05)");
 
-pkgs25_05.nixosTest {
+pkgs26_05.testers.nixosTest {
   name = "nextcloud_webapppassword";
-  nodes = node28 // node29 // node30 // node31 // node32 // node33;
+  nodes = node32 // node33 // node34;
   interactive.sshBackdoor.enable = true; # provides ssh-config & vsock access (needs host vsock support)
   testScript = ''
-    print("Has28=${toString has28} Has29=${toString has29} Has30=${toString has30} Has31=${toString has31} Has32=${toString has32} Has33=${toString has33}")
+    print("Has32=${toString has32} Has33=${toString has33} Has34=${toString has34}")
     start_all()
 
     # Helper to test a Nextcloud node consistently
@@ -182,34 +143,6 @@ pkgs25_05.nixosTest {
         assert "403" in node.succeed("curl -s -o /dev/null -w '%{http_code}' http://admin:adminpass@localhost/index.php/apps/webapppassword?target-origin=https%3A%2F%2Funknown-site.com"), "Access to https://unknown-site.com must be denied!"
 
     ${
-      if has28 then
-        ''test_version(nextcloud28, "28", "${pkg28.version}")''
-      else
-        ''print("Skipping Nextcloud 28: package not present")''
-    }
-
-    ${
-      if has29 then
-        ''test_version(nextcloud29, "29", "${pkg29.version}")''
-      else
-        ''print("Skipping Nextcloud 29: package not present")''
-    }
-
-    ${
-      if has30 then
-        ''test_version(nextcloud30, "30", "${pkg30.version}")''
-      else
-        ''print("Skipping Nextcloud 30: package not present")''
-    }
-
-    ${
-      if has31 then
-        ''test_version(nextcloud31, "31", "${pkg31.version}")''
-      else
-        ''print("Skipping Nextcloud 31: package not present")''
-    }
-
-    ${
       if has32 then
         ''test_version(nextcloud32, "32", "${pkg32.version}")''
       else
@@ -221,6 +154,13 @@ pkgs25_05.nixosTest {
         ''test_version(nextcloud33, "33", "${pkg33.version}")''
       else
         ''print("Skipping Nextcloud 33: package not present")''
+    }
+
+    ${
+      if has34 then
+        ''test_version(nextcloud34, "34", "${pkg34.version}")''
+      else
+        ''print("Skipping Nextcloud 34: package not present")''
     }
     print("ALL_TESTS_DONE")
   '';

@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## 26.8.0
+
+- Dropped support for Nextcloud versions older than 32
+
 ## 26.6.0
 
 - Added support for one-level wildcard origins, such as `https://*.example.com`, for WebDAV/CalDAV,

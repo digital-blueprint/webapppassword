@@ -7,6 +7,9 @@ declare(strict_types=1);
 namespace OCA\WebAppPassword\Controller;
 
 use OC\Core\Controller\PreviewController as CorePreviewController;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 
@@ -18,10 +21,6 @@ class PreviewController extends CorePreviewController {
 	private $corsMaxAge = 1728000;
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview by file ID
 	 *
 	 * @param int $fileId ID of the file
@@ -38,6 +37,8 @@ class PreviewController extends CorePreviewController {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getPreviewByFileId(
 		int $fileId = -1,
 		int $x = 32,
@@ -55,12 +56,10 @@ class PreviewController extends CorePreviewController {
 	 * This method implements a preflighted cors response for you that you can
 	 * link to for the options request.
 	 *
-	 * @NoAdminRequired
-	 *
-	 * @NoCSRFRequired
-	 *
-	 * @PublicPage
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function preflightedCors() {
 		// Disallow by default
 		// "null" is not advised to be used as an origin

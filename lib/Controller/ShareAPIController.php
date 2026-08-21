@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace OCA\WebAppPassword\Controller;
 
 use OCA\Files_Sharing\Controller\ShareAPIController as FilesSharingShareAPIController;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -21,7 +22,6 @@ use OCP\IRequest;
 use OCP\Lock\LockedException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-
 use ReflectionNamedType;
 use ReflectionParameter;
 
@@ -29,7 +29,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	use AccessControl;
 
 	private $files_sharing_controller;
-
 
 	public function __construct(
 		$AppName,
@@ -41,7 +40,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	) {
 		$this->files_sharing_controller = $this->serverContainer->get(parent::class);
 
-
 		$parent_constructor_method = new \ReflectionMethod(parent::class, '__construct');
 		$parent_constructor_params = $this->buildClassConstructorParameters($parent_constructor_method);
 		// set the Appname parameter as it cannot come from reflection (will inject string class)
@@ -52,8 +50,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string|null $path
 	 * @param int|null $permissions
 	 * @param int $shareType
@@ -75,6 +71,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 * @throws InvalidPathException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
+	#[NoAdminRequired]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -103,11 +100,8 @@ class ShareAPIController extends FilesSharingShareAPIController {
 		return $this->checkOrigin($response);
 	}
 
-
 	/**
 	 * The getShares function.
-	 *
-	 * @NoAdminRequired
 	 *
 	 * @param string $path
 	 *
@@ -121,6 +115,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSNotFoundException
 	 */
+	#[NoAdminRequired]
 	public function getShares(
 		string $shared_with_me = 'false',
 		string $reshares = 'false',
@@ -136,10 +131,9 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	/**
 	 * Get a specific share by id.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @throws OCSNotFoundException
 	 */
+	#[NoAdminRequired]
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		//    $this->files_sharing_controller->getShare(...func_get_args());
 		$response = parent::getShare(...func_get_args());
@@ -150,8 +144,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	/**
 	 * The getInheritedShares function.
 	 * returns all shares relative to a file, including parent folders shares rights.
-	 *
-	 * @NoAdminRequired
 	 *
 	 * @param string $path
 	 *
@@ -167,6 +159,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 * @throws OCSBadRequestException
 	 * @throws SharingRightsException
 	 */
+	#[NoAdminRequired]
 	public function getInheritedShares(string $path): DataResponse {
 		$response = parent::getInheritedShares(...func_get_args());
 
@@ -174,14 +167,13 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws OCSNotFoundException
 	 * @throws OCSBadRequestException
 	 * @throws SharingRightsException
 	 */
+	#[NoAdminRequired]
 	public function pendingShares(): DataResponse {
 		$response = parent::pendingShares(...func_get_args());
 
@@ -189,8 +181,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string $id
 	 * @param int|null $permissions
 	 * @param string|null $password
@@ -209,6 +199,7 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	 * @throws NotFoundException
 	 * @throws LockedException
 	 */
+	#[NoAdminRequired]
 	public function updateShare(
 		string $id,
 		?int $permissions = null,
@@ -239,10 +230,9 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	/**
 	 * Delete a share.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @throws OCSNotFoundException
 	 */
+	#[NoAdminRequired]
 	public function deleteShare(string $id): DataResponse {
 		$response = parent::deleteShare(...func_get_args());
 
@@ -252,7 +242,6 @@ class ShareAPIController extends FilesSharingShareAPIController {
 	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
 
 		$constructor_params = array_map(function (ReflectionParameter $parameter) {
-
 			$parameterType = $parameter->getType();
 
 			$resolveName = $parameter->getName();

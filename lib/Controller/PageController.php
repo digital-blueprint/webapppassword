@@ -13,6 +13,8 @@ use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Security\OriginMatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -79,11 +81,9 @@ class PageController extends Controller {
 
 	/**
 	 * Shows the page where the script with the postMessage is included.
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index() {
 		$hasAllowedOrigin = $this->hasAllowedOrigin();
 		$parameters = [
@@ -109,10 +109,9 @@ class PageController extends Controller {
 	 *
 	 * @return DataResponse
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	public function createToken() {
 		// If we are using the $this->credentialStore (OCP\Authentication\LoginCredentials\IStore)
 		// we will get empty passwords from our OIDC accounts, this causes \OC\User\Session::checkTokenCredentials

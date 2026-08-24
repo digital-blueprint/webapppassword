@@ -25,12 +25,14 @@ namespace OCA\WebAppPassword\AppInfo;
 use OCA\WebAppPassword\BackgroundJob\CleanupExpiredTokensJob;
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Connector\Sabre\CorsPlugin;
+use OCA\WebAppPassword\Listener\SabrePluginListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\BackgroundJob\IJobList;
+use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IContainer;
@@ -65,7 +67,7 @@ class Application extends App implements IBootstrap {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
-		// Inject CORS headers to allow WebDAV access from inside a webpage
+		// Inject CORS headers into the authenticated WebDAV/CalDAV server
 		$eventDispatcher->addListener(
 			'OCA\DAV\Connector\Sabre::addPlugin',
 			function (SabrePluginEvent $event) use ($container) {
@@ -75,6 +77,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, SabrePluginListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -1,5 +1,9 @@
 # WebAppPassword Change Log
 
+## Unreleased
+
+- Added CORS support for public WebDAV shares (for [#5](https://github.com/digital-blueprint/webapppassword/issues/5))
+
 ## 26.8.0
 
 - Updated and tested app for Nextcloud 35 (for [#341](https://github.com/digital-blueprint/webapppassword/issues/341))

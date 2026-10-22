@@ -1,6 +1,7 @@
 name: 🧪 Test
 
 on:
+  workflow_call:
   pull_request:
   push:
     branches-ignore:
@@ -10,6 +11,19 @@ on:
   workflow_dispatch:
 
 jobs:
+  release-tests:
+    name: Validate release tooling
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - run: |
+          python3 -m unittest discover -s tests/release
+          python3 scripts/check-release.py --allow-unreleased
+
   unit-tests:
     runs-on: ubuntu-latest
     strategy:

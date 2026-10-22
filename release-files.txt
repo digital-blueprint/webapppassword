@@ -1,0 +1,11 @@
+# Literal top-level runtime paths included in signed CI releases.
+appinfo
+css
+img
+js
+l10n
+lib
+templates
+COPYING
+README.md
+CHANGELOG.md

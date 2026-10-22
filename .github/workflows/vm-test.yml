@@ -1,6 +1,7 @@
 name: "🧪 Run VM test"
 
 on:
+  workflow_call:
   push:
     paths-ignore:
       - docker/**

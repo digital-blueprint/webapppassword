@@ -97,6 +97,11 @@ php /path/to/translationtool.phar convert-po-files
 
 See: [Manual translation](https://docs.nextcloud.com/server/19/developer_manual/app/view/l10n.html#manual-translation)
 
+## Releasing
+
+See [Signing and releasing](docs/deployment.md) for the GitHub Actions setup,
+Nextcloud signing credentials, automated release procedure and recovery steps.
+
 ## References
 
 This Nextcloud application is used in the

@@ -22,6 +22,7 @@ rm -rf ${APP_DEST} &&
 		--exclude justfile --exclude treefmt.toml --exclude .devenv --exclude flake.* \
 		--exclude .devenv.* --exclude devenv.* --exclude .pre-commit-config.* --exclude .shared \
 		--exclude AGENTS.md \
+		--exclude scripts --exclude release-files.txt --exclude release-notes.md --exclude build \
 		${APP_SOURCE}/ ${APP_DEST} &&
 	echo "✅ Files copied to deployment directory." &&
 	if [ "$(find ${APP_DEST} -type l | wc -l)" -gt 0 ]; then

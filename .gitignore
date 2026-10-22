@@ -6,6 +6,8 @@ docker/nextcloud/certificates/webapppassword.*
 *.db*
 /*.cache
 .shared
+__pycache__/
+release-notes.md
 
 # Devenv
 .devenv*

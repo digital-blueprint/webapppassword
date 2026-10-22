@@ -54,6 +54,12 @@ test:
 build:
     make build
 
+# Validate release metadata and runtime inputs without signing credentials
+[group('release')]
+release-check:
+    python3 -m unittest discover -s tests/release
+    python3 scripts/check-release.py
+
 # Run tests for multiple versions of Nextcloud
 [group('test')]
 vm-test args='':

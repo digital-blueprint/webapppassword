@@ -1,4 +1,4 @@
 # Documentation
 
 - [Development and Testing](development.md)
-- [Deployment](deployment.md)
+- [Signing and releasing (GitHub Actions setup and release procedure)](deployment.md)

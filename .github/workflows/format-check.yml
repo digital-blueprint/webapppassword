@@ -1,6 +1,7 @@
 name: 📄 Check formatting
 
 on:
+  workflow_call:
   push:
     branches-ignore:
       - release

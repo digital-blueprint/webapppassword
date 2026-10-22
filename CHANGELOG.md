@@ -2,6 +2,7 @@
 
 ## 26.10.0
 
+- Added explicit Nextcloud 35 coverage to the CI matrix and NixOS VM tests
 - Fixed app bootstrap and service resolution on Nextcloud 35 by using the public container API
 - Added CORS support for public WebDAV shares (for [#5](https://github.com/digital-blueprint/webapppassword/issues/5))
 - Automated Nextcloud app signing and publication to GitHub Releases and the Nextcloud App Store

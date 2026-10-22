@@ -2,6 +2,7 @@
 {
   pkgs25_11,
   pkgs26_05,
+  pkgsUnstable,
   ...
 }:
 
@@ -44,14 +45,16 @@ let
     if phpPkgSet != null && phpPkgSet ? composer then phpPkgSet.composer else pkgs26_05.composer;
   phpInterp = pkgs26_05.php or (if phpPkgSet != null && phpPkgSet ? php then phpPkgSet.php else null);
 
-  # Nextcloud 32/33 come from 25.11, 34 from 26.05.
+  # Nextcloud 32/33 come from 25.11, 34 from 26.05, 35 from unstable.
   pkg32 = compatPkg25_11 "nextcloud32";
   pkg33 = compatPkg25_11 "nextcloud33";
   pkg34 = pkgs26_05.nextcloud34 or null;
+  pkg35 = pkgsUnstable.nextcloud35 or null;
 
   has32 = pkg32 != null;
   has33 = pkg33 != null;
   has34 = pkg34 != null;
+  has35 = pkg35 != null;
 
   # Build the app once (using primary pkgs set)
   webapppasswordApp =
@@ -113,19 +116,21 @@ let
   node32 = if has32 then mkNode pkg32 "nextcloud32" else { };
   node33 = if has33 then mkNode pkg33 "nextcloud33" else { };
   node34 = if has34 then mkNode pkg34 "nextcloud34" else { };
+  node35 = if has35 then mkNode pkg35 "nextcloud35" else { };
 
 in
 # Fail early if any required Nextcloud package is missing
 assert (lib.assertMsg has32 "Missing required package: nextcloud32 (expected in pkgs25_11)");
 assert (lib.assertMsg has33 "Missing required package: nextcloud33 (expected in pkgs25_11)");
 assert (lib.assertMsg has34 "Missing required package: nextcloud34 (expected in pkgs26_05)");
+assert (lib.assertMsg has35 "Missing required package: nextcloud35 (expected in pkgsUnstable)");
 
 pkgs26_05.testers.nixosTest {
   name = "nextcloud_webapppassword";
-  nodes = node32 // node33 // node34;
+  nodes = node32 // node33 // node34 // node35;
   interactive.sshBackdoor.enable = true; # provides ssh-config & vsock access (needs host vsock support)
   testScript = ''
-    print("Has32=${toString has32} Has33=${toString has33} Has34=${toString has34}")
+    print("Has32=${toString has32} Has33=${toString has33} Has34=${toString has34} Has35=${toString has35}")
     start_all()
 
     # Helper to test a Nextcloud node consistently
@@ -161,6 +166,12 @@ pkgs26_05.testers.nixosTest {
         ''test_version(nextcloud34, "34", "${pkg34.version}")''
       else
         ''print("Skipping Nextcloud 34: package not present")''
+    }
+    ${
+      if has35 then
+        ''test_version(nextcloud35, "35", "${pkg35.version}")''
+      else
+        ''print("Skipping Nextcloud 35: package not present")''
     }
     print("ALL_TESTS_DONE")
   '';

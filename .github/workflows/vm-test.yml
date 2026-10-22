@@ -1,8 +1,9 @@
 name: "🧪 Run VM test"
 
 on:
-  workflow_call:
   push:
+    branches-ignore:
+      - release
     paths-ignore:
       - docker/**
   workflow_dispatch:
@@ -13,6 +14,7 @@ on:
 jobs:
   check:
     name: "🧪 Run VM test"
+    if: github.ref != 'refs/heads/release'
     runs-on: ubuntu-latest
     permissions:
       contents: read

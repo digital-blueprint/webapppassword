@@ -15,6 +15,29 @@ docker compose up
 - (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in [docker-compose.yml](../docker/docker-compose.yml>)
 - See [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance
 
+## Automated compatibility tests
+
+GitHub Actions tests Nextcloud `stable32`, `stable33`, `stable34`, `stable35` and
+`master`. Nextcloud 35 and `master` run with PHP 8.3; older versions also run with
+their supported older PHP versions. The matrix includes app bootstrap, authenticated
+DAV plugin registration, sharing endpoint unit tests and functional tests.
+
+Run the NixOS VM tests locally with:
+
+```bash
+just vm-test
+```
+
+The combined test boots Nextcloud 32, 33, 34 and 35 in separate VMs and checks app
+enablement, login, and allowed/denied app-password origins. Versions 32/33 use the
+NixOS 25.11 input, 34 uses 26.05, and 35 uses the unstable input. All inputs are
+pinned in `flake.lock`; update the Nextcloud 35 pin deliberately with
+`nix flake update nixpkgsUnstable`.
+
+The VM workflow runs on development-branch pushes and pull requests, but skips
+the `release` branch (including manual runs). It is not part of the release
+workflow; run it on the reviewed development commit before preparing a release.
+
 ## Test app for the next release of Nextcloud
 
 To test the app for the next release of Nextcloud, you need to create update at least the `apache` version in

@@ -128,8 +128,9 @@ is serialized and an active run is not cancelled by another push.
 1. **Validate:** run offline release regression tests and check app ID, CalVer,
    changelog and packaging inputs. Missing files and symlinks are rejected before
    credentials are available.
-2. **Test:** run the existing Nextcloud test matrix, NixOS VM tests and formatting
-   workflow as reusable workflows. All must succeed before signing starts.
+2. **Test:** run the existing Nextcloud test matrix and formatting workflow as
+   reusable workflows. Both must succeed before signing starts. NixOS VM tests
+   run separately on development branches, not on `release` or during releasing.
 3. **Sign:** after `release-signing` approval (if configured),
    [`scripts/ci-sign-app.sh`](../scripts/ci-sign-app.sh) starts an isolated,
    digest-pinned Nextcloud 35.0.1 container with SQLite. It copies only the runtime

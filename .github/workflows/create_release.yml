@@ -33,17 +33,13 @@ jobs:
     needs: validate
     uses: ./.github/workflows/test.yml
 
-  vm:
-    needs: validate
-    uses: ./.github/workflows/vm-test.yml
-
   format:
     needs: validate
     uses: ./.github/workflows/format-check.yml
 
   sign:
     name: "🔐 Sign and verify exact archive"
-    needs: [validate, tests, vm, format]
+    needs: [validate, tests, format]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: release-signing

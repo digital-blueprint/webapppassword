@@ -439,6 +439,4 @@ class ShareAPIControllerTest extends TestCase {
 	 * }
 	 */
 
-
-
 }

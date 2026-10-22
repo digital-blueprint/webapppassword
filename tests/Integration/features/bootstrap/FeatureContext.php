@@ -16,7 +16,6 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
-
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -177,7 +176,6 @@ class FeatureContext implements Context {
 		$this->assertStatusCode([401,500]);
 	}
 
-
 	private function setCurrentUser(string $user): void {
 		$this->currentUser = $user;
 	}
@@ -243,8 +241,6 @@ class FeatureContext implements Context {
 		}
 		$this->sendRequestBase($verb, $fullUrl, $body, $jsonBody, $headers, $auth);
 	}
-
-
 
 	private function sendPublicRequest(string $verb,
 		string $url,
@@ -391,7 +387,6 @@ class FeatureContext implements Context {
 			Assert::assertContains($jsonBody['ocs']['meta']['statuscode'], $statusCode, $message);
 		}
 	}
-
 
 	private function assertResponseData(?bool $revert = false): void {
 		$jsonBody = $this->getJson();

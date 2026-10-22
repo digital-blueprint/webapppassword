@@ -1,5 +1,10 @@
 # WebAppPassword Change Log
 
+## 26.10.1
+
+- Updated the admin settings screenshot used in the README and Nextcloud App Store
+- Added automated screenshot capture and local Nextcloud upgrade recipes
+
 ## 26.10.0
 
 - Added explicit Nextcloud 35 coverage to the CI matrix and NixOS VM tests

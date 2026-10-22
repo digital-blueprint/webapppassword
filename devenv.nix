@@ -9,7 +9,12 @@
     lazygit
     zellij
     libxml2 # for xmllint
+    (python3.withPackages (ps: [ ps.playwright ]))
+    playwright-driver.browsers
   ];
+
+  env.PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+  env.PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
 
   enterShell = ''
     echo "🛠️ WebAppPassword dev shell"

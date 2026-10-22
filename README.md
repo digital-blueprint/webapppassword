@@ -61,6 +61,31 @@ docker compose up
 - <http://localhost:8081> admin/admin
 - (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
 
+### Update the admin screenshot
+
+In the devenv development shell, run:
+
+```bash
+just screenshot
+```
+
+This starts the Docker app, waits for Nextcloud, logs in as `admin`/`admin`, and
+replaces `screenshot.png` with a headless Chromium capture of the WebAppPassword
+admin settings in English. Example origins are filled in without saving them.
+The Docker instance is left running. Playwright and Chromium are provided by the
+development shell; no browser installation is needed.
+
+If Nextcloud reports a pending upgrade, upgrade the development instance first
+with `just upgrade`.
+The screenshot recipe does not perform database upgrades automatically.
+
+For an existing instance with different credentials, set `SCREENSHOT_URL`,
+`SCREENSHOT_USER`, and `SCREENSHOT_PASSWORD`. To capture it without starting Docker,
+run `python3 scripts/screenshot-admin.py` directly.
+
+Commit and push `screenshot.png` to `main` to update the image URL already referenced
+in `appinfo/info.xml` for the Nextcloud App Store (subject to its caching).
+
 ## Example
 
 You can start a php server with `cd docs/example && php -S localhost:8082` to see an example

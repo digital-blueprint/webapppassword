@@ -15,6 +15,22 @@ docker compose up
 - (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in [docker-compose.yml](../docker/docker-compose.yml>)
 - See [README.md](../README.md#Example) for a file picker example to access the Nextcloud instance
 
+## Upgrading the local Docker instance
+
+After updating Nextcloud or the app, run pending database/app migrations with:
+
+```bash
+just upgrade-status
+just upgrade
+just screenshot
+```
+
+`upgrade` and `upgrade-status` are also available from `docker/`. They start the
+local app container and run `occ` as `www-data`. `upgrade` applies migrations for
+the already installed code; it does not pull a new image or update dependencies.
+Back up any local data you need before migrating. Screenshots never run upgrades
+automatically.
+
 ## Automated compatibility tests
 
 GitHub Actions tests Nextcloud `stable32`, `stable33`, `stable34`, `stable35` and

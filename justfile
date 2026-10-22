@@ -54,6 +54,16 @@ test:
 build:
     make build
 
+# Run pending Nextcloud database/app migrations in the local Docker instance
+[group('dev')]
+upgrade:
+    just --justfile docker/justfile upgrade
+
+# Show whether the local Nextcloud instance needs an upgrade
+[group('dev')]
+upgrade-status:
+    just --justfile docker/justfile upgrade-status
+
 # Validate release metadata and runtime inputs without signing credentials
 [group('release')]
 release-check:

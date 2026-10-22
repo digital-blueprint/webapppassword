@@ -40,6 +40,16 @@ bash-root:
 slim-shell:
     slim debug --target {{ containerName }}
 
+# Run pending migrations using the currently installed Nextcloud version
+upgrade:
+    {{ dockerComposeCommand }} up -d app
+    {{ dockerComposeCommand }} exec -T -u www-data app php occ upgrade
+
+# Show Nextcloud installation status, including pending database upgrades
+upgrade-status:
+    {{ dockerComposeCommand }} up -d app
+    {{ dockerComposeCommand }} exec -T -u www-data app php occ status
+
 # Turn off maintenance mode
 maintenance-mode-off:
     {{ dockerComposeCommand }} run --rm app su -c "./occ maintenance:mode --off" www-data

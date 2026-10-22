@@ -93,6 +93,7 @@ jobs:
           composer global require phpunit/phpunit 
           cd ${{ github.workspace }}/nextcloud
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/AppInfo/ApplicationTest.php
       - name: 🚦 Run endpoint functional tests
         run: |
           cd nextcloud

@@ -35,8 +35,8 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IContainer;
 use OCP\SabrePluginEvent;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
@@ -57,21 +57,21 @@ class Application extends App implements IBootstrap {
 		$server = $container->getServer();
 
 		// Register config service
-		$container->registerService(Config::class, function (IContainer $c): Config {
+		$container->registerService(Config::class, function (ContainerInterface $c): Config {
 			return new Config(
-				$c->query(IConfig::class),
-				$c->query(LoggerInterface::class)
+				$c->get(IConfig::class),
+				$c->get(LoggerInterface::class)
 			);
 		});
 
 		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $server->query(IEventDispatcher::class);
+		$eventDispatcher = $server->get(IEventDispatcher::class);
 
 		// Inject CORS headers into the authenticated WebDAV/CalDAV server
 		$eventDispatcher->addListener(
 			'OCA\DAV\Connector\Sabre::addPlugin',
 			function (SabrePluginEvent $event) use ($container) {
-				$event->getServer()->addPlugin(new CorsPlugin($container->query(Config::class)));
+				$event->getServer()->addPlugin(new CorsPlugin($container->get(Config::class)));
 			}
 		);
 	}

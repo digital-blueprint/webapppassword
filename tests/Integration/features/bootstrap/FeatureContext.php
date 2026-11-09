@@ -16,8 +16,8 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
-use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * Defines application features from the specific context.
@@ -42,7 +42,7 @@ class FeatureContext implements Context {
 	 * Initializes context.
 	 * Every scenario gets its own context instance.
 	 * You can also pass arbitrary arguments to the
-	 * context constructor through behat.yml.
+	 * context constructor through behat.php.
 	 */
 	public function __construct(
 		private string $baseUrl,
@@ -370,10 +370,10 @@ class FeatureContext implements Context {
 	private function assertStatusCode(mixed $statusCode, string $message = ''): void {
 		if (is_int($statusCode)) {
 			$message = $message ?: 'Status code ' . $this->response->getStatusCode() . ' is not expected ' . $statusCode . '.';
-			Assert::assertEquals($statusCode, $this->response->getStatusCode(), $message);
+			Assert::eq($this->response->getStatusCode(), $statusCode, $message);
 		} elseif (is_array($statusCode)) {
 			$message = $message ?: 'Status code ' . $this->response->getStatusCode() . ' is neither of ' . implode(', ', $statusCode) . '.';
-			Assert::assertContains($this->response->getStatusCode(), $statusCode, $message);
+			Assert::inArray($this->response->getStatusCode(), $statusCode, $message);
 		}
 	}
 
@@ -381,16 +381,16 @@ class FeatureContext implements Context {
 		$jsonBody = $this->getJson();
 		if (is_int($statusCode)) {
 			$message = $message ?: 'OCS Meta Status code ' . $jsonBody['ocs']['meta']['statuscode'] . ' is not expected ' . $statusCode . '.';
-			Assert::assertEquals($statusCode, $jsonBody['ocs']['meta']['statuscode'], $message);
+			Assert::eq($jsonBody['ocs']['meta']['statuscode'], $statusCode, $message);
 		} elseif (is_array($statusCode)) {
 			$message = $message ?: 'Status code ' . $jsonBody['ocs']['meta']['statuscode'] . ' is neither of ' . implode(', ', $statusCode) . '.';
-			Assert::assertContains($jsonBody['ocs']['meta']['statuscode'], $statusCode, $message);
+			Assert::inArray($jsonBody['ocs']['meta']['statuscode'], $statusCode, $message);
 		}
 	}
 
 	private function assertResponseData(?bool $revert = false): void {
 		$jsonBody = $this->getJson();
-		Assert::assertIsArray($jsonBody['ocs']['data']);
+		Assert::isArray($jsonBody['ocs']['data']);
 	}
 
 }

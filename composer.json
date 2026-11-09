@@ -14,7 +14,7 @@
     "friendsofphp/php-cs-fixer": "^3.12",
     "phpstan/phpstan": "^2.0",
     "nextcloud/coding-standard": "^1.4",
-    "behat/behat": "^3.14",
+    "behat/behat": "^4.0",
     "guzzlehttp/guzzle": "^8.0"
   },
   "config": {

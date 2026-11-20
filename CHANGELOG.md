@@ -1,6 +1,6 @@
 # WebAppPassword Change Log
 
-## Unreleased
+## 26.11.0
 
 - Added an opt-in check for the expected Nextcloud UID before issuing an app password
   (for [#62](https://github.com/digital-blueprint/webapppassword/issues/62))
@@ -20,6 +20,8 @@
   - Origins containing credentials (e.g. `https://user@example.com`) are no longer accepted and need to be fixed on the next save
 - Updated the admin screenshot and its capture script for the new origin pickers
   (for [#360](https://github.com/digital-blueprint/webapppassword/issues/360))
+- Added automated showcase screenshots using demo data
+- Updated development and CI dependencies
 
 ## 26.10.1
 

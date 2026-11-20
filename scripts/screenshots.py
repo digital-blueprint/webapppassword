@@ -173,7 +173,7 @@ def capture_admin(browser: Browser) -> bytes:
     wait_for_nextcloud(base_url)
 
     page = browser.new_page(
-        viewport={"width": 1440, "height": 1120},
+        viewport={"width": 1440, "height": 1320},
         locale="en-US",
         color_scheme="light",
         reduced_motion="reduce",
@@ -189,6 +189,9 @@ def capture_admin(browser: Browser) -> bytes:
         page.goto(f"{base_url}/index.php/settings/admin/webapppassword")
 
         # Fill the real UI, but deliberately do not click "Set origins".
+        remove_buttons = page.locator(".webapppassword-origin-picker__chip button")
+        while remove_buttons.count() > 0:
+            remove_buttons.first.click()
         for selector, origins in {
             "#webapppassword-origins-entry": "https://workspace.example.org,https://*.projects.example.org",
             "#files-sharing-webapppassword-origins-entry": "https://share.example.org",

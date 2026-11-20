@@ -1,5 +1,20 @@
 # WebAppPassword Change Log
 
+## Unreleased
+
+- Replaced the comma separated origin text fields in the admin settings with origin pickers
+  (for [#360](https://github.com/digital-blueprint/webapppassword/issues/360))
+  - Origins are shown as removable chips, can be added with Enter or comma, and comma separated lists can be pasted
+  - Origins are validated while typing, with a hint on how to fix invalid entries
+  - Origins used in other sections and the origin of the Nextcloud instance itself are suggested for one-click adding
+- Origins are now validated and normalized on the server before they are stored, nothing is saved if any origin is invalid
+  (for [#360](https://github.com/digital-blueprint/webapppassword/issues/360))
+  - The storage format stays a comma separated list, so existing configurations keep working
+  - Stored origins are only normalized on the next save (e.g. trailing slashes and paths are removed), without changing which origins are allowed
+  - Origins containing credentials (e.g. `https://user@example.com`) are no longer accepted and need to be fixed on the next save
+- Updated the admin screenshot and its capture script for the new origin pickers
+  (for [#360](https://github.com/digital-blueprint/webapppassword/issues/360))
+
 ## 26.10.1
 
 - Updated the admin settings screenshot used in the README and Nextcloud App Store

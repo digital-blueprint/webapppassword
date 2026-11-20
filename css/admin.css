@@ -6,14 +6,120 @@
     display: inline-block;
 }
 
-#webapppassword-origins {
-    width: 100%;
+#webapppassword-save #webapppassword-error-message {
+    margin-left: 8px;
+    color: var(--color-error-text, var(--color-error));
 }
 
-#files-sharing-webapppassword-origins {
-    width: 100%;
+.webapppassword-origin-picker {
+    margin-bottom: 1em;
 }
 
-#preview-webapppassword-origins {
+.webapppassword-origin-picker__field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
     width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border: 2px solid var(--color-border-maxcontrast);
+    border-radius: var(--border-radius-large, 10px);
+    background-color: var(--color-main-background);
+    cursor: text;
+}
+
+.webapppassword-origin-picker__field:focus-within {
+    border-color: var(--color-main-text);
+}
+
+.webapppassword-origin-picker__chips {
+    display: contents;
+}
+
+.webapppassword-origin-picker__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: 28px;
+    padding: 0 0 0 10px;
+    border-radius: var(--border-radius-pill, 100px);
+    background-color: var(--color-primary-element-light);
+    color: var(--color-primary-element-light-text, var(--color-main-text));
+    cursor: default;
+}
+
+.webapppassword-origin-picker__chip span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.webapppassword-origin-picker__chip.invalid {
+    outline: 2px solid var(--color-error);
+    outline-offset: -2px;
+    background-color: var(--color-main-background);
+    color: var(--color-error-text, var(--color-error));
+    text-decoration: line-through;
+}
+
+.webapppassword-origin-picker__chip button {
+    min-height: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 2px 8px;
+    border: none;
+    border-radius: var(--border-radius-pill, 100px);
+    background: transparent;
+    color: inherit;
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+.webapppassword-origin-picker__chip button:hover,
+.webapppassword-origin-picker__chip button:focus-visible {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.webapppassword-origin-picker input.webapppassword-origin-picker__entry {
+    flex: 1 1 200px;
+    min-width: 200px;
+    height: 28px !important;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 0 4px;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    outline: none;
+}
+
+.webapppassword-origin-picker__error {
+    margin-top: 4px;
+    white-space: pre-line;
+    color: var(--color-error-text, var(--color-error));
+}
+
+.webapppassword-origin-picker__suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    color: var(--color-text-maxcontrast);
+}
+
+.webapppassword-origin-picker__suggestions[hidden],
+.webapppassword-origin-picker__error[hidden] {
+    display: none;
+}
+
+.webapppassword-origin-picker button.webapppassword-origin-picker__suggestion {
+    min-height: 0;
+    margin: 0;
+    padding: 2px 10px;
+    border-radius: var(--border-radius-pill, 100px);
+    font-weight: normal;
 }

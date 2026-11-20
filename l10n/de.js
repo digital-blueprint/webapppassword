@@ -9,6 +9,25 @@ OC.L10N.register(
     "This origin is not allowed!": "Diese Webseite ist nicht erlaubt!",
     "This page should be closed shortly!":
       "Diese Seite sollte sich in Kürze schließen!",
+    "Suggestions:": "Vorschläge:",
+    "Add a scheme, e.g. https://example.com":
+      "Bitte ein Schema angeben, z. B. https://example.com",
+    "Usernames and passwords are not allowed":
+      "Benutzernamen und Passwörter sind nicht erlaubt",
+    "Only a leading wildcard like https://*.example.com is supported":
+      "Nur ein führender Platzhalter wie https://*.example.com wird unterstützt",
+    "The port must be a number between 1 and 65535":
+      "Der Port muss eine Zahl zwischen 1 und 65535 sein",
+    "The host name is invalid": "Der Hostname ist ungültig",
+    "Some origins are invalid. Nothing was saved.":
+      "Einige Origins sind ungültig. Es wurde nichts gespeichert.",
+    "{origin} is already in the list": "{origin} ist bereits in der Liste",
+    "Remove {origin}": "{origin} entfernen",
+    "Add {origin}": "{origin} hinzufügen",
+    "{origin} (this Nextcloud)": "{origin} (diese Nextcloud)",
+    "Please fix or remove the invalid origins before saving.":
+      "Bitte die ungültigen Origins vor dem Speichern korrigieren oder entfernen.",
+    "Saving failed.": "Speichern fehlgeschlagen.",
   },
   "nplurals=2; plural=n!=1;",
 );

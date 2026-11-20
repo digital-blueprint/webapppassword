@@ -190,11 +190,12 @@ def capture_admin(browser: Browser) -> bytes:
 
         # Fill the real UI, but deliberately do not click "Set origins".
         for selector, origins in {
-            "#webapppassword-origins": "https://workspace.example.org,https://*.projects.example.org",
-            "#files-sharing-webapppassword-origins": "https://share.example.org",
-            "#preview-webapppassword-origins": "https://gallery.example.org",
+            "#webapppassword-origins-entry": "https://workspace.example.org,https://*.projects.example.org",
+            "#files-sharing-webapppassword-origins-entry": "https://share.example.org",
+            "#preview-webapppassword-origins-entry": "https://gallery.example.org",
         }.items():
             page.locator(selector).fill(origins)
+            page.locator(selector).press("Enter")
         expect(page.locator("#webapppassword-store-origins")).to_be_in_viewport()
         page.evaluate("document.activeElement.blur()")
         expect(page.locator("#header").get_by_role("button", name="Settings menu")).to_be_visible()

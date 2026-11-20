@@ -27,7 +27,7 @@ that uses this application.]]></description>
     <website>https://github.com/digital-blueprint/webapppassword</website>
     <bugs>https://github.com/digital-blueprint/webapppassword/issues</bugs>
     <repository type="git">https://github.com/digital-blueprint/webapppassword.git</repository>
-    <screenshot>https://github.com/digital-blueprint/webapppassword/raw/main/screenshot.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/digital-blueprint/webapppassword/main/docs/screenshots/admin.webp</screenshot>
     <dependencies>
         <nextcloud min-version="32" max-version="35"/>
     </dependencies>

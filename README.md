@@ -18,7 +18,7 @@ Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Stor
 You can configure the allowed origins for both WebDAV/CalDAV or files sharing api on the settings
 page of the application.
 
-![screenshot](screenshot.png)
+![WebAppPassword admin settings with example allowed origins](docs/screenshots/admin.webp)
 
 Alternatively you can also add this setting to your `config/config.php`
 (it will be used if the origins setting on the settings page are empty).
@@ -61,30 +61,33 @@ docker compose up
 - <http://localhost:8081> admin/admin
 - (first time only) For the origin config see `WEBPASSWORD_ORIGINS` in docker-compose.yml
 
-### Update the admin screenshot
+### Regenerate screenshots
 
 In the devenv development shell, run:
 
 ```bash
-just screenshot
+just screenshots
 ```
 
-This starts the Docker app, waits for Nextcloud, logs in as `admin`/`admin`, and
-replaces `screenshot.png` with a headless Chromium capture of the WebAppPassword
-admin settings in English. Example origins are filled in without saving them.
-The Docker instance is left running. Playwright and Chromium are provided by the
-development shell; no browser installation is needed.
+This writes three WebP screenshots to [`docs/screenshots/`](docs/screenshots/):
+the admin settings, the example file picker, and the example WebDAV response.
+The admin capture starts the local Docker app, waits for Nextcloud, and logs in
+as `admin`/`admin`. It fills in fictional origins without saving them. The demo
+captures use a fictional account, token, and files entirely inside Playwright;
+they do not contact Nextcloud or any external website.
 
-If Nextcloud reports a pending upgrade, upgrade the development instance first
-with `just upgrade`.
-The screenshot recipe does not perform database upgrades automatically.
+The Docker instance is left running. If Nextcloud reports a pending upgrade, run
+`just upgrade` first. Playwright, Chromium, and `cwebp` are provided by the
+development shell.
 
-For an existing instance with different credentials, set `SCREENSHOT_URL`,
-`SCREENSHOT_USER`, and `SCREENSHOT_PASSWORD`. To capture it without starting Docker,
-run `python3 scripts/screenshot-admin.py` directly.
+- Admin only: `just screenshot`.
+- Demo only, without Docker: `python3 scripts/screenshots.py --demo-only`.
+- Use an existing test instance without starting Docker: set `SCREENSHOT_URL`,
+  `SCREENSHOT_USER`, and `SCREENSHOT_PASSWORD` and run `python3 scripts/screenshots.py`
+  (add `--admin-only` to skip the demo captures).
 
-Commit and push `screenshot.png` to `main` to update the image URL already referenced
-in `appinfo/info.xml` for the Nextcloud App Store (subject to its caching).
+Commit the regenerated images to update this README and the admin screenshot
+referenced in `appinfo/info.xml` for the Nextcloud App Store.
 
 ## Example
 
@@ -97,11 +100,11 @@ receive a temporary app password for your user.
 There also is the `FileSource` component of our [Nextcloud file picker](https://github.com/digital-blueprint/toolkit/tree/main/packages/file-handling)
 in the example.
 
-![screenshot](screenshot-filepicker.png)
+![Nextcloud file picker with a fictional quarterly report selected](docs/screenshots/file-picker.webp)
 
 Take a look at [index.html](docs/example/index.html) for the source code of the page.
 
-![screenshot](screenshot-webdav.png)
+![Example WebDAV response with a dummy token and fictional files](docs/screenshots/webdav.webp)
 
 ## Running tests
 

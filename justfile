@@ -64,11 +64,17 @@ upgrade:
 upgrade-status:
     just --justfile docker/justfile upgrade-status
 
-# Update the App Store admin screenshot (run `just upgrade` first if required)
+# Regenerate all documentation screenshots (run `just upgrade` first if required)
+[group('dev')]
+screenshots:
+    docker compose -f docker/docker-compose.yml up -d app
+    python3 scripts/screenshots.py
+
+# Backwards-compatible shortcut for the admin capture
 [group('dev')]
 screenshot:
     docker compose -f docker/docker-compose.yml up -d app
-    python3 scripts/screenshot-admin.py
+    python3 scripts/screenshots.py --admin-only
 
 # Validate release metadata and runtime inputs without signing credentials
 [group('release')]

@@ -11,6 +11,7 @@
     libxml2 # for xmllint
     (python3.withPackages (ps: [ ps.playwright ]))
     playwright-driver.browsers
+    libwebp # for cwebp
   ];
 
   env.PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";

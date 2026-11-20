@@ -3,13 +3,24 @@
 <head>
     <meta charset="utf-8">
     <title>WebAppPassword Demo</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        textarea { width: 100%; height: 50px; }
-        textarea#selected-files { height: 150px; }
-        textarea#output2 { height: 200px; }
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #172435; font: 16px/1.5 system-ui, sans-serif; }
+        main { max-width: 1100px; margin: 32px auto; padding: 0 24px; }
+        h1 { margin: 0 0 20px; font-size: 2.5rem; }
+        h2 { margin: 0 0 12px; }
+        label { display: block; margin-bottom: 4px; font-weight: 600; }
+        input, textarea { width: 100%; padding: 8px 12px; border: 1px solid #adb5bd; border-radius: 4px; }
+        input, button { font: inherit; }
+        textarea { height: 64px; }
+        #selected-files { height: 80px; }
+        #output2 { height: 260px; }
+        .form-group { margin-bottom: 16px; }
+        .mt-3 { margin-top: 16px; }
+        .btn { padding: 8px 14px; border: 0; border-radius: 4px; background: #005b9f; color: white; cursor: pointer; }
+        .btn-secondary { background: #46566a; }
         .hidden { display: none; }
-        .container-fluid { margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -33,7 +44,7 @@
         </div>
 
         <button onclick="openFilePicker()" class="btn btn-primary">Open WebDAV file picker</button>
-        <button onclick="login()" class="btn btn-secondary">Basic window.open()</button>
+        <button onclick="login()" class="btn btn-secondary">Show WebDAV response</button>
         <div class="form-group mt-3">
             <label for="selected-files">Selected file(s)</label>
             <textarea class="form-control" id="selected-files" readonly aria-live="polite" placeholder="No files selected"></textarea>

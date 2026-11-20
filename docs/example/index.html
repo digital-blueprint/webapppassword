@@ -43,6 +43,10 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="expected-uid">Expected Nextcloud UID (optional, for WebDAV response)</label>
+            <input type="text" id="expected-uid">
+        </div>
         <button onclick="openFilePicker()" class="btn btn-primary">Open WebDAV file picker</button>
         <button onclick="login()" class="btn btn-secondary">Show WebDAV response</button>
         <div class="form-group mt-3">
@@ -76,11 +80,13 @@
 </body>
 <script>
     let wnd = null;
+    let pendingLogin = null;
     const outputArea = document.querySelector("#output-area");
     const output = document.querySelector("#output");
     const output2 = document.querySelector("#output2");
     const appUrl = document.querySelector("#app-url");
     const webdavUrl = document.querySelector("#webdav-url");
+    const expectedUidInput = document.querySelector("#expected-uid");
     const fileSource = document.querySelector("#file-source");
     const selectedFiles = document.querySelector("#selected-files");
     let selectedFileNames = [];
@@ -91,7 +97,15 @@
         output2.value = "";
 
         // open auth window of WebAppPassword application
-        wnd = window.open(appUrl.value + "?target-origin=" + encodeURIComponent(window.location.href), "Nextcloud Login",
+        const authUrl = new URL(appUrl.value);
+        const expectedUid = expectedUidInput.value;
+        authUrl.searchParams.set("target-origin", window.location.origin);
+        authUrl.searchParams.delete("expected-uid");
+        if (expectedUid !== "") {
+            authUrl.searchParams.set("expected-uid", expectedUid);
+        }
+        pendingLogin = { origin: authUrl.origin, expectedUid };
+        wnd = window.open(authUrl, "WebAppPassword demo login",
             "width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
     }
 
@@ -111,11 +125,22 @@
 
     // receives the "window.opener.postMessage" from https://github.com/digital-blueprint/webapppassword/blob/main/js/script.js
     window.addEventListener('message', (event) => {
+        if (!pendingLogin || !wnd || event.source !== wnd || event.origin !== pendingLogin.origin) {
+            return;
+        }
         const data = event.data;
 
-        if (data.type === "webapppassword") {
-            if (wnd !== null) {
-                wnd.close();
+        if (data?.type === "webapppassword-error" && data.error === "account_mismatch") {
+            pendingLogin = null;
+            output.value = "Switch to the expected Nextcloud account and retry.";
+        }
+        if (data?.type === "webapppassword") {
+            const { expectedUid } = pendingLogin;
+            pendingLogin = null;
+            wnd.close();
+            if (expectedUid !== "" && data.uid !== expectedUid) {
+                output.value = "The Nextcloud account could not be verified.";
+                return;
             }
 
             output.value = JSON.stringify(data);
@@ -125,7 +150,7 @@
             headers.set('Authorization', 'Basic ' + btoa(data.loginName + ":" + data.token));
 
             // do PROPFIND WebDAV request
-            fetch(webdavUrl.value + "/" + data.loginName, {
+            fetch(data.webdavUrl || webdavUrl.value + "/" + data.loginName, {
                 method: 'PROPFIND', // *GET, POST, PUT, DELETE, etc.
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 headers: headers

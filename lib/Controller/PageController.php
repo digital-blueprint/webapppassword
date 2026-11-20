@@ -72,7 +72,7 @@ class PageController extends Controller {
 	protected function hasAllowedOrigin(): bool {
 		$targetOrigin = $this->request->getParam('target-origin');
 
-		if ($targetOrigin === '') {
+		if (!is_string($targetOrigin) || $targetOrigin === '') {
 			return false;
 		}
 
@@ -113,6 +113,16 @@ class PageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function createToken() {
+		$expectedUid = $this->request->getParam('expected-uid');
+		if ($expectedUid !== null && (!is_string($expectedUid) || $expectedUid === '')) {
+			return new DataResponse(['error' => 'invalid_expected_uid'], Http::STATUS_BAD_REQUEST);
+		}
+
+		$uid = $this->userSession->getUser()->getUID();
+		if ($expectedUid !== null && $expectedUid !== $uid) {
+			return new DataResponse(['error' => 'account_mismatch'], Http::STATUS_CONFLICT);
+		}
+
 		// If we are using the $this->credentialStore (OCP\Authentication\LoginCredentials\IStore)
 		// we will get empty passwords from our OIDC accounts, this causes \OC\User\Session::checkTokenCredentials
 		// to invalidate the token in the first check after 5min, using $this->session solves the problem
@@ -149,8 +159,6 @@ class PageController extends Controller {
 			throw new OCSForbiddenException();
 		}
 
-		$uid = $this->userSession->getUser()->getUID();
-		//        \OC::$server->getLogger()->warning('uid: ' . var_export($uid, true));
 		$targetOrigin = $this->request->getHeader('target-origin');
 		$name = Application::TOKEN_NAME_PREFIX . $targetOrigin . ' ' . $this->request->getHeader('USER_AGENT');
 		$token = $this->random->generate(
@@ -170,12 +178,15 @@ class PageController extends Controller {
 		$dbToken->setExpires($this->timeFactory->getTime() + Application::TOKEN_LIFETIME);
 		$this->tokenProvider->updateToken($dbToken);
 
-		return new DataResponse(
-			[
-				'loginName' => $loginName,
-				'token' => $token,
-				'webdavUrl' => \OCP\Util::linkToRemote('dav/files/' . $uid),
-			]
-		);
+		$data = [
+			'loginName' => $loginName,
+			'token' => $token,
+			'webdavUrl' => \OCP\Util::linkToRemote('dav/files/' . $uid),
+		];
+		if ($expectedUid !== null) {
+			$data['uid'] = $uid;
+		}
+
+		return new DataResponse($data);
 	}
 }

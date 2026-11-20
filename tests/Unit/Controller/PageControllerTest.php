@@ -9,6 +9,7 @@ use OC\Authentication\Token\IToken;
 use OCA\WebAppPassword\AppInfo\Application;
 use OCA\WebAppPassword\Config\Config;
 use OCA\WebAppPassword\Controller\PageController;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -18,6 +19,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -60,12 +62,18 @@ class PageControllerTest extends TestCase {
 
 		$this->assertEquals('index', $result->getTemplateName());
 		$this->assertTrue($result instanceof TemplateResponse);
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
 	}
 
-	public function testCreateTokenCreatesExpiringPermanentToken() {
+	/**
+	 * @dataProvider acceptedExpectedUids
+	 */
+	#[DataProvider('acceptedExpectedUids')]
+	public function testCreateTokenCreatesExpiringPermanentToken(?string $expectedUid): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->method('getUID')->willReturn('user1');
 		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParam')->with('expected-uid')->willReturn($expectedUid);
 
 		$this->session->method('getId')->willReturn('session-token');
 
@@ -103,6 +111,51 @@ class PageControllerTest extends TestCase {
 		$result = $this->controller->createToken();
 
 		$this->assertTrue($result instanceof DataResponse);
-		$this->assertSame('generated-token', $result->getData()['token']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+		$data = $result->getData();
+		$this->assertSame('generated-token', $data['token']);
+		$this->assertSame('login-name', $data['loginName']);
+		if ($expectedUid !== null) {
+			$this->assertSame('user1', $data['uid']);
+		} else {
+			$this->assertArrayNotHasKey('uid', $data);
+		}
+	}
+
+	public static function acceptedExpectedUids(): array {
+		return [
+			'legacy caller' => [null],
+			'matching UID, different login name' => ['user1'],
+		];
+	}
+
+	/**
+	 * @dataProvider rejectedExpectedUids
+	 */
+	#[DataProvider('rejectedExpectedUids')]
+	public function testCreateTokenRejectsUnexpectedAccountWithoutIssuingToken(mixed $expectedUid, int $status, string $error): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParam')->with('expected-uid')->willReturn($expectedUid);
+		$this->provider->expects($this->never())->method('getToken');
+		$this->secureRandom->expects($this->never())->method('generate');
+		$this->provider->expects($this->never())->method('generateToken');
+		$this->provider->expects($this->never())->method('updateToken');
+
+		$response = $this->controller->createToken();
+
+		$this->assertSame($status, $response->getStatus());
+		$this->assertSame(['error' => $error], $response->getData());
+	}
+
+	public static function rejectedExpectedUids(): array {
+		return [
+			'different account' => ['user2', Http::STATUS_CONFLICT, 'account_mismatch'],
+			'login name instead of UID' => ['login-name', Http::STATUS_CONFLICT, 'account_mismatch'],
+			'case mismatch' => ['User1', Http::STATUS_CONFLICT, 'account_mismatch'],
+			'empty account' => ['', Http::STATUS_BAD_REQUEST, 'invalid_expected_uid'],
+			'array instead of UID' => [['user1'], Http::STATUS_BAD_REQUEST, 'invalid_expected_uid'],
+		];
 	}
 }

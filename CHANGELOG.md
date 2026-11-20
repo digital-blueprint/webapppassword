@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added an opt-in check for the expected Nextcloud UID before issuing an app password
+  (for [#62](https://github.com/digital-blueprint/webapppassword/issues/62))
 - Added opt-in DAV CORS preflight caching in the admin settings and `config.php`. Unset installations keep their previous behavior
   (for [#351](https://github.com/digital-blueprint/webapppassword/issues/351))
 - Origins with explicit default ports (`:80` for HTTP and `:443` for HTTPS) now match origins without a port

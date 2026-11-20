@@ -127,6 +127,30 @@ Take a look at [index.html](docs/example/index.html) for the source code of the 
 
 ![Example WebDAV response with a dummy token and fictional files](docs/screenshots/webdav.webp)
 
+### Require an expected Nextcloud account
+
+If the calling application knows the user's **Nextcloud UID** (not necessarily their login name),
+it can add an `expected-uid` query parameter to the auth popup URL alongside `target-origin`.
+Build the URL with `URLSearchParams` so the UID is encoded correctly. Omit the parameter if
+the account is not known; an empty value is not valid. The demo's **Show WebDAV response**
+button supports this option.
+
+The popup forwards `expected-uid` to `POST /apps/webapppassword/create`, which compares it
+exactly against the signed-in account's UID before creating a token:
+
+- On match, the usual `webapppassword` message includes an additional `uid` field. Check that
+  it matches the requested UID before using the token. If missing, the server may be too old
+  to support the check.
+- On mismatch, the endpoint returns HTTP `409` and the popup sends
+  `{type: "webapppassword-error", error: "account_mismatch"}`. No token is issued. Switch
+  accounts in Nextcloud and retry; the app does not log anyone out automatically.
+- Without `expected-uid`, the response and active-account behavior are unchanged.
+
+Only accept messages from the Nextcloud auth popup and its configured origin. If your
+picker also remembers WebDAV credentials, retain the verified UID alongside them and
+discard or bypass cached credentials if the UID is missing or does not match the expected
+account. Opening the popup is the only time this app can check the browser's Nextcloud account.
+
 ## Running tests
 
 You can use the provided Makefile to run all tests by using:

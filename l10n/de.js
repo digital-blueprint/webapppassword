@@ -9,6 +9,10 @@ OC.L10N.register(
     "This origin is not allowed!": "Diese Webseite ist nicht erlaubt!",
     "This page should be closed shortly!":
       "Diese Seite sollte sich in Kürze schließen!",
+    "Switch to the expected Nextcloud account and retry.":
+      "Wechseln Sie zum erwarteten Nextcloud-Konto und versuchen Sie es erneut.",
+    "Could not create a temporary app password.":
+      "Es konnte kein temporäres App-Passwort erstellt werden.",
     "Suggestions:": "Vorschläge:",
     "Add a scheme, e.g. https://example.com":
       "Bitte ein Schema angeben, z. B. https://example.com",

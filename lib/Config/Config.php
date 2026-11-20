@@ -8,6 +8,9 @@ use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class Config {
+	public const DAV_CORS_MAX_AGE_LIMIT = 7200;
+	private const DAV_CORS_MAX_AGE_KEY = 'dav_cors_max_age';
+
 	private IConfig $config;
 
 	private LoggerInterface $logger;
@@ -44,6 +47,34 @@ class Config {
 	public function setOrigins($value) {
 		$this->config->setAppValue('webapppassword', 'origins', $value);
 		$this->logger->info('Origins were updated!');
+	}
+
+	public function getDavCorsMaxAge(): ?int {
+		return $this->getDavCorsMaxAgeOverride() ?? $this->getDavCorsMaxAgeFromSystem();
+	}
+
+	public function getDavCorsMaxAgeOverride(): ?int {
+		return self::parseDavCorsMaxAge($this->config->getAppValue('webapppassword', self::DAV_CORS_MAX_AGE_KEY));
+	}
+
+	public function getDavCorsMaxAgeFromSystem(): ?int {
+		return self::parseDavCorsMaxAge($this->config->getSystemValue('webapppassword.' . self::DAV_CORS_MAX_AGE_KEY, null));
+	}
+
+	public function setDavCorsMaxAge(?int $seconds): void {
+		if ($seconds === null) {
+			$this->config->deleteAppValue('webapppassword', self::DAV_CORS_MAX_AGE_KEY);
+		} else {
+			$this->config->setAppValue('webapppassword', self::DAV_CORS_MAX_AGE_KEY, (string)$seconds);
+		}
+	}
+
+	public static function parseDavCorsMaxAge(mixed $value): ?int {
+		if (is_string($value) && preg_match('/\A[0-9]+\z/', $value) === 1) {
+			$value = (int)$value;
+		}
+
+		return is_int($value) && $value >= 0 && $value <= self::DAV_CORS_MAX_AGE_LIMIT ? $value : null;
 	}
 
 	/**

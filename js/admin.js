@@ -296,14 +296,30 @@ document
 updateSuggestions();
 
 const errorMessage = document.querySelector("#webapppassword-error-message");
+const davCorsMaxAge = document.querySelector(
+  "#webapppassword-dav-cors-max-age",
+);
+const davCorsFallback = document.querySelector(
+  "#webapppassword-dav-cors-fallback",
+);
+let savedDavCorsMaxAge = davCorsMaxAge.value;
+const updateDavCorsFallback = () => {
+  davCorsFallback.hidden =
+    davCorsMaxAge.value !== "" || davCorsMaxAge.validity.badInput;
+};
+davCorsMaxAge.addEventListener("input", updateDavCorsFallback);
+
 const showSaveError = (message) => {
   errorMessage.textContent = message;
   errorMessage.hidden = message === "";
 };
 
-// Store origins on click
-document.querySelector("#webapppassword-store-origins").onclick = (e) => {
+document.querySelector("#webapppassword-store-origins").onclick = () => {
   showSaveError("");
+
+  if (!davCorsMaxAge.reportValidity()) {
+    return;
+  }
 
   // Also store origins that were typed but not confirmed yet
   const committed = pickers.map((picker) => picker.commitEntry());
@@ -322,10 +338,13 @@ document.querySelector("#webapppassword-store-origins").onclick = (e) => {
     preview_origins: document.querySelector("#preview-webapppassword-origins")
       .value,
   };
+  if (davCorsMaxAge.value !== savedDavCorsMaxAge) {
+    data.dav_cors_max_age =
+      davCorsMaxAge.value === "" ? "" : davCorsMaxAge.valueAsNumber;
+  }
 
   const apiUrl = OC.generateUrl("/apps/webapppassword/admin");
 
-  // Store origins
   fetch(apiUrl, {
     method: "PUT",
     body: JSON.stringify(data),
@@ -361,6 +380,11 @@ document.querySelector("#webapppassword-store-origins").onclick = (e) => {
         }[picker.hidden.id];
         picker.setValue(data[field]);
       });
+      if (Object.hasOwn(data, "dav_cors_max_age")) {
+        davCorsMaxAge.value = data.dav_cors_max_age ?? "";
+        savedDavCorsMaxAge = davCorsMaxAge.value;
+        updateDavCorsFallback();
+      }
       const successIndicator = document.querySelector(
         "#webapppassword-saved-message",
       );

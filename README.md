@@ -18,7 +18,7 @@ Place this app in **nextcloud/apps/** or install it from the [Nextcloud App Stor
 You can configure the allowed origins for both WebDAV/CalDAV or files sharing api on the settings
 page of the application.
 
-![WebAppPassword admin settings with example allowed origins](docs/screenshots/admin.webp)
+![WebAppPassword admin settings with example allowed origins and DAV preflight caching help](docs/screenshots/admin.webp)
 
 Alternatively you can also add this setting to your `config/config.php`
 (it will be used if the origins setting on the settings page are empty).
@@ -33,6 +33,27 @@ match, so `https://*.example.com` does not allow `http://app.example.com`.
 
 The setting is both used for the origin of the CORS headers for the WebDAV/CalDAV requests and
 for the referrer check whether we want to generate a temporary app password.
+
+### DAV preflight caching
+
+The WebDAV/CalDAV section of the admin page lets you set **DAV preflight cache duration (seconds)**.
+To configure it from `config/config.php` instead, use:
+
+```php
+'webapppassword.dav_cors_max_age' => 300,
+```
+
+An explicit admin UI value overrides `config.php`; clearing the field restores the fallback.
+If neither is set, the app does not send `Access-Control-Max-Age` and the browser's existing
+behavior is unchanged. Valid values are whole seconds from `0` (no preflight caching) to `7200`.
+Browsers may impose a lower limit. Start with `300` seconds if your apps make repeated DAV requests.
+
+This caches successful CORS preflight checks, not DAV responses, and does not change Nextcloud
+authentication or permissions. If you remove an allowed origin, browsers with an existing cached
+preflight may still send matching requests until it expires, even though the app stops allowing that
+origin to read responses. Lowering the duration does not invalidate cached preflights.
+
+### Share and Preview APIs
 
 Also, you can configure in the same way the files sharing part.
 

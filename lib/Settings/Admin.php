@@ -27,6 +27,9 @@ class Admin implements ISettings {
 			'origins' => $this->config->getOrigins(),
 			'files_sharing_origins' => $this->config->getFilesSharingOrigins(),
 			'preview_origins' => $this->config->getPreviewOrigins(),
+			'dav_cors_max_age' => $this->config->getDavCorsMaxAgeOverride(),
+			'dav_cors_max_age_from_system' => $this->config->getDavCorsMaxAgeFromSystem(),
+			'dav_cors_max_age_limit' => Config::DAV_CORS_MAX_AGE_LIMIT,
 		];
 
 		return new TemplateResponse('webapppassword', 'admin', $parameters);

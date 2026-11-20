@@ -101,6 +101,8 @@ jobs:
           cd ${{ github.workspace }}/nextcloud
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/ShareAPIControllerTest.php
           phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/AppInfo/ApplicationTest.php
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Controller/AdminControllerTest.php
+          phpunit --configuration tests/phpunit-autotest.xml apps/webapppassword/tests/Unit/Connector/Sabre/CorsPluginTest.php
       - name: 🚦 Run endpoint functional tests
         run: |
           cd nextcloud

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added opt-in DAV CORS preflight caching in the admin settings and `config.php`. Unset installations keep their previous behavior
+  (for [#351](https://github.com/digital-blueprint/webapppassword/issues/351))
 - Origins with explicit default ports (`:80` for HTTP and `:443` for HTTPS) now match origins without a port
   (for [#76](https://github.com/digital-blueprint/webapppassword/issues/76))
 - Replaced the comma separated origin text fields in the admin settings with origin pickers

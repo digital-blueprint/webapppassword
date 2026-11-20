@@ -173,7 +173,7 @@ def capture_admin(browser: Browser) -> bytes:
     wait_for_nextcloud(base_url)
 
     page = browser.new_page(
-        viewport={"width": 1440, "height": 1320},
+        viewport={"width": 1440, "height": 1680},
         locale="en-US",
         color_scheme="light",
         reduced_motion="reduce",
@@ -188,7 +188,7 @@ def capture_admin(browser: Browser) -> bytes:
         page.wait_for_url(lambda url: "/login" not in url)
         page.goto(f"{base_url}/index.php/settings/admin/webapppassword")
 
-        # Fill the real UI, but deliberately do not click "Set origins".
+        # Fill the real UI, but deliberately do not click "Save settings".
         remove_buttons = page.locator(".webapppassword-origin-picker__chip button")
         while remove_buttons.count() > 0:
             remove_buttons.first.click()
@@ -199,7 +199,9 @@ def capture_admin(browser: Browser) -> bytes:
         }.items():
             page.locator(selector).fill(origins)
             page.locator(selector).press("Enter")
-        expect(page.locator("#webapppassword-store-origins")).to_be_in_viewport()
+        page.locator("#webapppassword-dav-cors-max-age").fill("")
+        page.locator("#webapppassword-dav details summary").click()
+        expect(page.locator("#webapppassword-store-origins")).to_be_in_viewport(ratio=1)
         page.evaluate("document.activeElement.blur()")
         expect(page.locator("#header").get_by_role("button", name="Settings menu")).to_be_visible()
         # Hide the onboarding overlay in the image without changing account preferences.

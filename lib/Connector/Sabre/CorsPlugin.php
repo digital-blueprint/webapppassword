@@ -20,7 +20,9 @@ class CorsPlugin extends ServerPlugin {
 	 */
 	private $origins;
 
-	public function __construct(Config $config) {
+	public function __construct(
+		private Config $config,
+	) {
 		$this->origins = $config->getOriginList();
 	}
 
@@ -51,6 +53,14 @@ class CorsPlugin extends ServerPlugin {
 		$response->addHeader('access-control-allow-credentials', 'true');
 
 		if ($request->getMethod() === 'OPTIONS' && empty($request->getHeader('authorization'))) {
+			if ($request->getHeader('access-control-request-method')
+				&& !$response->hasHeader('access-control-max-age')) {
+				$maxAge = $this->config->getDavCorsMaxAge();
+				if ($maxAge !== null) {
+					$response->addHeader('access-control-max-age', (string)$maxAge);
+				}
+			}
+
 			$response->setStatus(204);
 			Sapi::sendResponse($response);
 

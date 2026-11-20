@@ -24,6 +24,31 @@ class OriginMatcherTest extends TestCase {
 				['https://example.com'],
 				true,
 			],
+			'omitted HTTP port matches explicit default' => [
+				'http://example.com',
+				['http://example.com:80'],
+				true,
+			],
+			'omitted HTTPS port matches explicit default' => [
+				'https://example.com',
+				['https://example.com:443'],
+				true,
+			],
+			'explicit default port matches omitted port' => [
+				'https://example.com:443',
+				['https://example.com'],
+				true,
+			],
+			'omitted port does not match non-default port' => [
+				'http://example.com',
+				['http://example.com:8080'],
+				false,
+			],
+			'HTTP default port is not the HTTPS default' => [
+				'https://example.com',
+				['https://example.com:80'],
+				false,
+			],
 			'exact localhost origin with port matches' => [
 				'http://localhost:8001',
 				['http://localhost:8001'],
@@ -52,6 +77,11 @@ class OriginMatcherTest extends TestCase {
 			'wildcard matches one subdomain level' => [
 				'https://app.example.com',
 				['https://*.example.com'],
+				true,
+			],
+			'wildcard matches explicit default port' => [
+				'https://app.example.com',
+				['https://*.example.com:443'],
 				true,
 			],
 			'wildcard rejects apex domain' => [

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Origins with explicit default ports (`:80` for HTTP and `:443` for HTTPS) now match origins without a port
+  (for [#76](https://github.com/digital-blueprint/webapppassword/issues/76))
 - Replaced the comma separated origin text fields in the admin settings with origin pickers
   (for [#360](https://github.com/digital-blueprint/webapppassword/issues/360))
   - Origins are shown as removable chips, can be added with Enter or comma, and comma separated lists can be pasted

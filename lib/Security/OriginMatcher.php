@@ -41,10 +41,17 @@ class OriginMatcher {
 			return null;
 		}
 
+		$scheme = strtolower($parts['scheme']);
+		$port = $parts['port'] ?? match ($scheme) {
+			'http' => 80,
+			'https' => 443,
+			default => null,
+		};
+
 		return [
-			'scheme' => strtolower($parts['scheme']),
+			'scheme' => $scheme,
 			'host' => strtolower($parts['host']),
-			'port' => $parts['port'] ?? null,
+			'port' => $port,
 		];
 	}
 
